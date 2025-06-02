@@ -1,0 +1,1 @@
+feelpp_add_application(discr_heat SRCS discr-heat.cpp LINK_LIBRARIES Feelpp::feelpp_toolbox_heat_lib TESTS)
