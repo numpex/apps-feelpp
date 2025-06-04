@@ -10,7 +10,7 @@
             "name": "default",
             "displayName": "Default Config",
             "description": "Default config",
-            "generator": "Ninja",
+            "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/build/default",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "clang++",

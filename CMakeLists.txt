@@ -26,7 +26,7 @@ cmake_minimum_required(VERSION 3.21.0)
 project( feelpp-app  VERSION 4.0.0 )
 
 set(EXTRA_VERSION "")
-set(PROJECT_SHORTNAME "fa")
+set(PROJECT_SHORTNAME "app")
 
 include(GNUInstallDirs)
 
@@ -45,6 +45,8 @@ endif()
 if ( NOT FEELPP_TOOLBOXES_FOUND )
   message(WARNING "Feel++ Toolboxes SDK is not found on your system. The toolbox application is now disabled.")
 endif()
+
+add_compile_options(-Wall -Werror -Wextra)
 
 enable_testing()
 
@@ -98,6 +100,6 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "science")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}${EXTRA_VERSION}")
 set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 # set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
-  
+
 include(CPack)
 
