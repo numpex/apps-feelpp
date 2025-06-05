@@ -27,7 +27,6 @@
 int main(int argc, char** argv)
 {
     using namespace Feel;
-    int status;
     try
     {
         Environment env(_argc = argc, _argv = argv,
