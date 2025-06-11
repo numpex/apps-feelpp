@@ -1,6 +1,6 @@
 #include <feel/feelcore/environment.hpp>
 #include <feel/feelmodels/heat/heat.hpp>
-#include <feelpp/feel/feelcore/json.hpp>
+#include "../utils/report.hpp"
 
 #ifndef FEELPP_DIM // Default value for IDE satisfaction, values are set in CMakeLists
 #define ORDER 1
@@ -14,6 +14,18 @@ int main(int argc, char** argv)
     using namespace Feel;
     po::options_description myoptions("my options");
     myoptions.add( toolboxes_options("heat") );
+    myoptions.add_options()
+        ( "report", Feel::po::value<std::string>()->default_value("report.csv") )
+    ;
+
+    // Get current date and hour
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    std::tm* now_tm = std::localtime(&now_time);
+    char datetime[20];
+    std::strftime(datetime, sizeof(datetime), "%Y-%m-%d-%H:%M", now_tm);
+
+    double time_solve, time_export;
 
     Environment env( _argc=argc, _argv=argv,
                      _desc=myoptions,
@@ -30,8 +42,15 @@ int main(int argc, char** argv)
     heat->init();
     heat->printAndSaveInfo();
 
+    // solve
+    tic();
     heat->solve();
+    time_solve = toc("solve");
+    tic();
     heat->exportResults();
+    time_export = toc("export results");
+
+    Report report( soption("report") );
 
     const auto measures = heat->postProcessMeasures();
     auto values = measures.values();
@@ -42,6 +61,19 @@ int main(int argc, char** argv)
 
     metrics met;
     met["output"] = values["Norm_error-evaluated_L2-error"];
+
+    Element el = {
+        datetime,
+        Environment::numberOfProcessors(),
+        heat->mesh()->hAverage(),
+        values["Norm_error-evaluated_L2-error"],
+        time_solve,
+        time_export
+    };
+
+
+    if (Environment::isMasterRank())
+        report.addEntry(el);
 
     return 0;
 }
