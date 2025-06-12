@@ -1,10 +1,11 @@
-name: feelpp-project
-title: Template Project
+name: feelpp_app
+title: Feel++ Application
 version: ~
 start_page: index.adoc
 asciidoc:
   attributes:
-    project_name: Feel++ Template Project
+    project_name: Feel++ Application
+    project_version: '1.0'
     numbered: true
     dynamic-blocks@: ''
     allow-uri-read: true
@@ -13,14 +14,5 @@ asciidoc:
     stem: latexmath
     python: Python
     cpp: C++
-ext:
-  collector:
-    - run:
-        command: ./generate-jupyter.sh docs/modules/ROOT
-      scan:
-        dir: jupyter/
-        files: '**/*.ipynb'
-        base: modules/ROOT/attachments/
 nav:
-- modules/ROOT/nav.adoc
-
+  - modules/ROOT/nav.adoc
