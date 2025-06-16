@@ -1,0 +1,3 @@
+# app-feelpp-discr-1
+
+Solve a PDE (heat,solid mech) with different discretisation methods from low to high order

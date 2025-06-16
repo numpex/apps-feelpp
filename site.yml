@@ -1,5 +1,5 @@
 site:
-  title: feelpp_app
+  title: Feelpp App
   start_page: feelpp_app::index.adoc
 content:
   sources:
