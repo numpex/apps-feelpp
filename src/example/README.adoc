@@ -1,0 +1,6 @@
+# feelpp-benchmark example
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config machines/default.json --custon-rfm-config machines/default.py --benchmark-config src/example/parallelSum.json --plots-config src/example/plots.json --website
+----
