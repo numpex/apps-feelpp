@@ -1,5 +1,5 @@
 {
-    "executable": "{{machine.input_dataset_base_dir}}/build/default/src/example/feelpp_fp_parallelSum",
+    "executable": "{{machine.input_dataset_base_dir}}/build/default/src/example/feelpp_app_parallelSum",
     "use_case_name": "parallel_sum",
     "timeout":"0-0:5:0",
     "output_directory": "{{machine.output_app_dir}}/parallelSum",
