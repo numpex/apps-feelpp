@@ -20,7 +20,7 @@ struct Element {
 
 class Report {
 public:
-    Report(const std::string& filePath) : M_path(filePath) {}
+    Report(const std::string& outputDir, const std::string& filePath) : M_outputDir(outputDir), M_path(filePath) {}
 
     ~Report() {}
 
@@ -28,13 +28,22 @@ public:
     {
         if ( Feel::Environment::isMasterRank() )
         {
-            std::ofstream outfile(M_path);
+            if (!fs::exists(M_outputDir))
+                fs::create_directories(M_outputDir);
+
+            std::ofstream outfile(M_outputDir/M_path);
             if ( outfile.is_open() )
             {
                 outfile << "{\n";
-                for (auto [name, value]: M_data)
+                size_t count = 0;
+                size_t total = M_data.size();
+                for (auto [name, value] : M_data)
                 {
-                    outfile << fmt::format("  \"{}\": {},\n", name, value);
+                    outfile << fmt::format("  \"{}\": {}", name, value);
+                    if (++count < total)
+                        outfile << ",\n";
+                    else
+                        outfile << "\n";
                 }
                 outfile << "}\n";
             }
@@ -54,6 +63,7 @@ public:
     }
 
 private:
+    fs::path M_outputDir;
     fs::path M_path;
     std::map<std::string, double> M_data;
 };

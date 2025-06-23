@@ -15,6 +15,7 @@ int main(int argc, char** argv)
     po::options_description myoptions("my options");
     myoptions.add( toolboxes_options("heat") );
     myoptions.add_options()
+        ( "output-dir", Feel::po::value<std::string>()->default_value("") )
         ( "report", Feel::po::value<std::string>()->default_value("scalability.json") )
     ;
 
@@ -50,7 +51,10 @@ int main(int argc, char** argv)
     heat->exportResults();
     time_export = toc("export results");
 
-    Report report( soption("report") );
+    const fs::path output_dir_option = Environment::expand(soption("output-dir"));
+    const fs::path outputDir = (output_dir_option == "") ? fs::current_path() : output_dir_option;
+
+    Report report( outputDir, soption("report") );
 
     const auto measures = heat->postProcessMeasures();
     auto values = measures.values();

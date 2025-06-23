@@ -6,7 +6,9 @@
     //Application options
     "options": [
         "--gmsh.hsize {{parameters.hsize.value}}",
-        "--report {{output_directory}}/{{instance}}/scalability.json"
+        "--output-dir {{output_directory}}/{{instance}}/",
+        "--report scalability.json",
+        "--config-file /nvme0/saigre/feelpp-app/src/cases/square/square.cfg"
     ],
     //Files containing execution times
     "scalability": {
