@@ -1,12 +1,12 @@
 {
-    "executable": "{{machine.input_dataset_base_dir}}/build/default/src/example/feelpp_app_parallelSum",
-    "use_case_name": "parallel_sum",
+    "executable": "{{machine.input_dataset_base_dir}}/build/default/src/app-feelpp-discr-1/feelpp_app_discr_heat_2DP1",
+    "use_case_name": "heat2DP1",
     "timeout":"0-0:5:0",
-    "output_directory": "{{machine.output_app_dir}}/parallelSum",
+    "output_directory": "{{machine.output_app_dir}}/feelpp_app_discr_heat_2DP1",
     //Application options
     "options": [
-        "{{parameters.elements.value}}",
-        "{{output_directory}}/{{instance}}"
+        "--gmsh.hsize {{parameters.hsize.value}}",
+        "--report {{output_directory}}/{{instance}}/scalability.json"
     ],
     //Files containing execution times
     "scalability": {
@@ -28,7 +28,7 @@
     // Test validation (Only stdout supported at the moment)
     "sanity": {
         "success": ["[SUCCESS]"],
-        "error": ["[OOPSIE]","Error"]
+        "error": ["[OOPSIE]", "Error", "[Error]"]
     },
     // Test parameters
     "parameters": [
@@ -37,10 +37,10 @@
             "sequence": [ 1, 2, 4 ]
         },
         {
-            "name":"elements",
+            "name":"hsize",
             "linspace":{
-                "min":100000000,
-                "max":1000000000,
+                "min":0.02,
+                "max":0.005,
                 "n_steps":4
             }
         }

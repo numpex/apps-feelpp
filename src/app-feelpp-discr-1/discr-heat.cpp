@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     po::options_description myoptions("my options");
     myoptions.add( toolboxes_options("heat") );
     myoptions.add_options()
-        ( "report", Feel::po::value<std::string>()->default_value("report.csv") )
+        ( "report", Feel::po::value<std::string>()->default_value("scalability.json") )
     ;
 
     // Get current date and hour
@@ -70,10 +70,13 @@ int main(int argc, char** argv)
         time_solve,
         time_export
     };
+    report.setMeasure("Norm_error-evaluated_L2-error", values["Norm_error-evaluated_L2-error"]);
+    report.setMeasure("time_solve", time_solve);
+    report.setMeasure("time_export", time_export);
 
+    report.exportMeasures();
 
-    if (Environment::isMasterRank())
-        report.addEntry(el);
+    Feel::cout << "[SUCCESS]" << std::endl;
 
     return 0;
 }

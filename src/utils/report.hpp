@@ -3,6 +3,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 
 struct Element {
@@ -17,31 +20,41 @@ struct Element {
 
 class Report {
 public:
-    Report(const std::string& filePath) : filePath(filePath)
+    Report(const std::string& filePath) : M_path(filePath) {}
+
+    ~Report() {}
+
+    void exportMeasures()
     {
-        file.open(filePath, std::ios::app);
-
-        if (!file.is_open())
-            Feel::cerr << "Unable to open file: " << filePath << std::endl;
-
-        if (file.tellp() == 0)
+        if ( Feel::Environment::isMasterRank() )
         {
-            if (Feel::Environment::isMasterRank())
-                file << "date,nporc,h,error,time_solve,time_export\n";
+            std::ofstream outfile(M_path);
+            if ( outfile.is_open() )
+            {
+                outfile << "{\n";
+                for (auto [name, value]: M_data)
+                {
+                    outfile << fmt::format("  \"{}\": {},\n", name, value);
+                }
+                outfile << "}\n";
+            }
+            else
+                Feel::cerr << fmt::format( "[ERROR] Could not open file {}", M_path ) << std::endl;
         }
     }
 
-    ~Report()
+    void setMeasure(const std::string name, double value)
     {
-        file.close();
+        M_data[name] = value;
     }
 
-    void addEntry(const Element el)
+    double getMeasure(const std::string name)
     {
-        file << el.date << "," << el.nporc << "," << el.h << "," << el.error << "," << el.time_solve << "," << el.time_export  << "\n";
+        return M_data[name];
     }
 
 private:
-    std::string filePath;
-    std::ofstream file;
+    fs::path M_path;
+    std::map<std::string, double> M_data;
 };
+
