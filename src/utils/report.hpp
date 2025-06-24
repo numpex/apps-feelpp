@@ -8,16 +8,6 @@
 namespace fs = std::filesystem;
 
 
-struct Element {
-    std::string date;
-    int nporc;
-    double h;
-    double error;
-    double time_solve;
-    double time_export;
-};
-
-
 class Report {
 public:
     Report(const std::string& outputDir, const std::string& filePath) : M_outputDir(outputDir), M_path(filePath) {}

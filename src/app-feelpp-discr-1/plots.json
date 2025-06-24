@@ -10,7 +10,23 @@
                 "parameter":"tasks",
                 "label":"Number of tasks"
             },
-            "yaxis":{"label":"Execution time (s)"},
+            "yaxis":{"label":"Solving time (s)"},
+            "secondary_axis":{
+                "parameter":"hsize",
+                "label":"h"
+            }
+        },
+        {
+            "title": "Absolute performance",
+            "plot_types": [ "stacked_bar", "grouped_bar" ],
+            "transformation": "performance",
+            "variables": [ "time_export" ],
+            "names": ["Time"],
+            "xaxis":{
+                "parameter":"tasks",
+                "label":"Number of tasks"
+            },
+            "yaxis":{"label":"Export time (s)"},
             "secondary_axis":{
                 "parameter":"hsize",
                 "label":"h"

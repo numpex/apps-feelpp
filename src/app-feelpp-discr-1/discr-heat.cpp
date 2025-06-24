@@ -7,7 +7,6 @@
 #define FEELPP_DIM 2
 #endif
 
-using metrics = std::map<std::string, double>;
 
 int main(int argc, char** argv)
 {
@@ -63,17 +62,6 @@ int main(int argc, char** argv)
         Feel::cout << key << " : " << val << std::endl;
     }
 
-    metrics met;
-    met["output"] = values["Norm_error-evaluated_L2-error"];
-
-    Element el = {
-        datetime,
-        Environment::numberOfProcessors(),
-        heat->mesh()->hAverage(),
-        values["Norm_error-evaluated_L2-error"],
-        time_solve,
-        time_export
-    };
     report.setMeasure("Norm_error-evaluated_L2-error", values["Norm_error-evaluated_L2-error"]);
     report.setMeasure("time_solve", time_solve);
     report.setMeasure("time_export", time_export);
