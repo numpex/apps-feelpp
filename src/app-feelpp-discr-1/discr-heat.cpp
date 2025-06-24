@@ -18,13 +18,6 @@ int main(int argc, char** argv)
         ( "report", Feel::po::value<std::string>()->default_value("scalability.json") )
     ;
 
-    // Get current date and hour
-    auto now = std::chrono::system_clock::now();
-    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-    std::tm* now_tm = std::localtime(&now_time);
-    char datetime[20];
-    std::strftime(datetime, sizeof(datetime), "%Y-%m-%d-%H:%M", now_tm);
-
     double time_solve, time_export;
 
     Environment env( _argc=argc, _argv=argv,

@@ -49,7 +49,7 @@ public:
 
     double getMeasure(const std::string name)
     {
-        return M_data[name];
+        return M_data.at(name);
     }
 
 private:
