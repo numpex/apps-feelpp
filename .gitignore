@@ -52,6 +52,7 @@ tramp
 *.whl
 /**/*.egg-info
 
+
 # Latex compilation folders
 project/presentation/*
 !project/presentation/slides-benchmarking.tex
@@ -66,3 +67,19 @@ reports/
 #Test Outputs
 tests/data/outputs/
 outputs/
+
+
+# TeX files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.chl
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.run.xml
+*.synctex.gz
+*.xdv
+*-blx.bib
