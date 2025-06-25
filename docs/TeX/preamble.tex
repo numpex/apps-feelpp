@@ -1,0 +1,94 @@
+
+
+\usepackage{hyperref}
+\usepackage{textcomp}		% common special chars
+\usepackage{amsmath, amssymb}		% math formula
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{anyfontsize}	% fonts
+\usepackage{lipsum}
+\usepackage[capitalise]{cleveref}
+\usepackage{standalone}
+\usepackage{acronym}
+\usepackage{hyperref}
+\usepackage{import}
+\usepackage{booktabs} % For nicer tables
+\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{tabularx,longtable}
+\usepackage{paralist} % For compactitem
+\usepackage{multirow} % For multirow in tables
+\usepackage{pgf-pie}  % For pie charts
+\usepackage{tikz}     % Required for drawing graphics
+\usepackage{xspace,float,relsize}    % Required for controlling the position of objects
+\usepackage{paralist}
+\usepackage{minted}
+\usepackage{siunitx}  % Required for typesetting units
+\DeclareSIUnit\mmHg{mmHg}
+\usepackage{currfile} % Required for getting the current file name
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{subcaption}
+\usepackage{tabularray}
+\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{positioning,fit,matrix}
+
+
+
+\hypersetup{
+	pdftitle={Benchmarking analysis report},
+	pdfkeywords={HPC, Exascale, Benchmarking},
+    pdfauthor={Thomas Saigre, Christophe Prud'homme},
+    bookmarksnumbered,linktocpage,
+    colorlinks=true,
+    citecolor=CustomBlue,
+    linkcolor=CustomBlue,
+    urlcolor=blue
+}
+
+
+\usepackage[natbib, defernumbers=true, backend=biber, style=alphabetic, eprint=false, maxbibnames=99]{biblatex}
+\addbibresource{exa-ma.bib}
+
+\definecolor{bgcolor}{gray}{0.95}
+\definecolor{lightblue}{RGB}{173,216,230}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{pink}{RGB}{255,192,203}
+\definecolor{lime}{RGB}{210, 250, 100}
+\definecolor{skyblue}{RGB}{135, 206, 235}
+\definecolor{peach}{RGB}{255, 229, 180}
+\definecolor{lavender}{RGB}{230, 190, 255}
+
+\definecolor{customdarkblue}{HTML}{0C2472}
+\definecolor{customcyan}{HTML}{00BFFF}
+\definecolor{customorange}{HTML}{F1892C}
+\definecolor{customyellow}{HTML}{FFD700}
+\definecolor{custompurple}{HTML}{800080}
+\definecolor{customgreen}{HTML}{00FF00}
+
+\definecolor{numpexblack}{RGB}{0,0,0}
+\definecolor{numpexblue}{RGB}{42,46,128}
+\definecolor{numpexfont}{RGB}{54,54,54}
+\definecolor{numpexred}{RGB}{250,40,35}
+\definecolor{numpexgray}{RGB}{127,127,127}
+\definecolor{numpexlightgray}{RGB}{219,219,219}
+\definecolor{numpexlightergray}{RGB}{237,237,237}
+
+
+\definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88} % RoyalBlue
+
+
+\def\todo#1{{\color{numpexred}\textbf{TODO:} ``#1''}}
+\def\hyperride{Exa-MA}
+\def\exama{\ac{exama}\xspace}
+\def\exasoft{\textsc{Exa-Soft}\xspace}
+\def\exadost{\textsc{Exa-Dost}\xspace}
+\def\exaatow{\textsc{Exa-Atow}\xspace}
+\def\exadi{\textsc{Exa-DI}\xspace}
+\def\numpex{NumPEx}
+\def\Rplus{\protect\hspace{-0em}\protect\raisebox{.35ex}{{\smaller\textbf{+}}}}
+\def\Cpp#1{\mbox{C\Rplus\Rplus#1}\xspace}
+\def\feelpp{\ac{feelpp}\xspace}
+\def\Feelpp{\mbox{Feel\Rplus\Rplus}\xspace}
+
+\renewcommand{\P}{\mathbb{P}}

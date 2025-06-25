@@ -51,3 +51,18 @@ tramp
 
 *.whl
 /**/*.egg-info
+
+# TeX files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.chl
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.run.xml
+*.synctex.gz
+*.xdv
+*-blx.bib

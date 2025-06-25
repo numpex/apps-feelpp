@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QSif image: feelpp:v0.111.0-preview.10-noble-sif (stored in the GitHub registry of ) Output Data: The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.\\E$"}
