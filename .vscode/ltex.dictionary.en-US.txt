@@ -14,3 +14,17 @@ filesystem
 GMRES
 Sif
 feelpp
+Unistra
+ExaMA
+ExaSoft
+Chabannes
+Prud
+homme
+Saigre
+UNISTRA
+workpackage
+applicationtype
+hdG
+cG
+Kokkos
+dG

@@ -2,8 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\title{Benchmark: Elliptic linear PDE: Thermal Bridge}
-\author{Thomas Saigre, Christophe Prud'homme}
+\title{Demonstrator: Elliptic linear PDE: CG}
+\author{Vincent Chabannes, Thomas Saigre, Christophe Prud'homme}
 \date{June 2025}
 
 
@@ -15,8 +15,52 @@
 \maketitle
 
 
+\section{Description of the demonstrator}
 
-\section{Description}
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[8cm]}, % first column left, second column fixed width 8cm
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }   Field & Details \\
+        id & \texttt{app-feelpp-discr-1} \\
+        name & Discretization \\
+        Partners & Unistra \\
+        PC & PC1 - ExaMA, PC2 - ExaSoft \\
+        Responsible (Permanent) & V. Chabannes; C. Prud'homme \\
+        WP7 Engineer & Thomas Saigre (UNISTRA) \\
+        work\_package & WP1, WP3 \\
+        application\_type & extended-mini-app \\
+        purpose &  Solve a PDE (heat,solid mech) with different discretization methods from low to high order \\
+        Current Parallel framework & MPI \\
+        Target Parallel framework & MPI, Kokkos \\
+        Method-Algorithm WP1 & unstructured mesh, finite element, dG/hdG, cG, spectral element \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & domain decomposition methods, krylov solver, preconditioning \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        outputs & Gmsh, JSON config	JSON small-data, JSON reports, in-house, Markdown or Asciidoc \\
+        metrics & \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling} \\
+        status & benchmark-ready \\
+        Benchmark scope & full-system, method-verification, solver-scaling \\
+        Framework & Feel++, PETSc \\
+        parallel\_framework & MPI, Kokkos \\
+        spec\_due & 6/15/2025 \\
+        proto\_due & 7/12025 \\
+        repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
+    \end{tblr}
+    \caption{Description of the demonstrator \texttt{app-feelpp-discr-1}.}
+\end{table}
+   			MPI, Kokkos	6/15/2025	7/1/2025
+
+
+
+\section{Description of the benchmark}
 
 
 The benchmark known as \emph{thermal bridges} is an example of an application that enables us to validate numerical simulation tools using \Feelpp.
@@ -154,7 +198,7 @@ Metric:
 \emph{Insert figure with time of execution of the main components described above, for the three meshes (\texttt{strong-scalability}, \texttt{weak-scalability})}
 
 
-\subsection{\texttt{io-scalability} ?}
+\subsection{\texttt{io-scalability} ?} temps de lecture du maillage, et d'écriture des solutions (export ensight, mais surtout la lecture)
 
 
 
