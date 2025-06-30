@@ -28,3 +28,13 @@ hdG
 cG
 Kokkos
 dG
+PETSc
+Krylov
+Asciidoc
+parallelframework
+specdue
+protodue
+repourl
+mech
+Gmsh
+Galerkin
