@@ -17,15 +17,21 @@
 
 \section{Description of the demonstrator}
 
+We present here the demonstrator to numerically solve elliptic linear PDE using continuous Galerkin approach.
+Precisely, we solve here the heat transfer equation.
+
+\Cref{tab:app-feelpp-discr-1} describes the specifications of the application.
+
 \begin{table}[ht]
     \centering
     \begin{tblr}{
-        colspec = {l X[8cm]}, % first column left, second column fixed width 8cm
+        colspec = {l X[12cm]}, % first column left, second column fixed width 12cm
         row{odd} = {numpexlightergray},
         hlines = {0.1pt, numpexgray},
         vlines = {numpexgray},
         row{1} = {numpexgray, fg=white, font=\bfseries},
-    }   Field & Details \\
+    }
+        Field & Details \\
         id & \texttt{app-feelpp-discr-1} \\
         name & Discretization \\
         Partners & Unistra \\
@@ -34,12 +40,12 @@
         WP7 Engineer & Thomas Saigre (UNISTRA) \\
         work\_package & WP1, WP3 \\
         application\_type & extended-mini-app \\
-        purpose &  Solve a PDE (heat,solid mech) with different discretization methods from low to high order \\
+        purpose &  Solve a PDE (heat, solid mech) with different discretization methods from low to high order \\
         Current Parallel framework & MPI \\
         Target Parallel framework & MPI, Kokkos \\
         Method-Algorithm WP1 & unstructured mesh, finite element, dG/hdG, cG, spectral element \\
         Method-Algorithm WP2 & \\
-        Method-Algorithm WP3 & domain decomposition methods, krylov solver, preconditioning \\
+        Method-Algorithm WP3 & domain decomposition methods, Krylov solver, preconditioning \\
         Method-Algorithm WP4 & \\
         Method-Algorithm WP5 & \\
         Method-Algorithm WP6 & \\
@@ -55,8 +61,8 @@
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
     \end{tblr}
     \caption{Description of the demonstrator \texttt{app-feelpp-discr-1}.}
+    \label{tab:app-feelpp-discr-1}
 \end{table}
-   			MPI, Kokkos	6/15/2025	7/1/2025
 
 
 
@@ -151,10 +157,10 @@ We enumerate these parts in the following:
 The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
 Metric:
 \begin{itemize}
-    \item \texttt{benchmark-verification}
-    \item \texttt{strong-scalability}
-    \item \texttt{weak-scalability}
-    \item \texttt{io-scaling}
+    \item \texttt{benchmark-verification},
+    \item \texttt{strong-scalability},
+    \item \texttt{weak-scalability},
+    \item \texttt{io-scaling}: time taken by the application to read meshes, and to write the solution on disk (especially reading).
 \end{itemize}
 
 
@@ -198,8 +204,7 @@ Metric:
 \emph{Insert figure with time of execution of the main components described above, for the three meshes (\texttt{strong-scalability}, \texttt{weak-scalability})}
 
 
-\subsection{\texttt{io-scalability} ?} temps de lecture du maillage, et d'écriture des solutions (export ensight, mais surtout la lecture)
-
+\subsection{Scalability on IO}
 
 
 \printbibliography
