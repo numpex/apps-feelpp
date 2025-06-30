@@ -23,10 +23,10 @@
 #
 cmake_minimum_required(VERSION 3.21.0)
 
-project( feelpp-project  VERSION 4.0.0 )
+project( feelpp-app  VERSION 4.0.0 )
 
 set(EXTRA_VERSION "")
-set(PROJECT_SHORTNAME "fp")
+set(PROJECT_SHORTNAME "app")
 
 include(GNUInstallDirs)
 
@@ -45,6 +45,8 @@ endif()
 if ( NOT FEELPP_TOOLBOXES_FOUND )
   message(WARNING "Feel++ Toolboxes SDK is not found on your system. The toolbox application is now disabled.")
 endif()
+
+add_compile_options(-Wall -Werror -Wextra)
 
 enable_testing()
 
@@ -71,7 +73,7 @@ set(CPACK_PACKAGE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSI
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}${EXTRA_VERSION}")
 SET(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}${EXTRA_VERSION}-${CMAKE_SYSTEM_NAME}")
 set(CPACK_PACKAGE_DIRECTORY "${PROJECT_BINARY_DIR}/assets")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cemosis feelpp-project template application")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cemosis feelpp-app template application")
 set(CPACK_PACKAGE_DESCRIPTION "Cemosis provides a Feel++ template application.")
 set(CPACK_PACKAGE_VENDOR "Cemosis")
 set(CPACK_PACKAGE_CONTACT "Christophe Prud'homme <christophe.prudhomme@cemosis.fr>")
@@ -98,6 +100,6 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "science")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}${EXTRA_VERSION}")
 set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 # set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
-  
+
 include(CPack)
 

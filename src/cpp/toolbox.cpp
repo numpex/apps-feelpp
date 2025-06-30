@@ -30,7 +30,6 @@ int main(int argc, char** argv)
                       if( buildCstPart )
                           return;
                       // retrieve matrix and vector already assemble
-                      sparse_matrix_ptrtype& A = data.matrix();
                       vector_ptrtype& F = data.rhs();
                       // retrieve space and create a test function
                       auto Xh = electric->spaceElectricPotential();

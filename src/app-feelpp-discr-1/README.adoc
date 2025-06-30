@@ -1,0 +1,9 @@
+# app-feelpp-discr-1
+
+Solve a PDE (heat,solid mech) with different discretisation methods from low to high order
+
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config src/config/default/default.json --custom-rfm-config src/config/default/default.py --benchmark-config src/app-feelpp-discr-1/heat2DP1.json --plots-config src/app-feelpp-discr-1/plots.json
+----

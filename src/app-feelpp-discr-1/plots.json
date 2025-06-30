@@ -1,0 +1,70 @@
+{
+    "plots":[
+        {
+            "title": "Absolute performance",
+            "plot_types": [ "stacked_bar", "grouped_bar" ],
+            "transformation": "performance",
+            "variables": [ "time_solve" ],
+            "names": ["Time"],
+            "xaxis":{
+                "parameter":"tasks",
+                "label":"Number of tasks"
+            },
+            "yaxis":{"label":"Solving time (s)"},
+            "secondary_axis":{
+                "parameter":"hsize",
+                "label":"h"
+            }
+        },
+        {
+            "title": "Absolute performance",
+            "plot_types": [ "stacked_bar", "grouped_bar" ],
+            "transformation": "performance",
+            "variables": [ "time_export" ],
+            "names": ["Time"],
+            "xaxis":{
+                "parameter":"tasks",
+                "label":"Number of tasks"
+            },
+            "yaxis":{"label":"Export time (s)"},
+            "secondary_axis":{
+                "parameter":"hsize",
+                "label":"h"
+            }
+        },
+        {
+            "title": "Absolute performance",
+            "plot_types": [ "stacked_bar", "table" ],
+            "transformation": "performance",
+            "variables": [ "time_solve" ],
+            "names": ["Time"],
+            "xaxis":{
+                "parameter":"hsize",
+                "label":"N"
+            },
+            "yaxis":{"label":"Execution time (s)"},
+            "secondary_axis":{
+                "parameter":"tasks",
+                "label":"Number of tasks"
+            }
+        },
+        {
+            "title": "Speedup",
+            "plot_types": [ "scatter" ],
+            "transformation": "speedup",
+            "variables": [ "time_solve" ],
+            "names": ["Time"],
+            "xaxis": {
+                "parameter": "tasks",
+                "label": "Number of tasks"
+            },
+            "yaxis": {
+                "label": "Execution time (s)"
+            },
+            "secondary_axis":{
+                "parameter":"hsize",
+                "label":"h"
+            }
+        }
+    ]
+}
