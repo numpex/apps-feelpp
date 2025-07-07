@@ -1,1 +1,1 @@
-* xref:ROOT:index.adoc[feelpp_app]
+* xref:ROOT:index.adoc[Apps-Feelpp]

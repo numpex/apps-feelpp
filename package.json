@@ -1,16 +1,16 @@
 {
-    "name": "feelpp-app",
+    "name": "apps-feelpp",
     "description": "The Feelpp App documentation",
     "version": "4.0.0",
     "license": "AGPL-3.0",
     "author": "The Feelpp App Team",
-    "homepage": "https://github.com/numpex/feelpp-app#readme",
+    "homepage": "https://github.com/numpex/apps-feelpp#readme",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/numpex/feelpp-app.git"
+        "url": "git+https://github.com/numpex/apps-feelpp.git"
     },
     "bugs": {
-        "url": "https://github.com/numpex/feelpp-app/issues"
+        "url": "https://github.com/numpex/apps-feelpp/issues"
     },
     "contributors": [
         {
