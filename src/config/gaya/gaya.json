@@ -1,6 +1,6 @@
 {
     "machine": "default",
-    "targets":["::"],
+    "targets":["production::"],
     "execution_policy": "async",
     "reframe_base_dir":"./build/reframe",
     "reports_base_dir":"./reports/",

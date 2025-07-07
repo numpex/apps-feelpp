@@ -83,3 +83,6 @@ outputs/
 *.synctex.gz
 *.xdv
 *-blx.bib
+
+
+ThermalBridgesENISO10211/*

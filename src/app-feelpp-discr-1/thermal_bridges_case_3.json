@@ -102,23 +102,24 @@
             "name":"mesh",
             "sequence":["M1","M2","M3"]
         },
-        {
-            "name":"memory",
-            "sequence":[200, 300, 3000],
-            "conditions":{
-                "200": [ { "discretization": ["P1","P2"], "mesh": ["M1","M2"] }, { "discretization": ["P2"], "mesh": ["M3"] } ],
-                "300": [ { "discretization": ["P1"], "mesh": ["M3"] }, { "discretization": ["P3"], "mesh": ["M1","M2"] } ],
-                "3000": [ { "discretization": ["P3"], "mesh": ["M3"] } ]
-            }
-        },
+        // {
+        //     "name":"memory",
+        //     "sequence":[200, 300, 3000],
+        //     "conditions":{
+        //         "200": [ { "discretization": ["P1","P2"], "mesh": ["M1","M2"] }, { "discretization": ["P2"], "mesh": ["M3"] } ],
+        //         "300": [ { "discretization": ["P1"], "mesh": ["M3"] }, { "discretization": ["P3"], "mesh": ["M1","M2"] } ],
+        //         "3000": [ { "discretization": ["P3"], "mesh": ["M3"] } ]
+        //     }
+        // },
         {
             "name":"discretization",
-            "sequence":["P1","P2","P3"],
-            "conditions":{
-                "P1":[{ "resources.tasks":[64,128] }],
-                "P2":[{ "resources.tasks":[] }],
-                "P3":[{ "resources.tasks":[] }]
-            }
+            "sequence":["P1", "P2", "P3"]
+            //,
+            // "conditions":{
+            //     "P1":[{ "resources.tasks":[64,128] }],
+            //     "P2":[{ "resources.tasks":[] }],
+            //     "P3":[{ "resources.tasks":[] }]
+            // }
         },
         {
             "name": "solver",
