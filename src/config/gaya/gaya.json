@@ -1,5 +1,5 @@
 {
-    "machine": "default",
+    "machine": "gaya",
     "targets":["production::"],
     "execution_policy": "async",
     "reframe_base_dir":"./build/reframe",
