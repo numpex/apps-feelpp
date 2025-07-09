@@ -1,15 +1,14 @@
 {
-    "executable": "feelpp_toolbox_heat",
+    "executable": "/data/home/saigre/feelpp/build/default/toolboxes/heat/feelpp_toolbox_heat",
     "output_directory": "{{machine.output_app_dir}}/toolboxes/heat/ThermalBridgesENISO10211/Case3",
     "use_case_name": "ThermalBridgesENISO10211",
-    "timeout":"0-00:10:00",
+    "timeout":"0-01:10:00",
     "resources":{
         "tasks":"{{parameters.resources.tasks.value}}",
-        "exclusive_access":"{{parameters.resources.exclusive_access.value}}",
-        "memory":"{{parameters.memory.value}}"
+        "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
     },
     "input_file_dependencies":{
-        // "solver_cfg":"{{use_case_name}}/{{parameters.solver.value}}.cfg",
+        "solver_cfg":"{{use_case_name}}/{{parameters.solver.value}}.cfg",
         "mesh_json":"{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.json",
         "mesh_hdf5":"{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.h5"
     },
@@ -71,12 +70,18 @@
                 }
             },
             {
-                "name":"Outputs",
+                "name": "Outputs",
                 "filepath": "heat.measures/values.csv",
                 "format": "csv",
-                "units":{
+                "units" :{
                     "*":"W"
                 }
+            },
+            {
+                "name": "Journal",
+                "filepath": "journal.json",
+                "format": "json",
+                "variables_path": "Mesh/heat/loadMesh_times/*"
             }
         ]
     },
@@ -90,36 +95,26 @@
             "zip":[
                 {
                     "name":"tasks",
-                    "sequence":[64,128]
+                    "sequence":[64, 128, 256, 512]
                 },
                 {
                     "name":"exclusive_access",
-                    "repeat":{"value":true,"count":10}
+                    "repeat":{"value":true, "count":10}
                 }
             ]
         },
         {
             "name":"mesh",
-            "sequence":["M1","M2","M3"]
+            "sequence":["M1", "M2", "M3"]
         },
-        // {
-        //     "name":"memory",
-        //     "sequence":[200, 300, 3000],
-        //     "conditions":{
-        //         "200": [ { "discretization": ["P1","P2"], "mesh": ["M1","M2"] }, { "discretization": ["P2"], "mesh": ["M3"] } ],
-        //         "300": [ { "discretization": ["P1"], "mesh": ["M3"] }, { "discretization": ["P3"], "mesh": ["M1","M2"] } ],
-        //         "3000": [ { "discretization": ["P3"], "mesh": ["M3"] } ]
-        //     }
-        // },
         {
             "name":"discretization",
-            "sequence":["P1", "P2", "P3"]
-            //,
-            // "conditions":{
-            //     "P1":[{ "resources.tasks":[64,128] }],
-            //     "P2":[{ "resources.tasks":[] }],
-            //     "P3":[{ "resources.tasks":[] }]
-            // }
+            "sequence":["P1", "P2", "P3"],
+            "conditions":{
+                "P1":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "P2":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "P3":[{ "resources.tasks":[256, 512] }]
+            }
         },
         {
             "name": "solver",
