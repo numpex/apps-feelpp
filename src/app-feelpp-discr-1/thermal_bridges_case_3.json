@@ -1,7 +1,7 @@
 {
     "executable": "/data/home/saigre/feelpp/build/default/toolboxes/heat/feelpp_toolbox_heat",
     "output_directory": "{{machine.output_app_dir}}/toolboxes/heat/ThermalBridgesENISO10211/Case3",
-    "use_case_name": "ThermalBridgesENISO10211",
+    "use_case_name": "Benchmark-ThermalBridgesENISO10211",
     "timeout":"0-01:10:00",
     "resources":{
         "tasks":"{{parameters.resources.tasks.value}}",
@@ -81,7 +81,7 @@
                 "name": "Journal",
                 "filepath": "journal.json",
                 "format": "json",
-                "variables_path": "Mesh/heat/loadMesh_times/*"
+                "variables_path": "Mesh.heat.loadMesh_times.*"
             }
         ]
     },
@@ -95,7 +95,8 @@
             "zip":[
                 {
                     "name":"tasks",
-                    "sequence":[64, 128, 256, 512]
+                    "sequence":[64, 128, 256]
+                    //, 512]
                 },
                 {
                     "name":"exclusive_access",
@@ -105,7 +106,12 @@
         },
         {
             "name":"mesh",
-            "sequence":["M1", "M2", "M3"]
+            "sequence":["M1", "M2", "M3"],
+            "conditions":{
+                "M1":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "M2":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "M3":[{ "resources.tasks":[256, 512] }]
+            }
         },
         {
             "name":"discretization",

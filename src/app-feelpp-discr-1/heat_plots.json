@@ -1,7 +1,7 @@
 {
     "plots": [
         {
-            "title": "Validation measures",
+            "title": "Validation measures 00000",
             "plot_types": [ "scatter" ],
             "transformation": "performance",
             "variables": [
@@ -16,9 +16,19 @@
             "yaxis": { "label": "Heat flow [W]" },
             "color_axis":{ "parameter": "discretization", "label":"Discretization" },
             "secondary_axis":{ "parameter": "performance_variable", "label": "Measures" },
-            "aggregations":[ {"column":"resources.tasks","agg":"filter:512"} ]
+            "aggregations":[ {"column":"resources.tasks","agg":"filter:128"} ]
+        },
+        {
+            "title":"General Performance (P1)",
+            "plot_types":["grouped_bar", "stacked_bar"],
+            "transformation":"performance",
+            "variables": ["Constructor_init","Solve_solve","PostProcessing_exportResults"],
+            "names": ["Constructor", "solve", "PostProcessing" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter":"performance_variable", "label":"Performance variable" },
+            "aggregations":[ {"column":"discretization", "agg":"filter:P1"} ]
         }
-
-
     ]
 }

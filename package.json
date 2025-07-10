@@ -1,9 +1,9 @@
 {
     "name": "apps-feelpp",
-    "description": "The Feelpp App documentation",
+    "description": "Apps Feelpp documentation and benchmarks",
     "version": "4.0.0",
-    "license": "AGPL-3.0",
-    "author": "The Feelpp App Team",
+    "license": "GPL-3.0",
+    "author": "Thomas Saigre",
     "homepage": "https://github.com/numpex/apps-feelpp#readme",
     "repository": {
         "type": "git",
@@ -35,10 +35,10 @@
         "handlebars":"^4.7.8",
         "handlebars-utils":"^1.0.6"
     },
-        "devDependencies":{
-            "broken-link-checker":"^0.6.7",
-            "http-server":"^14.1.1",
-            "write-good":"^1.0.8"
+    "devDependencies":{
+        "broken-link-checker":"^0.6.7",
+        "http-server":"^14.1.1",
+        "write-good":"^1.0.8"
     },
     "keywords":[]
 }
