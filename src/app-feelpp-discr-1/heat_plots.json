@@ -30,17 +30,42 @@
             "color_axis":{ "parameter":"performance_variable", "label":"Performance variable" },
             "aggregations":[ {"column":"discretization", "agg":"filter:P1"} ]
         },
-                {
+        {
             "title": "Reading mesh measures",
-            "plot_types": ["stacked_bar", "scatter"],
+            "plot_types": ["grouped_bar", "stacked_bar", "scatter"],
             "transformation": "performance",
             "variables": ["Journal_readElements_time","Journal_readPoints_time","Journal_readStats_time"],
-            "names": ["read elements", "read points", "reas stats" ],
+            "names": ["read elements", "read points", "read stats" ],
             "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
             "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
             "yaxis": { "label": "execution time (s)" },
             "color_axis":{ "parameter":"performance_variable", "label":"Performance variable" },
             "aggregations":[ {"column":"discretization", "agg":"filter:P1"} ]
+        },
+        {
+            "title":"Number of iterations of GMRES",
+            "plot_types":["scatter"],
+            "transformation":"performance",
+            "variables":["Solve_ksp-niter"],
+            "names":["ksp"],
+            "xaxis":{
+                "parameter":"resources.tasks",
+                "label":"Number of tasks"
+            },
+            "yaxis":{
+                "label":"Number of iterations"
+            },
+            "color_axis":{
+                "parameter":"mesh",
+                "label":"Mesh"
+            },
+            "secondary_axis":{
+                "parameter":"discretization",
+                "label":"Discretization"
+            },
+            "aggregations":[
+                {"column":"performance_variable","agg":"filter:Solve_ksp-niter"}
+            ]
         }
     ]
 }
