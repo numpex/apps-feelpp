@@ -1,0 +1,241 @@
+name: Benchmark
+
+on:
+    repository_dispatch:
+        types: [apps-feelpp-benchmarking-exec]
+
+    workflow_dispatch:
+        inputs:
+            hpc-systems:
+                description: 'List of systems to run'
+                required: True
+                default: gaya
+            benchmark_config:
+                description: 'Path to benchmark configuration'
+                required: True
+                default: src/app-feelpp-discr-1/thermal_bridges_case_3.json
+            plots_config:
+                description: 'Path to plots related configuration'
+                required: True
+                default: src/app-feelpp-discr-1/heat_plots.json
+            upload_id:
+                description: 'ID to upload the website to'
+                required: False
+                default: ""
+
+jobs:
+    factory:
+        name: HPC Systems Factory
+        runs-on: self-feelpp
+        outputs:
+            matrix: ${{ steps.hpc-systems.outputs.matrix }}
+        steps:
+
+        -   name: Get machines configuration
+            id: download_systems_config
+            run: |
+                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT }}' https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
+                machine_config=$(jq --compact-output '.' <<< $machine_config)
+                echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
+
+        -   name: Filter systems
+            id: filter-systems
+            run: |
+                valid_systems='${{ github.event.inputs.hpc-systems || github.event.client_payload.hpc-systems }}'
+                machine_config='${{ steps.download_systems_config.outputs.machine_config }}'
+
+                filtered_systems_config=$(echo "$machine_config" | jq --arg valid_systems "$valid_systems" '
+                    ($valid_systems | split(",")) as $systems |
+                    with_entries(select([.key] | inside($systems))) | [.[]]
+                ')
+                filtered_systems_config=$(jq --compact-output '.' <<< $filtered_systems_config)
+                echo "filtered_systems_config=$filtered_systems_config" >> $GITHUB_OUTPUT
+
+        -   name: Filter Available Runners
+            id: filter-available-systems
+            run: |
+                all_runners=$(curl -H "Accept: application/vnd.github+json" \
+                                    -H "Authorization: Bearer ${{ secrets.TOKEN_RUNNER }}" \
+                                    -H "X-GitHub-Api-Version: 2022-11-28" \
+                                    https://api.github.com/orgs/feelpp/actions/runners
+                            )
+                all_runners=$(echo $all_runners | jq -r '.runners')
+
+                available_systems="[]"
+
+                while read -r system; do
+                    tag=$(echo "$system" | jq -r .runner_tag);
+                    runner=$(echo "$all_runners" | jq --arg tag "$tag" '
+                        map(select(.labels[].name | contains($tag)))
+                    ')
+
+                    if [ "$(echo "$runner" | jq 'length')" -eq 0 ]; then
+                        echo "No runner found for $tag ..."
+                        continue
+                    fi
+
+                    if echo "$runner" | jq -e 'map(select(.status == "online")) | length > 0' >/dev/null; then
+                        available_systems=$(echo "$available_systems" | jq --argjson sys "$system" '. + [$sys]')
+                    else
+                        echo "No online runners for $tag ..."
+                    fi
+                done < <(echo '${{steps.filter-systems.outputs.filtered_systems_config}}' | jq -c '.[]')
+
+                available_systems=$(jq --compact-output '.' <<< $available_systems)
+                echo "available_systems=$available_systems" >> $GITHUB_OUTPUT
+
+        -   name: Set matrix
+            id: hpc-systems
+            run: |
+                echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-available-systems.outputs.available_systems}}' '{include: $config}')" >> $GITHUB_OUTPUT
+
+    benchmark:
+        needs: [factory]
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.factory.outputs.matrix) }}
+        runs-on: ${{matrix.runner_tag}}
+        timeout-minutes: 7200
+        name: ${{matrix.machine}}
+        steps:
+        -   uses: actions/checkout@v4
+
+        -   name: Create machine config
+            run: |
+                json_machine_config='${{ toJson(matrix.system_config) }}'
+                echo "$json_machine_config" > machine_config.json
+
+        -   name: Setup machine and env
+            run: bash ./src/feelpp/benchmarking/reframe/config/machineConfigs/${{matrix.machine}}/setup.sh
+            env:
+                PROJECT_ID: ${{matrix.project_id || ''}}
+        -   name: Execute benchmarks (CLI)
+            if: ${{ matrix.submit == 'cli' }}
+            run: |
+                source .venv/bin/activate
+                feelpp-benchmarking-exec \
+                    -mc machine_config.json \
+                    -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
+                    -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
+                    -rfm="-v"
+            env:
+                GIRDER_API_KEY: ${{ secrets.GIRDER }}
+
+        -   name: Execute benchmarks (slurm)
+            if: ${{ matrix.submit == 'slurm' }}
+            run: |
+                srun --partition ${{matrix.submit_partition}} \
+                    --time 02:00:00 \
+                    --account ${{matrix.project_id}} \
+                    --qos ${{matrix.qos}} \
+                    --nodes 1 --ntasks 1 --cpus-per-task 1 --ntasks-per-node 1 \
+                    ./src/feelpp/benchmarking/reframe/config/machineConfigs/${{matrix.machine}}/launchBenchmark.sh \
+                        -m machine_config.json \
+                        -b ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
+                        -p ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
+            env:
+                GIRDER_API_KEY: ${{ secrets.GIRDER }}
+
+        -   name: Parse reports path
+            id: parse_reports_path
+            run: echo "reports_base_dir=${{matrix.system_config.reports_base_dir}}" | sed "s|\$PWD|${{ github.workspace }}|g" >> $GITHUB_OUTPUT
+
+        -   name: Upload reframe report
+            uses: actions/upload-artifact@v4
+            with:
+                name: benchmark-results-${{matrix.machine}}
+                path: ${{steps.parse_reports_path.outputs.reports_base_dir}}
+
+    deploy:
+        runs-on: self-feelpp
+        needs: [benchmark,factory]
+        name: Handle results and trigger rendering
+        if: ${{ github.event.inputs.upload_id == '' && github.event.client_payload.upload_id == '' }}
+        steps:
+        -   uses: actions/checkout@v4
+
+        -   name: Download results
+            uses: actions/download-artifact@v4
+            with:
+                pattern: benchmark-results-*
+                path: ./tmp/results/
+                merge-multiple: false
+
+        -   name: Create Virtual Environment
+            run: |
+                python3 -m venv .venv
+                source .venv/bin/activate
+                pip3 install .
+
+        -   name: Upload to girder
+            run: |
+                source .venv/bin/activate
+                source ./girder_deploy_config.sh
+                feelpp-girder upload --item "./tmp/results/*" --girder_id $staging_folder_id
+            env:
+                GIRDER_API_KEY: ${{ secrets.GIRDER }}
+
+        -   name: Update Index Date
+            run: |
+                sed -i "s/^:docdatetime: .*/:docdatetime: $(date +'%Y-%m-%dT%H:%M:%S')/" "docs/modules/ROOT/pages/index.adoc"
+
+        -   name: Gather arguments
+            id: gather_arguments
+            run: |
+                echo "executable_name=$(jq -r '.executable' ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }})" >> $GITHUB_OUTPUT
+                echo "use_case=$(jq -r '.use_case_name' ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }})" >> $GITHUB_OUTPUT
+
+        -   name: Create Pull Request
+            uses: peter-evans/create-pull-request@v7
+            with:
+                title: "Add benchmark for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
+                commit-message: "Add benchmark for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
+                body: |
+                    Generating reports from staging directory.
+                    Auto-generated by [create-pull-request][1]
+                    [1]: https://github.com/peter-evans/create-pull-request
+                reviewers: JavierCladellas
+                labels: new-benchmark
+                branch: new-benchmark
+            env:
+                GITHUB_TOKEN: ${{ secrets.CR_PAT }}
+
+    user-results:
+        runs-on: self-feelpp
+        needs: [benchmark,factory]
+        name: Deploy the website to a specific folder
+        if: ${{ github.event.inputs.upload_id != '' || github.event.client_payload.upload_id != '' }}
+        steps:
+            -   uses: actions/checkout@v4
+            -   name: Download results
+                uses: actions/download-artifact@v4
+                with:
+                    pattern: benchmark-results-*
+                    path: ./tmp/results/
+                    merge-multiple: false
+            -   name: Create Virtual Environment
+                run: |
+                    python3 -m venv .venv
+                    source .venv/bin/activate
+                    pip3 install -r requirements.txt
+            -   name: Merge website configs
+                run: |
+                    source .venv/bin/activate
+                    merge-json-configs -fp "./tmp/**/website_config.json" -o ./tmp/website_config.json -u
+            -   name: Render docs
+                run: |
+                    source .venv/bin/activate
+                    feelpp-benchmarking-render --config-file=./tmp/website_config.json
+            -   name: Compile docs
+                run: |
+                    source .venv/bin/activate
+                    npm ci
+                    npm run antora
+            -   name: Upload
+                run: |
+                    source .venv/bin/activate
+                    feelpp-girder upload --item "./tmp/results/*" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
+                    feelpp-girder upload --item "./public/" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
+                env:
+                    GIRDER_API_KEY: ${{secrets.GIRDER}}
+
