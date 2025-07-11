@@ -29,6 +29,18 @@
             "yaxis": { "label": "execution time (s)" },
             "color_axis":{ "parameter":"performance_variable", "label":"Performance variable" },
             "aggregations":[ {"column":"discretization", "agg":"filter:P1"} ]
+        },
+                {
+            "title": "Reading mesh measures",
+            "plot_types": ["stacked_bar", "scatter"],
+            "transformation": "performance",
+            "variables": ["Journal_readElements_time","Journal_readPoints_time","Journal_readStats_time"],
+            "names": ["read elements", "read points", "reas stats" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter":"performance_variable", "label":"Performance variable" },
+            "aggregations":[ {"column":"discretization", "agg":"filter:P1"} ]
         }
     ]
 }
