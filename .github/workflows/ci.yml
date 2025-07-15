@@ -13,8 +13,8 @@ jobs:
 
   tests:
     runs-on: self-feelpp
-    name: Integration Tests
-    if: "!contains(github.event.head_commit.message, 'tests skip')"
+    name: integration-tests
+    if: ${{ !contains(github.event.head_commit.message, 'tests skip') }}
     steps:
     - uses: actions/checkout@v4
 
@@ -36,8 +36,6 @@ jobs:
     - name: Compile applications
       run: |
         cmake --preset default
-
-    - name:
 
     - name: Test benchmarks
       run: |
@@ -62,8 +60,8 @@ jobs:
   docs:
     runs-on: self-antora
     name: Build Antora Site
-    needs: build_wheel
-    if: "!contains(github.event.head_commit.message, 'docs skip')"
+    needs: tests
+    if: ${{ !contains(github.event.head_commit.message, 'docs skip') }}
     steps:
 
     - uses: actions/checkout@v4
@@ -86,7 +84,6 @@ jobs:
       run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip3 install dist/*.whl
 
     - name: Download website config
       run: |
