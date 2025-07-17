@@ -41,7 +41,7 @@ jobs:
     - name: Test benchmarks
       run: |
         source .venv/bin/activate
-        feelpp-benchmarking-exec -mc src/config/gaya/gaya.json -bc examples/parallelsum/parallelSum.json -pc examples/parallelsum/plots.json
+        feelpp-benchmarking-exec -mc src/config/gaya/gaya.json -bc src/app-feelpp-discr-1/thermal_bridges_case_3.json -pc src/app-feelpp-discr-1/heat_plots.json
         echo $?
 
     # - name: Dry-run reports
