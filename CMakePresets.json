@@ -25,19 +25,29 @@
             }
         },
         {
-            "name": "install-local",
-            "inherits": "default",
-            "displayName": "Build and Install system",
-            "description": "Build and Install in /usr/local",
+            "name": "debug",
+            "displayName": "Debug Config",
+            "description": "Debug config",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/install-local",
+            "binaryDir": "${sourceDir}/build/debug",
             "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "/usr/local"
-            },
-            "vendor": {
-                "example.com/ExampleIDE/1.0": {
-                    "autoFormat": true
-                }
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_INSTALL_PREFIX" : "${sourceDir}/build/debug/install/",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "kokkos",
+            "displayName": "Kokkos",
+            "description": "use kokkos",
+            "generator": "Unix Makefile",
+            "binaryDir": "${sourceDir}/build/kokkos",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_INSTALL_PREFIX" : "${sourceDir}/build/default/install/",
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],
@@ -48,12 +58,14 @@
             "jobs": 10
         },
         {
-            "name": "install-local",
-            "configurePreset": "install-local",
-            "inherits": "default",
-            "targets": [
-                "all","install","package"
-            ]
+            "name": "debug",
+            "configurePreset": "debug",
+            "jobs": 10
+        },
+        {
+            "name": "kokkos",
+            "configurePreset": "kokkos",
+            "jobs": 10
         }
     ],
     "testPresets": [
