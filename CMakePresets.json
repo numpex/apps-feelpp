@@ -41,13 +41,14 @@
             "name": "kokkos",
             "displayName": "Kokkos",
             "description": "use kokkos",
-            "generator": "Unix Makefile",
+            "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/build/kokkos",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_INSTALL_PREFIX" : "${sourceDir}/build/default/install/",
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "FEELPP_ENABLE_KOKKOS": "ON"
             }
         }
     ],

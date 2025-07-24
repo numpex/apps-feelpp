@@ -58,6 +58,7 @@ option( FEELPP_PROJECT_ENABLE_CPP "Enable C++ application" ON )
 option( FEELPP_PROJECT_ENABLE_PYTHON "Enable Python application" ON )
 option( FEELPP_PROJECT_ENABLE_TESTS "Enable tests" ON )
 option( FEELPP_PROJECT_ENABLE_DOCS "Enable documentation" OFF )
+
 add_subdirectory( src )
 #add_subdirectory( docs )
 
@@ -103,3 +104,36 @@ set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 
 include(CPack)
 
+
+
+# set default values for the following options
+option(FEELPP_ENABLE_KOKKOS "Enable Kokkos support" OFF)
+
+set(FEELPP_ENABLE_GPU "cpu" CACHE STRING "Enable GPU support")
+option(FEELPP_ENABLE_HIP "Enable HIP support" OFF)
+option(FEELPP_ENABLE_ROCM "Enable ROCm support" OFF)
+option(FEELPP_ENABLE_CUDA "Enable CUDA support" OFF)
+
+
+if (FEELPP_ENABLE_KOKKOS)
+    find_package(Kokkos REQUIRED)
+    if ( Kokkos_FOUND )
+        message(STATUS "Kokkos found")
+        if(Kokkos_ENABLE_OPENMP)
+            message(STATUS "Kokkos OpenMP backend is enabled")
+        endif()
+        if (Kokkos_ENABLE_SERIAL)
+            message(STATUS "Kokkos Serial backend is enabled")
+        endif()
+        if (Kokkos_ENABLE_THREADS)
+            message(STATUS "Kokkos Threads backend is enabled")
+        endif()
+        if(Kokkos_ENABLE_HIP)
+            message(STATUS "Kokkos HIP backend is enabled")
+        endif()
+        if (Kokkos_ENABLE_CUDA)
+            message(STATUS "Kokkos CUDA backend is enabled")
+        endif()
+    endif()
+    message(STATUS "[feelpp] Kokkos support enabled")
+endif()
