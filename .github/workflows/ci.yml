@@ -86,20 +86,20 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
 
-    - name: Download website config
-      run: |
-        source .venv/bin/activate
-        source ./girder_deploy_config.sh
-        feelpp-girder download --girder_id=$production_website_config_id --output_dir=./tmp/ --filename=website_config.json
-      env:
-        GIRDER_API_KEY: ${{secrets.GIRDER}}
+    # - name: Download website config
+    #   run: |
+    #     source .venv/bin/activate
+    #     # source ./girder_deploy_config.sh
+    #     # feelpp-girder download --girder_id=$production_website_config_id --output_dir=./tmp/ --filename=website_config.json
+    #   env:
+    #     GIRDER_API_KEY: ${{secrets.GIRDER}}
 
-    - name: Render reports
-      run: |
-        source .venv/bin/activate
-        feelpp-benchmarking-render --config-file=./tmp/website_config.json
-      env:
-        GIRDER_API_KEY: ${{ secrets.GIRDER }}
+    # - name: Render reports
+    #   run: |
+    #     source .venv/bin/activate
+    #     feelpp-benchmarking-render --config-file=./tmp/website_config.json
+      # env:
+        # GIRDER_API_KEY: ${{ secrets.GIRDER }}
 
     - name: Build Antora Site
       run: |
