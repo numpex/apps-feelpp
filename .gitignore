@@ -84,5 +84,9 @@ outputs/
 *.xdv
 *-blx.bib
 
+# Spack files
+**/.spack-env/*
+spack.lock
+
 
 ThermalBridgesENISO10211/*
