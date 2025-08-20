@@ -52,17 +52,17 @@
         "stages": [
             {
                 "name": "Constructor",
-                "filepath": "heat.scalibility.HeatConstructor.data",
+                "filepath": "heat.scalability.HeatConstructor.data",
                 "format": "tsv"
             },
             {
                 "name": "PostProcessing",
-                "filepath": "heat.scalibility.HeatPostProcessing.data",
+                "filepath": "heat.scalability.HeatPostProcessing.data",
                 "format": "tsv"
             },
             {
                 "name": "Solve",
-                "filepath": "heat.scalibility.HeatSolve.data",
+                "filepath": "heat.scalability.HeatSolve.data",
                 "format": "tsv",
                 "units":{
                     "*":"s",
@@ -95,8 +95,7 @@
             "zip":[
                 {
                     "name":"tasks",
-                    "sequence":[64, 128, 256]
-                    //, 512]
+                    "sequence":[64, 128, 256, 512]
                 },
                 {
                     "name":"exclusive_access",
