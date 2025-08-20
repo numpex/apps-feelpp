@@ -108,7 +108,7 @@ jobs:
           npm run antora || true
 
     - name: Deploy
-      if: ${{ github.ref_name == 'master' }}
+      if: ${{ github.ref_name == 'main' }}
       uses: JamesIves/github-pages-deploy-action@v4
       with:
           branch: gh-pages # The branch the action should deploy to.
