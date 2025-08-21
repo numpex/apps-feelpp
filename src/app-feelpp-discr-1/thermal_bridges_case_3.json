@@ -95,7 +95,8 @@
             "zip":[
                 {
                     "name":"tasks",
-                    "sequence":[64, 128, 256, 512]
+                    "sequence":[64, 128, 256]
+                    //, 512]
                 },
                 {
                     "name":"exclusive_access",
