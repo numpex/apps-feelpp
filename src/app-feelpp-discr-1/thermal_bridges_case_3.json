@@ -1,16 +1,16 @@
 {
     "executable": "/data/home/saigre/feelpp/build/default/toolboxes/heat/feelpp_toolbox_heat",
     "output_directory": "{{machine.output_app_dir}}/toolboxes/heat/ThermalBridgesENISO10211/Case3",
-    "use_case_name": "Benchmark-ThermalBridgesENISO10211",
+    "use_case_name": "ThermalBridgesENISO10211",
     "timeout":"0-01:10:00",
     "resources":{
         "tasks":"{{parameters.resources.tasks.value}}",
         "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
     },
     "input_file_dependencies":{
-        "solver_cfg":"{{use_case_name}}/{{parameters.solver.value}}.cfg",
-        "mesh_json":"{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.json",
-        "mesh_hdf5":"{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.h5"
+        "solver_cfg":"benchmark/{{use_case_name}}/{{parameters.solver.value}}.cfg",
+        "mesh_json":"benchmark/{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.json",
+        "mesh_hdf5":"benchmark/{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.h5"
     },
     "platforms": {
         "apptainer":{
@@ -33,7 +33,7 @@
     "options": [
         "--config-files /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg",
         "--directory {{output_directory}}/{{instance}}",
-        "--repository.case {{use_case_name}}",
+        "--repository.case benchmark/{{use_case_name}}",
         "--heat.scalability-save=1",
         "--repository.append.np 0",
         "--case.discretization {{parameters.discretization.value}}",
