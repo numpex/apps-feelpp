@@ -83,3 +83,10 @@ outputs/
 *.synctex.gz
 *.xdv
 *-blx.bib
+
+# Spack files
+**/.spack-env/*
+spack.lock
+
+
+benchmark/*

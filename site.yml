@@ -1,6 +1,6 @@
 site:
-  title: Feelpp App
-  start_page: feelpp_app::index.adoc
+  title: Apps-Feelpp
+  start_page: apps-feelpp::index.adoc
 content:
   sources:
   - url: .

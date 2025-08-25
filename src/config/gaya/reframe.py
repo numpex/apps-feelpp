@@ -10,7 +10,7 @@ site_configuration = {
                     'name': 'production',
                     'scheduler': 'squeue',
                     'launcher': 'mpiexec',
-                    'max_jobs': 8,
+                    'max_jobs': 12,
                     'access': ['--partition=production'],
                     'environs': ['default','hpcx'],
                     'prepare_cmds': [

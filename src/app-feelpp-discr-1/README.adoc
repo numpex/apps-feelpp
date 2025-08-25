@@ -1,9 +1,13 @@
-# app-feelpp-discr-1
+= App feelpp-discr-1
 
-Solve a PDE (heat,solid mech) with different discretisation methods from low to high order
-
+== Benchmark: ThermalBridgesENISO10211
 
 [source, bash]
 ----
-feelpp-benchmarking-exec --machine-config src/config/default/default.json --custom-rfm-config src/config/default/default.py --benchmark-config src/app-feelpp-discr-1/heat2DP1.json --plots-config src/app-feelpp-discr-1/plots.json
+feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-discr-1/thermal_bridges_case_3.json --plots-config src/app-feelpp-discr-1/heat_plots.json --website -rc src/config/gaya/reframe.py
+----
+
+[source, bash]
+----
+feelpp-benchmarking-render --plot-configs src/app-feelpp-discr-1/heat_plots.json --patch-reports gaya:all:all:all -sp
 ----
