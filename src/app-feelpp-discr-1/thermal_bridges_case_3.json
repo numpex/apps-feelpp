@@ -115,7 +115,7 @@
         },
         {
             "name":"discretization",
-            "sequence":["P1", "P2", "P3"],
+            "sequence":["P1", "P2"],
             "conditions":{
                 "P1":[{ "resources.tasks":[64, 128, 256, 512] }],
                 "P2":[{ "resources.tasks":[64, 128, 256, 512] }],

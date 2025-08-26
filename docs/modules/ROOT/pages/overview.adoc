@@ -10,20 +10,13 @@ The directory structure of the project is as follows:
 │   ├── antora
 │   └── modules
 └── src
-    └── cases
-
-5 directories
+    └── app-feelpp-discr-1
 ----
 
-- The `docs` directory contains the documentation of the project and uses antora to generate the documentation.
-- The `src` directory contains initially some {cpp} and {python} {feelpp} source code of the project to help you get started.
+== Benchmark ThermalBridgesENISO10211
 
-[NOTE]
-====
-{feelpp} is a {cpp} library for the numerical simulation of partial differential equations. It is designed to be easy to use and to extend.
-{feelpp} is a free software distributed under the terms of the GNU General Public License version 3.
-The documentation is available https://docs.feelpp.org[> here].
-====
+The configuration files to run `feelpp-benchmarking` on the benchmark ThermalBridgesENISO10211 are present in `src/app-feelpp-discr-1`
+
 
 == How to build the project
 
@@ -35,19 +28,10 @@ The steps are as follows:
 ----
 $ cmake --preset default # <1>
 $ cmake --build --preset default # <2>
-$ cmake --build --preset default -t install # <3>
-$ ctest --preset default # <4>
-$ cmake --build --preset default -t package # <5>
 ----
 <1> Configure the project
 <2> Build the project
-<3> Install the project
-<4> Run the tests
-<5> Package the project
 
-== How to start documenting your work
-
-The documentation is written in AsciiDoc and uses Antora to generate the documentation. Please check the project xref:env/antora.adoc[Antora] page to get started.
 
 
 
