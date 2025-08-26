@@ -33,7 +33,7 @@
     "options": [
         "--config-files /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg",
         "--directory {{output_directory}}/{{instance}}",
-        "--repository.case benchmark/{{use_case_name}}",
+        "--repository.case {{use_case_name}}",
         "--heat.scalability-save=1",
         "--repository.append.np 0",
         "--case.discretization {{parameters.discretization.value}}",
