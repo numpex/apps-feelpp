@@ -52,17 +52,17 @@
         "stages": [
             {
                 "name": "Constructor",
-                "filepath": "heat.scalability.HeatConstructor.data",
+                "filepath": "heat.scalibility.HeatConstructor.data",
                 "format": "tsv"
             },
             {
                 "name": "PostProcessing",
-                "filepath": "heat.scalability.HeatPostProcessing.data",
+                "filepath": "heat.scalibility.HeatPostProcessing.data",
                 "format": "tsv"
             },
             {
                 "name": "Solve",
-                "filepath": "heat.scalability.HeatSolve.data",
+                "filepath": "heat.scalibility.HeatSolve.data",
                 "format": "tsv",
                 "units":{
                     "*":"s",
