@@ -29,6 +29,16 @@ This page gathers the software and demonstrators regarding {feelpp}.
 [.myblock]#app-feelpp-discr-1#
 [.myblock.extended-mini-app]#extended-mini-app#
 
+=== Benchmark: ThermalBridgesENISO10211
+
+Run the benchmark using `feelpp-benchmarking`
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-discr-1/thermal_bridges_case_3.json --plots-config src/app-feelpp-discr-1/heat_plots.json --website -rc src/config/gaya/reframe.py
+----
+
+
 
 == Distance
 
