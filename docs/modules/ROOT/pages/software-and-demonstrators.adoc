@@ -24,9 +24,8 @@
 
 This page gathers the software and demonstrators regarding {feelpp}.
 
-== Discretization
+== Discretization [.myblock]#app-feelpp-discr-1#
 
-[.myblock]#app-feelpp-discr-1#
 [.myblock.extended-mini-app]#extended-mini-app#
 
 === Benchmark: ThermalBridgesENISO10211
@@ -40,31 +39,26 @@ feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-
 
 
 
-== Distance
+== Distance [.myblock]#app-feelpp-distance#
 
-[.myblock]#app-feelpp-distance#
 [.myblock.mini-app]#mini-app#
 
 
-== Nonlinear Compressive Reduced Basis
+== Nonlinear Compressive Reduced Basis [.myblock]#app-feelpp-nlcrb#
 
-[.myblock]#app-feelpp-nlcrb#
 [.myblock.extended-mini-app]#extended-mini-app#
 
 
-== Reduced basis
+== Reduced basis [.myblock]#app-feelpp-rb#
 
-[.myblock]#app-feelpp-rb#
 [.myblock.extended-mini-app]#extended-mini-app#
 
 
-== Test I/O at large scale
+== Test I/O at large scale [.myblock]#app-feelpp-io#
 
-[.myblock]#app-feelpp-io#
 [.myblock.mini-app]#mini-app#
 
 
-== Test {feelpp} toolboxes at scale
+== Test {feelpp} toolboxes at scale [.myblock]#app-feelpp-toolbox#
 
-[.myblock]#app-feelpp-toolbox#
 [.myblock.demonstrator]#demonstrator#
