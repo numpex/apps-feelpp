@@ -1,5 +1,5 @@
 {
-  "executable": "/data/home/saigre/feelpp/build/default/mor/examples/eye2brain",
+  "executable": "/data/home/saigre/feelpp/build/default/mor/examples/eye2brain/feelpp_mor_eye2brain_3dP1app",
   "output_directory": "{{machine.output_app_dir}}/mor/eye2brain",
   "use_case_name": "Eye2Brain",
   "timeout": "0-02:00:00",
@@ -23,8 +23,7 @@
         "options": [
             "--home {{machine.output_app_dir}}",
             "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
-            "--env OMP_NUM_THREADS=1",
-            "--crb.db.id crbdb-eye2brain-{{instance}}"
+            "--env OMP_NUM_THREADS=1"
         ],
         "append_app_option":[]
     },
@@ -34,10 +33,12 @@
     }
   },
   "options": [
-    "--config-file {{config_file}}",
-    "--gmsh.filename=$cfgdir/3D/{{parameter.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json",
+    "--config-file benchmark/{{use_case_name}}/eye2brain-3d.cfg",
+    "--gmsh.filename={{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}",
     "--crb.cvg-study 1",
-    "--repository.append.np 0"
+    "--repository.append.np 0",
+    "--directory {{output_directory}}/{{instance}}",
+    "--crb.db.id crbdb-eye2brain-{{instance}}"
   ],
   "additional_files": {
     "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
