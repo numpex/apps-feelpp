@@ -15,10 +15,10 @@ NOTE: A complete documentation of the tool `feelpp.benchamrking` can be found on
 
 === The configuration to run the study
 
-Create a first JSON file with the following entries :
+Create a first JSON file with the following entries (among others) :
 
 - `executable`: the path to the executable that is going to be benchmarked
-- ``
-
+- `input_file_dependencies`: the files that are needed to run benchmarks
+- `scalability`: the values or performance (error, times, output, ...) that are read from output files
 
 === The configuration of the plots
