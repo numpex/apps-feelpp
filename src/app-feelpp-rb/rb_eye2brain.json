@@ -35,10 +35,12 @@
   "options": [
     "--config-file benchmark/{{use_case_name}}/eye2brain-3d.cfg",
     "--gmsh.filename={{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}",
+    "--eye2brain.model-name=eye2brain_{{instance}}",
     "--crb.cvg-study 1",
     "--repository.append.np 0",
     "--directory {{output_directory}}/{{instance}}",
-    "--crb.db.id crbdb-eye2brain-{{instance}}"
+    "--crb.db.id crbdb-eye2brain-{{instance}}",
+    "--crb.load-elements-database 1"
   ],
   "additional_files": {
     "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
@@ -113,8 +115,14 @@
     },
     {
       "name": "mesh",
-      "sequence": ["M2", "M3"]
+      "sequence": ["M2", "M3"],
       //, "M4", "M5"]
+      "conditions": {
+        "M2": [{ "resources.tasks": [1, 4, 24] }],
+        "M3": [{ "resources.tasks": [1, 2, 4, 8, 12, 24] }],
+        "M4": [{ "resources.tasks": [1, 4, 24] }],
+        "M5": [{ "resources.tasks": [1, 4, 24] }]
+      }
     }
   ]
 }

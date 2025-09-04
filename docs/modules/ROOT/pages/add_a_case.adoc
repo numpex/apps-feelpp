@@ -1,0 +1,24 @@
+= Add a benchmark
+
+This page gathers the process to create a new entry for a benchmark to the site
+
+== Ingredients to get started
+
+- An application that run some scientific computing code, with some inputs and some outputs
+- The inputs files, that have a parametrization (_e.g._ meshes, solver parametrization, etc...)
+- The output files (_e.g._ post processed errors, measures, time measurments, etc...)
+
+
+== Set up the configuration of `feelpp.benchmarking`
+
+NOTE: A complete documentation of the tool `feelpp.benchamrking` can be found online https://bench.feelpp.org/benchmarking/index.html
+
+=== The configuration to run the study
+
+Create a first JSON file with the following entries (among others) :
+
+- `executable`: the path to the executable that is going to be benchmarked
+- `input_file_dependencies`: the files that are needed to run benchmarks
+- `scalability`: the values or performance (error, times, output, ...) that are read from output files
+
+=== The configuration of the plots
