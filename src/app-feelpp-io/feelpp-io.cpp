@@ -42,7 +42,8 @@ int main(int argc, char** argv)
     std::cout << "Hello world" << std::endl;
 
     double time_loadMesh = 0,
-           time_createFunctionSapce = 0;
+           time_createFunctionSapce = 0,
+           time_export = 0;
     const int nRun = ioption( "nrun" );
 
     for (int i=0; i<nRun; ++i)
@@ -66,9 +67,26 @@ int main(int argc, char** argv)
         );
         e->add("u", u);
 
+        tic();
         e->save();
+        time_export += toc("expirt time");
     }
 
     Feel::cout << "Time load mesh " << time_loadMesh / nRun << std::endl;
     Feel::cout << "Time load create function space " << time_createFunctionSapce / nRun << std::endl;
+    Feel::cout << "Time to export " << time_export / nRun << std::endl;
+
+    nl::json time_measures = {{
+        "time", {}
+    }};
+    time_measures["time"]["loadMesh"] = time_loadMesh / nRun;
+    time_measures["time"]["functionSpace"] = time_createFunctionSapce / nRun;
+    time_measures["time"]["export"] = time_export / nRun;
+
+    if ( Environment::isMasterRank() )
+    {
+        std::ofstream ofs("time_measures.json");
+        ofs << time_measures.dump(2);
+        ofs.close();
+    }
 }
