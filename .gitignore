@@ -84,3 +84,6 @@ outputs/
 *.synctex.gz
 *.xdv
 *-blx.bib
+
+.spack/*
+benchmark/*
