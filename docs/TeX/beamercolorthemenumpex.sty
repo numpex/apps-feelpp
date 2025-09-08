@@ -1,0 +1,98 @@
+% Beamer mtheme
+%
+% Copyright 2014 Matthias Vogelgesang
+% Licensed under CC-BY-SA 4.0 International.
+%
+% The initial template comes from the HSRM beamer theme by Benjamin Weiss, which
+% you can find at https://github.com/hsrmbeamertheme/hsrmbeamertheme.
+%
+
+\ProvidesPackage{beamercolorthemenumpex}
+
+
+%}}}
+%{{{ --- Options ----------------------
+
+\newif\if@beamer@numpex@blockbg
+\@beamer@numpex@blockbgfalse
+\DeclareOptionBeamer{blockbg}{\@beamer@numpex@blockbgtrue}
+
+\DeclareOptionBeamer*{%
+  \PackageWarning{beamercolorthemenumpex}{Unknown option `\CurrentOption'}%
+}
+
+\ProcessOptionsBeamer
+
+%}}}
+%{{{ --- Colors ---------------------
+
+% http://paletton.com/#uid=7050t0kkJkJsntwoyp6gYgoddc4
+
+\definecolor{nblue}{HTML}{000091}
+\definecolor{nred}{HTML}{E1000F}
+\definecolor{ngreen}{HTML}{467248}
+\definecolor{npurple}{HTML}{6E445A}
+\definecolor{gray30}{rgb}{0.3,0.3,0.3}
+\definecolor{gray60}{rgb}{0.6,0.6,0.6}
+\definecolor{gray80}{rgb}{0.85,0.85,0.85}
+\definecolor{AccentTeal}{HTML}{008B8B}
+
+\setbeamercolor{block body}{bg=gray80, fg=black}
+\setbeamercolor{block title}{bg=nblue, fg=white}
+\setbeamercolor{block title example}{bg=nred, fg=white}
+\setbeamercolor{block body example}{bg=gray80, fg=black}
+
+\setbeamercolor{palette primary}{fg=nblue, bg=black!2}
+\setbeamercolor{palette secondary}{fg=white, bg=nblue}
+\setbeamercolor{palette quaternary}{fg=white}
+\setbeamercolor{palette tertiary}{fg=nblue, bg=white}
+
+\setbeamercolor{title}{parent=palette secondary}
+\setbeamercolor{subtitle}{parent=palette secondary}
+\setbeamercolor{author}{parent=palette secondary}
+\setbeamercolor{date}{parent=palette secondary}
+\setbeamercolor{institute}{parent=palette secondary}
+
+% \setbeamercolor{section title}{parent=palette quaternary}
+\setbeamercolor{part title}{fg=white}
+\setbeamercolor{section title}{fg=white}
+\setbeamercolor{section name}{fg=white}
+\setbeamercolor{frametitle}{parent=palette tertiary}
+\setbeamercolor{background canvas}{parent=palette quaternary}
+\setbeamercolor{structure}{fg=nblue}
+
+\setbeamercolor{normal text}{fg=black!97}
+\setbeamercolor{alerted text}{fg=nred}
+\setbeamercolor{alerted text}{fg=blue!70!black }
+
+\setbeamercolor{footnote}{fg=nblue!50}
+\setbeamercolor{footnote mark}{fg=.}
+\setbeamercolor{page number in head/foot}{fg=nblue}
+\setbeamercolor{bibliography entry title}{fg=nred}
+
+\setbeamercolor{block body}{  bg=white,  fg=black }
+
+%\setbeamercolor{block title}{ use=normal text,   bg=AccentTeal!20,  fg=black }
+%\setbeamercolor{block title}{ use=normal text,  bg=purple!80!black, fg=white }
+% Title of example block
+% dark teal
+\setbeamercolor{block title example}{  bg=teal!70!black,  fg=white }
+% light teal
+\setbeamercolor{block body example}{  bg=teal!5,  fg=black }
+
+
+\if@beamer@numpex@blockbg
+
+\setbeamercolor{block title}{parent=palette primary,bg=palette primary.bg!80!fg}
+\setbeamercolor{block title alerted}{use=alerted text,parent=palette primary,fg=alerted text.fg}
+\setbeamercolor{block title example}{use=example text,parent=palette primary,fg=example text.fg}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg}
+
+
+
+\fi
+
+\mode<all>

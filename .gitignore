@@ -78,6 +78,7 @@ outputs/
 *.fdb_latexmk
 *.fls
 *.log
+*.nav
 *.pdf
 *.run.xml
 *.synctex.gz
