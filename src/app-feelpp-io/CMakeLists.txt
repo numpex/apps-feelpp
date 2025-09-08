@@ -1,0 +1,7 @@
+set(DIM 2)
+set(ORDER 2)
+foreach(dim ${DIM})
+foreach(order ${ORDER})
+    feelpp_add_application(io-${dim}dP${order} SRCS feelpp-io.cpp DEFS FEELPP_DIM=${dim} ORDER=${order})
+endforeach()
+endforeach()
