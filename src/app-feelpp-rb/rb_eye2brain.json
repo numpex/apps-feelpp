@@ -2,7 +2,7 @@
   "executable": "/data/home/saigre/feelpp/build/default/mor/examples/eye2brain/feelpp_mor_eye2brain_3dP1app",
   "output_directory": "{{machine.output_app_dir}}/mor/eye2brain",
   "use_case_name": "Eye2Brain",
-  "timeout": "0-02:00:00",
+  "timeout": "0-02:30:00",
   "resources": {
     "tasks":"{{parameters.resources.tasks.value}}",
     "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
@@ -40,7 +40,8 @@
     "--repository.append.np 0",
     "--directory {{output_directory}}/{{instance}}",
     "--crb.db.id crbdb-eye2brain-{{instance}}",
-    "--crb.load-elements-database 1"
+    "--crb.load-elements-database 1",
+    "--crb.dimension-max 6"
   ],
   "additional_files": {
     "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
@@ -104,18 +105,20 @@
       "zip": [
         {
           "name": "tasks",
-          "sequence": [1, 2, 4]
+          "sequence": [12]
+          // "sequence": [1, 2, 4]
           //, 8, 12, 24]
         },
         {
           "name": "exclusive_access",
-          "repeat": {"value": true, "count": 10}
+          "repeat": {"value": false, "count": 10}
         }
       ]
     },
     {
       "name": "mesh",
-      "sequence": ["M2", "M3"],
+      "sequence": ["M3"],
+      //, "M2"],
       //, "M4", "M5"]
       "conditions": {
         "M2": [{ "resources.tasks": [1, 4, 24] }],
