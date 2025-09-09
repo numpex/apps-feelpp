@@ -1,0 +1,64 @@
+= Software and demonstrators
+
+++++
+<style>
+.myblock {
+    background-color: #fafafa;
+    padding: 1px 2px;
+    border-radius: 10px;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 0.8em;
+}
+.mini-app{
+    background-color: #ffcfc9;
+}
+.demonstrator{
+    background-color: #bfe1f6;
+}
+.extended-mini-app{
+    background-color: #ffe5a0;
+}
+</style>
+++++
+
+This page gathers the software and demonstrators regarding {feelpp}.
+
+== Discretization [.myblock]#app-feelpp-discr-1#
+
+[.myblock.extended-mini-app]#extended-mini-app#
+
+=== Benchmark: ThermalBridgesENISO10211
+
+Run the benchmark using `feelpp-benchmarking`
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-discr-1/thermal_bridges_case_3.json --plots-config src/app-feelpp-discr-1/heat_plots.json --website -rc src/config/gaya/reframe.py
+----
+
+
+
+== Distance [.myblock]#app-feelpp-distance#
+
+[.myblock.mini-app]#mini-app#
+
+
+== Nonlinear Compressive Reduced Basis [.myblock]#app-feelpp-nlcrb#
+
+[.myblock.extended-mini-app]#extended-mini-app#
+
+
+== Reduced basis [.myblock]#app-feelpp-rb#
+
+[.myblock.extended-mini-app]#extended-mini-app#
+
+
+== Test I/O at large scale [.myblock]#app-feelpp-io#
+
+[.myblock.mini-app]#mini-app#
+
+
+== Test {feelpp} toolboxes at scale [.myblock]#app-feelpp-toolbox#
+
+[.myblock.demonstrator]#demonstrator#

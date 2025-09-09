@@ -1,0 +1,131 @@
+{
+  "executable": "/data/home/saigre/feelpp/build/default/mor/examples/eye2brain/feelpp_mor_eye2brain_3dP1app",
+  "output_directory": "{{machine.output_app_dir}}/mor/eye2brain",
+  "use_case_name": "Eye2Brain",
+  "timeout": "0-02:30:00",
+  "resources": {
+    "tasks":"{{parameters.resources.tasks.value}}",
+    "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
+  },
+  "input_file_dependencies": {
+    "config_file": "benchmark/{{use_case_name}}/eye2brain-3d.cfg",
+    "mesh_json": "benchmark/{{use_case_name}}/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json",
+    "mesh_hdf5": "benchmark/{{use_case_name}}/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.h5",
+    "json_file": "benchmark/{{use_case_name}}/eye-linear.json",
+    "crb_file": "benchmark/{{use_case_name}}/crb_param.json"
+  },
+  "platforms": {
+    "apptainer":{
+        "image": {
+            "filepath":"{{machine.containers.apptainer.image_base_dir}}/feelpp-noble.sif"
+        },
+        "input_dir":"/input_data",
+        "options": [
+            "--home {{machine.output_app_dir}}",
+            "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
+            "--env OMP_NUM_THREADS=1"
+        ],
+        "append_app_option":[]
+    },
+    "builtin":{
+        "input_dir":"{{machine.input_dataset_base_dir}}",
+        "append_app_option":[]
+    }
+  },
+  "options": [
+    "--config-file benchmark/{{use_case_name}}/eye2brain-3d.cfg",
+    "--gmsh.filename={{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}",
+    "--eye2brain.model-name=eye2brain_{{instance}}",
+    "--crb.cvg-study 1",
+    "--repository.append.np 0",
+    "--directory {{output_directory}}/{{instance}}",
+    "--crb.db.id crbdb-eye2brain-{{instance}}",
+    "--crb.load-elements-database 1",
+    "--crb.dimension-max 6"
+  ],
+  "additional_files": {
+    "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
+    "custom_logs":[
+      "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.INFO",
+      "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.WARNING"
+    ]
+  },
+
+  "scalability": {
+    "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+    "clean_directory": true,
+    "stages": [
+      {
+        "name": "offline",
+        "filepath": "journal.json",
+        "format": "json",
+        "variables_path": "crv.offline_time",
+        "units": { "*": "s" }
+      },
+      {
+        "name": "online",
+        "filepath": "journal.json",
+        "format": "json",
+        "variables_path": "crb.online_*",
+        "units": { "*": "s" }
+      },
+      {
+        "name": "FEM",
+        "filepath": "cvg-crb-FemTime.dat",
+        "format": "tsv",
+        "units": { "*": "s" }
+      },
+      {
+        "name": "errorL2",
+        "filepath": "cvg-crb-L2.dat",
+        "format": "tsv"
+      },
+      {
+        "name": "errorH1",
+        "filepath": "cvg-crb-H1.dat",
+        "format": "tsv"
+      },
+      {
+        "name": "outputError",
+        "filepath": "cvg-crb-OutputError.dat",
+        "format": "tsv"
+      }
+    ]
+  },
+
+
+    "sanity": {
+      "success": [],
+      "error": []
+  },
+
+  "parameters": [
+    {
+      "name": "resources",
+      "zip": [
+        {
+          "name": "tasks",
+          "sequence": [12]
+          // "sequence": [1, 2, 4]
+          //, 8, 12, 24]
+        },
+        {
+          "name": "exclusive_access",
+          "repeat": {"value": false, "count": 10}
+        }
+      ]
+    },
+    {
+      "name": "mesh",
+      "sequence": ["M3"],
+      //, "M2"],
+      //, "M4", "M5"]
+      "conditions": {
+        "M2": [{ "resources.tasks": [1, 4, 24] }],
+        "M3": [{ "resources.tasks": [1, 2, 4, 8, 12, 24] }],
+        "M4": [{ "resources.tasks": [1, 4, 24] }],
+        "M5": [{ "resources.tasks": [1, 4, 24] }]
+      }
+    }
+  ]
+}

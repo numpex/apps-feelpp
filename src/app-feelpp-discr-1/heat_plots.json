@@ -1,0 +1,95 @@
+{
+    "plots": [
+        {
+            "title": "Validation measures",
+            "plot_types": [ "scatter" ],
+            "transformation": "performance",
+            "variables": [
+                "Outputs_Normal_Heat_Flux_alpha", "Outputs_Normal_Heat_Flux_beta", "Outputs_Normal_Heat_Flux_gamma",
+                "Outputs_Points_alpha_max_field_temperature", "Outputs_Points_alpha_min_field_temperature",
+                "Outputs_Points_beta_max_field_temperature", "Outputs_Points_beta_min_field_temperature",
+                "Outputs_Statistics_temperature_alpha_max", "Outputs_Statistics_temperature_alpha_min",
+                "Outputs_Statistics_temperature_beta_max", "Outputs_Statistics_temperature_beta_min"
+            ],
+            "names": [ ],
+            "xaxis": { "parameter": "mesh", "label": "mesh levels" },
+            "yaxis": { "label": "Heat flow [W]" },
+            "color_axis":{ "parameter": "discretization", "label": "Discretization" },
+            "secondary_axis":{ "parameter": "performance_variable", "label": "Measures" },
+            "aggregations": [ {"column": "resources.tasks", "agg": "filter:128"} ]
+        },
+        {
+            "title": "General Performance (P1)",
+            "plot_types": ["stacked_bar", "grouped_bar"],
+            "transformation": "performance",
+            "variables": ["Constructor_init","Solve_solve","PostProcessing_exportResults"],
+            "names": ["Constructor", "solve", "PostProcessing" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
+            "aggregations": [ {"column": "discretization", "agg": "filter:P1"} ]
+        },
+        {
+            "title": "General Performance (P2)",
+            "plot_types": ["stacked_bar", "grouped_bar"],
+            "transformation": "performance",
+            "variables": ["Constructor_init","Solve_solve","PostProcessing_exportResults"],
+            "names": ["Constructor", "solve", "PostProcessing" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
+            "aggregations": [ {"column": "discretization", "agg": "filter:P2"} ]
+        },
+        {
+            "title": "General Performance (P3)",
+            "plot_types": ["stacked_bar", "grouped_bar"],
+            "transformation": "performance",
+            "variables": ["Constructor_init","Solve_solve","PostProcessing_exportResults"],
+            "names": ["Constructor", "solve", "PostProcessing" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
+            "aggregations": [ {"column": "discretization", "agg": "filter:P3"} ]
+        },
+        {
+            "title": "Reading mesh measures",
+            "plot_types": ["grouped_bar", "stacked_bar", "scatter"],
+            "transformation": "performance",
+            "variables": ["Journal_readElements_time","Journal_readPoints_time","Journal_readStats_time"],
+            "names": ["read elements", "read points", "read stats" ],
+            "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+            "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+            "yaxis": { "label": "execution time (s)" },
+            "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
+            "aggregations": [ {"column": "discretization", "agg": "filter:P1"} ]
+        },
+        {
+            "title": "Number of iterations of GMRES",
+            "plot_types": ["scatter"],
+            "transformation": "performance",
+            "variables": ["Solve_ksp-niter"],
+            "names": ["ksp"],
+            "xaxis":{
+                "parameter": "resources.tasks",
+                "label": "Number of tasks"
+            },
+            "yaxis":{
+                "label": "Number of iterations"
+            },
+            "color_axis":{
+                "parameter": "mesh",
+                "label": "Mesh"
+            },
+            "secondary_axis":{
+                "parameter": "discretization",
+                "label": "Discretization"
+            },
+            "aggregations": [
+                {"column": "performance_variable","agg": "filter:Solve_ksp-niter"}
+            ]
+        }
+    ]
+}

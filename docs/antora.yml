@@ -1,10 +1,10 @@
-name: feelpp_app
-title: Feel++ Application
+name: apps-feelpp
+title: Feel++ Applications
 version: ~
 start_page: index.adoc
 asciidoc:
   attributes:
-    project_name: feelpp_app
+    project_name: Apps-Feelpp
     numbered: true
     dynamic-blocks@: ''
     allow-uri-read: true

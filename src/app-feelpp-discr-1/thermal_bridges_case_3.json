@@ -1,0 +1,130 @@
+{
+    "executable": "/data/home/saigre/feelpp/build/default/toolboxes/heat/feelpp_toolbox_heat",
+    "output_directory": "{{machine.output_app_dir}}/toolboxes/heat/ThermalBridgesENISO10211/Case3",
+    "use_case_name": "ThermalBridgesENISO10211",
+    "timeout":"0-01:10:00",
+    "resources":{
+        "tasks":"{{parameters.resources.tasks.value}}",
+        "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
+    },
+    "input_file_dependencies":{
+        "solver_cfg":"benchmark/{{use_case_name}}/{{parameters.solver.value}}.cfg",
+        "mesh_json":"benchmark/{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.json",
+        "mesh_hdf5":"benchmark/{{use_case_name}}/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.resources.tasks.value}}.h5"
+    },
+    "platforms": {
+        "apptainer":{
+            "image": {
+                "filepath":"{{machine.containers.apptainer.image_base_dir}}/feelpp-noble.sif"
+            },
+            "input_dir":"/input_data",
+            "options": [
+                "--home {{machine.output_app_dir}}",
+                "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
+                "--env OMP_NUM_THREADS=1"
+            ],
+            "append_app_option":[]
+        },
+        "builtin":{
+            "input_dir":"{{machine.input_dataset_base_dir}}",
+            "append_app_option":[]
+        }
+    },
+    "options": [
+        "--config-files /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg",
+        "--directory {{output_directory}}/{{instance}}",
+        "--repository.case {{use_case_name}}",
+        "--heat.scalability-save=1",
+        "--repository.append.np 0",
+        "--case.discretization {{parameters.discretization.value}}",
+        "--heat.json.patch='{\"op\": \"replace\",\"path\": \"/Meshes/heat/Import/filename\",\"value\": \"{{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}\" }'"
+    ],
+    "additional_files":{
+        "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
+        "custom_logs":[
+            "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.INFO",
+            "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.WARNING"
+        ]
+    },
+    "scalability": {
+        "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+        "clean_directory":true,
+        "stages": [
+            {
+                "name": "Constructor",
+                "filepath": "heat.scalibility.HeatConstructor.data",
+                "format": "tsv"
+            },
+            {
+                "name": "PostProcessing",
+                "filepath": "heat.scalibility.HeatPostProcessing.data",
+                "format": "tsv"
+            },
+            {
+                "name": "Solve",
+                "filepath": "heat.scalibility.HeatSolve.data",
+                "format": "tsv",
+                "units":{
+                    "*":"s",
+                    "ksp-niter":"iter"
+                }
+            },
+            {
+                "name": "Outputs",
+                "filepath": "heat.measures/values.csv",
+                "format": "csv",
+                "units" :{
+                    "*":"W"
+                }
+            },
+            {
+                "name": "Journal",
+                "filepath": "journal.json",
+                "format": "json",
+                "variables_path": "Mesh.heat.loadMesh_times.*"
+            }
+        ]
+    },
+    "sanity": {
+        "success": [],
+        "error": []
+    },
+    "parameters": [
+        {
+            "name": "resources",
+            "zip":[
+                {
+                    "name":"tasks",
+                    "sequence":[64, 128, 256]
+                    //, 512]
+                },
+                {
+                    "name":"exclusive_access",
+                    "repeat":{"value":true, "count":10}
+                }
+            ]
+        },
+        {
+            "name":"mesh",
+            "sequence":["M1", "M2", "M3"],
+            "conditions":{
+                "M1":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "M2":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "M3":[{ "resources.tasks":[256, 512] }]
+            }
+        },
+        {
+            "name":"discretization",
+            "sequence":["P1", "P2"],
+            "conditions":{
+                "P1":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "P2":[{ "resources.tasks":[64, 128, 256, 512] }],
+                "P3":[{ "resources.tasks":[256, 512] }]
+            }
+        },
+        {
+            "name": "solver",
+            "sequence": ["gamg"]
+        }
+    ]
+}

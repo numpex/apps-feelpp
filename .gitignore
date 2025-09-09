@@ -60,7 +60,6 @@ project/report/*
 !project/report/report-benchmarking.tex
 
 #Docs
-docs/modules/ROOT/pages/
 !docs/modules/ROOT/pages/index.adoc
 reports/
 
@@ -86,4 +85,9 @@ outputs/
 *-blx.bib
 
 .spack/*
+# Spack files
+**/.spack-env/*
+spack.lock
+
+
 benchmark/*
