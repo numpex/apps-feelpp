@@ -77,12 +77,14 @@ outputs/
 *.fdb_latexmk
 *.fls
 *.log
+*.nav
 *.pdf
 *.run.xml
 *.synctex.gz
 *.xdv
 *-blx.bib
 
+.spack/*
 # Spack files
 **/.spack-env/*
 spack.lock

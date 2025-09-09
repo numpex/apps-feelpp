@@ -1,0 +1,330 @@
+% Beamer numpex
+%
+% Copyright 2014 Matthias Vogelgesang
+% Licensed under CC-BY-SA 4.0 International.
+%
+% The initial template comes from the HSRM beamer theme by Benjamin Weiss, which
+% you can find at https://github.com/hsrmbeamertheme/hsrmbeamertheme.
+%
+
+\ProvidesPackage{beamerthemenumpex}
+
+%{{{ --- Options ----------------------
+
+
+% Lengths.
+% \newlength{\beamer@fancy@lineup}
+% \setlength{\beamer@fancy@lineup}{.025\paperheight}
+% \newlength{\beamer@fancy@linemid}
+% \setlength{\beamer@fancy@linemid}{.015\paperheight}
+% \newlength{\beamer@fancy@linebottom}
+% \setlength{\beamer@fancy@linebottom}{.01\paperheight}
+
+% Margins.
+\newlength{\beamer@fancy@normalmargin}
+\setlength{\beamer@fancy@normalmargin}{.06\paperwidth}
+\setbeamersize{text margin left=\beamer@fancy@normalmargin}
+\setbeamersize{text margin right=\beamer@fancy@normalmargin}
+\setlength\leftmargini{.6\beamer@fancy@normalmargin}
+\setlength\leftmarginii{.6\beamer@fancy@normalmargin}
+\setlength\leftmarginiii{.6\beamer@fancy@normalmargin}
+
+\ProcessOptionsBeamer
+
+%}}}
+
+\mode<presentation>
+
+%{{{ --- Packages ---------------------
+
+\RequirePackage{etoolbox}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+
+\usecolortheme{numpex}
+
+%}}}
+%{{{ --- Titlepage --------------------
+
+\def\maketitle{\ifbeamer@inframe\titlepage\else\frame[plain]{\titlepage}\fi}
+
+\def\titlepage{\usebeamertemplate{title page}}
+\setbeamertemplate{title page}
+{
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0cm,yshift=0, anchor=east, inner sep=0] at (current page.east) {\includegraphics[width=1.05\textwidth]{graphics/back1.jpg}};
+    \node[xshift=1cm,yshift=0, anchor=north west, inner sep=0] at (current page.north west) {\includegraphics[height=1.3cm]{graphics/rf.png}};
+    \node[xshift=-0.5cm,yshift=-0.2cm, anchor=north east, inner sep=0] at (current page.north east) {\includegraphics[height=1cm]{graphics/cea.png}
+      ~~~\includegraphics[height=1cm]{graphics/cnrs.png}
+      ~~~\includegraphics[height=0.9cm]{graphics/inria.png}
+      ~~~\includegraphics[height=0.9cm]{graphics/logo_cemosis.pdf}
+      };
+    \node[xshift=1.5cm,yshift=0, anchor=west, inner sep=0] at (current page.west) {\includegraphics[height=2cm]{graphics/f2030_white.png}};
+
+    \node[xshift=-0.5cm,yshift=0cm, anchor=east, inner sep=0, text width=0.6\textwidth] at (current page.east) {%
+      \ifx\inserttitle\@empty%
+      \else%
+      {\raggedright\linespread{1.0}\usebeamerfont{title}\usebeamercolor[fg]{title}{\inserttitle}\par}%
+      \vspace*{0.5em}
+      \fi%
+      \ifx\insertsubtitle\@empty%
+      \else%
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \vspace*{0.5em}
+      \fi%
+      \ifx\insertauthor\@empty%
+      \else%
+      {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}%
+      \vspace*{0.25em}
+      \fi%
+      \ifx\insertdate\@empty%
+      \else%
+      {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par}%
+      \fi%
+      \ifx\insertinstitut\@empty%
+      \else%
+      \vspace*{3mm}
+      {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}%
+      \fi%
+    };
+
+  \end{tikzpicture}%
+}
+
+
+% {{{ --- Commands ---------------------
+
+% \newcommand{\insertsectionHEAD}{%
+  % \expandafter\insertsectionHEADaux\insertsectionhead}
+  % \newcommand{\insertsectionHEADaux}[3]{\textsc{\MakeLowercase{#3}}
+% }
+
+\newcommand{\plain}[2][]{%
+  \begingroup
+  \setbeamercolor{background canvas}{parent=palette tertiary}
+  \begin{frame}{#1}
+    \centering
+    \vfill\vspace{1em}\usebeamerfont{section title}\textcolor{nblue}{\bfseries #2}\vfill
+  \end{frame}
+  \endgroup
+}
+
+%}}}
+
+%{{{ --- Itemize ----------------------
+% Items.
+\defbeamertemplate{itemize item}{squarealt}%
+{\tiny\raise.5ex\hbox{\donotcoloroutermaths$\blacksquare$}}
+\defbeamertemplate{itemize subitem}{squarealt}%
+{\tiny\raise.4ex\hbox{\donotcoloroutermaths$\square$}}
+\defbeamertemplate{itemize subsubitem}{squarealt}%
+{\tiny\raise.3ex\hbox{\donotcoloroutermaths$\blacksquare$}}
+
+\defbeamertemplate{itemize item}{circlealt}%
+{\small\raise.2ex\hbox{\donotcoloroutermaths$\bullet$}}
+\defbeamertemplate{itemize subitem}{circlealt}%
+{\small\raise.1ex\hbox{\donotcoloroutermaths$\circ$}}
+\defbeamertemplate{itemize subsubitem}{circlealt}%
+{\scriptsize\raise.1ex\hbox{\donotcoloroutermaths$\bullet$}}
+
+\defbeamertemplate{description item}{circlealt}%
+{\textbf{\insertdescriptionitem}\hfill}
+
+\setbeamertemplate{items}[circlealt]
+%}}}
+
+
+%{{{ --- Sections ---------------------
+
+% Insert frame with section title at every section start
+\AtBeginSection[]
+{
+  % \begingroup
+  \setbeamercolor{background canvas}{fg=white, bg=white}
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[xshift=0.2cm,yshift=0, anchor=north west, inner sep=0] at (current page.north west) {\includegraphics[height=1.3cm]{graphics/rf.png}~\includegraphics[height=1.3cm]{graphics/f2030.png}};
+      \node[xshift=-0.5cm,yshift=-0.2cm, anchor=north east, inner sep=0] at (current page.north east) {
+           \includegraphics[height=1cm]{graphics/cea.png}
+        ~~~\includegraphics[height=1cm]{graphics/cnrs.png}
+        ~~~\includegraphics[height=0.9cm]{graphics/inria.png}
+        ~~~\includegraphics[height=0.9cm]{graphics/logo_cemosis.pdf}
+      };
+
+      \node[xshift=0cm,yshift=0, anchor=south, inner sep=0] at (current
+      page.south)
+      {\includegraphics[width=\paperwidth,height=0.9\textheight]{graphics/back2.jpg}};
+      \node[xshift=0cm,yshift=0, anchor=center, inner sep=0, text width=\textwidth] at (current
+      page.center)
+      {\usebeamerfont{section title}\usebeamercolor[fg]{section title}\insertsection};
+    \end{tikzpicture}
+
+
+
+    % \node[anchor=south west, fg, inner sep=0pt, text width=\textwidth] at (0pt,10pt) {\insertsection};
+
+  \end{frame}
+  % \endgroup
+}
+
+%}}}
+%{{{ --- Captions ---------------------
+
+\setbeamertemplate{caption label separator}{: }
+\setbeamertemplate{caption}[numbered]
+
+%}}}
+%{{{ --- Footline/footnote ------------
+
+\usenavigationsymbolstemplate{}
+\setbeamertemplate{footline}
+{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.2222\paperwidth, ht=3ex, dp=3ex, center]{structure}%
+    {\raisebox{-0.5\baselineskip}{\includegraphics[height=0.6cm]{graphics/cea.png}
+      ~~~\includegraphics[height=0.6cm]{graphics/cnrs.png}
+      ~~~\includegraphics[height=0.5cm]{graphics/inria.png}
+      ~~~\includegraphics[height=0.5cm]{graphics/logo_cemosis.pdf}
+      }}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5556\paperwidth, ht=3ex, dp=3ex, center]{structure}%
+    \usebeamerfont{title in head/foot}\insertshorttitle%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.16665\paperwidth, ht=3ex, dp=3ex, center]{structure}%
+    \hfill\usebeamerfont{author in head/foot}\insertshortauthor%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.05555\paperwidth, ht=3ex, dp=3ex, center]{structure}%
+    \hfill\usebeamerfont{page number in head/foot}\insertframenumber%
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\setbeamertemplate{footnote}
+{%
+  \parindent 0em\noindent%
+  \raggedright
+  \usebeamercolor{footnote}\hbox to 0.8em{\hfil\insertfootnotemark}\insertfootnotetext\par%
+}
+
+%}}}
+%{{{ --- Frametitle -------------------
+
+\setbeamertemplate{frametitle}
+{%
+    \nointerlineskip
+    \begin{beamercolorbox}[sep=0.3cm,wd=\paperwidth]{frametitle}
+        \usebeamerfont{frametitle}%
+        \vbox{}\vskip-1ex%
+        \strut\insertframetitle\strut%
+        \hfill
+        % \raisebox{-0.8mm}{\includegraphics[width=2cm,,height=0.4cm]{example-image}}
+        \vskip-0.8ex%
+    \end{beamercolorbox}
+}
+
+
+\defbeamertemplate*{block begin}{numpex}
+{
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[colsep*=.75ex]{block title}
+    \usebeamerfont*{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex]{block body}%
+    \vspace{-\baselineskip}\ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+\defbeamertemplate*{block end}{numpex}
+{\end{beamercolorbox}%
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex,ht=0.05cm]{block title}
+    ~
+  \end{beamercolorbox}
+\vskip\smallskipamount}
+
+
+\defbeamertemplate*{block example begin}{numpex}
+{
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[colsep*=.75ex]{block title example}
+    \usebeamerfont*{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex]{block body example}%
+    \vspace{-\baselineskip}\ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+\defbeamertemplate*{block example end}{numpex}
+{\end{beamercolorbox}%
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex,ht=0.05cm]{block title example}
+    ~
+  \end{beamercolorbox}
+\vskip\smallskipamount}
+
+
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+
+
+
+
+
+\mode<all>
+
+%{{{ misc
+\let\otp\titlepage
+\renewcommand{\titlepage}{\otp\addtocounter{framenumber}{-1}}
+\newcommand{\mreducelistspacing}{\vspace{-\topsep}}
+
+%}}}
+
+
+
+\usepackage[procnames]{listings}
+\lstset{ %
+  backgroundcolor=\color{black!3},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\code\footnotesize,    % the size of the fonts that are used for the code
+  breakatwhitespace=false,          % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                  % sets automatic line breaking
+  captionpos=b,                     % sets the caption-position to bottom
+  commentstyle=\color{black!70},    % comment style
+  extendedchars=true,               % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                     % adds a frame around the code
+  keepspaces=true,                  % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{nblue},       % keyword style
+  procnamestyle=\color{nred},       % procedures style
+  language=[95]fortran,             % the language of the code
+  numbers=none,                     % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                    % how far the line-numbers are from the code
+  numberstyle=\tiny\color{black!20},% the style that is used for the line-numbers
+  rulecolor=\color{nblue},          % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                 % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,           % underline spaces within strings only
+  showtabs=false,                   % show tabs within strings adding particular underscores
+  stepnumber=2,                     % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{ngreen},       % string literal style
+  tabsize=2,                        % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  procnamekeys={call}
+}
+
