@@ -1,4 +1,7 @@
 
+WARNING: The code in this branch is not yet working, the devlopement has been moved into the branch `feature/feelpp-app-rb`.
+
+
 [source, bash]
 ----
 feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-rb/rb_eye2brain.json --plots-config src/app-feelpp-rb/rb_plots.json
