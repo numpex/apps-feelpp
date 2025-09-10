@@ -81,8 +81,11 @@ outputs/
 *.pdf
 *.run.xml
 *.synctex.gz
+*.toc
+*.vrb
 *.xdv
 *-blx.bib
+**/_minted/*
 
 .spack/*
 # Spack files

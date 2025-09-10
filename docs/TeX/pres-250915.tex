@@ -3,9 +3,12 @@
 \usetheme{numpex}
 
 \usepackage{tikz,pgfplots}
+\usepackage{tikz-shields}
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
-
+\usepackage{minted}
+\newsavebox{\mintedbox}
+\newsavebox{\mintedboxd}
 
 
 \title{Feelpp Apps}
@@ -19,23 +22,96 @@
 \maketitle
 
 
-\section{Conclusion}
+\section{Ingredients}
 
-\begin{frame}{Summary}
+\begin{frame}
+  \frametitle{Ingredients}
 
-  Get the source of this theme and the demo presentation from
+  We need:
 
-  \begin{center}\url{https://github.com/numpex/presentation.template/}\end{center}
+  \begin{itemize}
+    \item A program that runs some code (toolbox, ...)
+    \item Input files (mesh, configuration files, ...)
+    \item Quantities of interest to be monitored (error, time of execution, ...)
+  \end{itemize}
 
 \end{frame}
+
+
+\section{Tool used: Feelpp-benchmarking}
+
+\begin{frame}
+  \frametitle{Feelpp-benchmarking}
+
+  \begin{itemize}
+    \item Tool to automate and facilitate the benchmarking process for applications.
+    \item Available on GitHub: \githubBadge[baseline=2mm]{feelpp/benchmarking}
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Example of benchmark configuration}
+
+% \only<1>{
+
+  \begin{lrbox}{\mintedbox}
+  \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+  \begin{minted}[fontsize=\tiny]{json}
+{
+  "executable": "build/default/src/app-feelpp-io/feelpp_app_io",
+  "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
+  "use_case_name": "eye-mesh",
+  "timeout":"0-01:00:00",
+  "input_file_dependencies":{
+      "mesh_json":"mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json",
+      "mesh_hdf5":"mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.h5"
+  },
+  "options": [
+    "--directory {{output_directory}}/{{instance}}/{{use_case_name}}",
+    "--discretization {{parameters.discretization.value}}",
+    "--repository.append.np 0",
+    "--gmsh.filename mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json"
+  ],
+}
+  \end{minted}
+  \end{lrbox}
+
+  \resizebox{\textwidth}{!}{\usebox{\mintedbox}}
+% }
+
+% \only<2>{
+
+%   \begin{lrbox}{\mintedboxd}
+%   \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+%   \begin{minted}[fontsize=\tiny]{json}
+% {
+%   "scalability": {
+%     "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+%     "clean_directory":true,
+%     "stages": [
+%       {
+%         "name": "timeMeasures",
+%         "filepath": "time_measures.json",
+%         "format": "json",
+%         "variables_path": "time.*",
+%         "units": { "*": "s"}
+%       }
+%     ]
+%   },
+% }
+%   \end{minted}
+%   \end{lrbox}
+
+%   \resizebox{\textwidth}{!}{\usebox{\mintedboxd}}
+% }
+
+\end{frame}
+
+
+\section{Conclusion}
 
 \plain{Questions?}
 
 \end{document}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% TeX-engine: xetex
-%%% TeX-command-extra-options: "--synctex=1"
-%%% End:

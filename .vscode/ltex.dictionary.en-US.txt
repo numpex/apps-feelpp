@@ -40,3 +40,4 @@ Gmsh
 Galerkin
 Cemosis
 Université
+Feelpp-benchmarking

@@ -89,6 +89,7 @@
     },
     "ltex.latex.commands": {
         "\\arrayrulecolor{}": "ignore",
-        "\\SetTblrInner{}": "ignore"
+        "\\SetTblrInner{}": "ignore",
+        "\\RecustomVerbatimEnvironment{}{}": "ignore"
     }
 }
