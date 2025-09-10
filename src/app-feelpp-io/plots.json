@@ -11,7 +11,7 @@
         "label": "Number of tasks"
       },
       "yaxis":{
-        "label": "Number of iterations"
+        "label": "Time [s]"
       },
       "color_axis":{
         "parameter": "mesh",
@@ -20,10 +20,7 @@
       "secondary_axis":{
         "parameter": "discretization",
         "label": "Discretization"
-      },
-      "aggregations": [
-        {"column": "performance_variable","agg": "filter:timeMeasures_loadMesh"}
-      ]
+      }
     },
     {
       "title": "Time to generate function space",
@@ -36,7 +33,7 @@
         "label": "Number of tasks"
       },
       "yaxis":{
-        "label": "Number of iterations"
+        "label": "Time [s]"
       },
       "color_axis":{
         "parameter": "mesh",
@@ -45,10 +42,7 @@
       "secondary_axis":{
         "parameter": "discretization",
         "label": "Discretization"
-      },
-      "aggregations": [
-        {"column": "performance_variable","agg": "filter:timeMeasures_functionSpace"}
-      ]
+      }
     },
     {
       "title": "Time to write data on disk",
@@ -61,7 +55,7 @@
         "label": "Number of tasks"
       },
       "yaxis":{
-        "label": "Number of iterations"
+        "label": "Time [s]"
       },
       "color_axis":{
         "parameter": "mesh",
@@ -70,10 +64,7 @@
       "secondary_axis":{
         "parameter": "discretization",
         "label": "Discretization"
-      },
-      "aggregations": [
-        {"column": "performance_variable","agg": "filter:timeMeasures_export"}
-      ]
+      }
     },
     {
       "title": "General Performance (P1)",
