@@ -1,8 +1,8 @@
 {
-    "executable": "build/default/src/app-feelpp-io/feelpp_app_io",
+    "executable": "{{machine.output_app_dir}}/../build/default/src/app-feelpp-io/feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
-    "use_case_name": "I/O",
-    "timeout":"0-01:10:00",
+    "use_case_name": "eye-mesh",
+    "timeout":"0-01:00:00",
     "resources":{
         "tasks":"{{parameters.resources.tasks.value}}",
         "exclusive_access":"{{parameters.resources.exclusive_access.value}}"
@@ -30,7 +30,7 @@
         }
     },
     "options": [
-        "--directory {{output_directory}}/{{instance}}",
+        "--directory {{output_directory}}/{{instance}}/{{use_case_name}}",
         "--discretization {{parameters.discretization.value}}",
         "--repository.append.np 0",
         "--gmsh.filename benchmark/Eye2Brain/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json"
