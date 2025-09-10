@@ -65,8 +65,7 @@
             "zip":[
                 {
                     "name":"tasks",
-                    "sequence":[1, 2, 4, 8, 12]
-                    //, 16, 24, 64, 96, 128, 256]
+                    "sequence":[1, 2, 4, 8, 12, 16, 24, 64, 96, 128, 256]
                 },
                 {
                     "name":"exclusive_access",
@@ -76,8 +75,7 @@
         },
         {
             "name":"mesh",
-            "sequence":["M2", "M3"],
-            //, "M4", "M5"],
+            "sequence":["M2", "M3", "M4", "M5"],
             "conditions":{
                 "M2":[{ "resources.tasks":[1, 4, 24, 96] }],
                 "M3":[{ "resources.tasks":[1, 2, 4, 8, 12, 16, 24, 64, 96, 128] }],
@@ -87,8 +85,7 @@
         },
         {
             "name":"discretization",
-            "sequence":["P1", "P2"]
-            //, "P3", "P4", "P5", "P6"]
+            "sequence":["P1", "P2", "P3", "P4", "P5", "P6"]
         },
         {
             "name": "solver",
