@@ -1,4 +1,5 @@
 name: Benchmark
+run-name: Benchmark [${{ inputs.hpc-systems || github.event.inputs.hpc-systems || github.event.client_payload.hpc-systems }} - ${{ inputs.benchmark_config || github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }}]
 
 on:
     repository_dispatch:
@@ -18,8 +19,15 @@ on:
                 description: 'Path to plots related configuration'
                 required: True
                 default: src/app-feelpp-discr-1/heat_plots.json
+            create_pr:
+                description: 'Create Pull Request'
+                type: boolean
+                default: True
+            create_website:
+                description: 'Render and compile reports'
+                type: boolean
             upload_id:
-                description: 'ID to upload the website to'
+                description: 'ID to upload results to'
                 required: False
                 default: ""
 
@@ -105,34 +113,37 @@ jobs:
                 json_machine_config='${{ toJson(matrix.system_config) }}'
                 echo "$json_machine_config" > machine_config.json
 
-        -   name: Setup machine and env
-            run: bash ./src/feelpp/benchmarking/reframe/config/machineConfigs/${{matrix.machine}}/setup.sh
-            env:
-                PROJECT_ID: ${{matrix.project_id || ''}}
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
             run: |
+                ./tmp_system_entrypoints/${{matrix.machine}}.sh
                 source .venv/bin/activate
                 feelpp-benchmarking-exec \
                     -mc machine_config.json \
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
-                    -rfm="-v"
+                    -v \
+                    -rfm="-v --exec-order=name --max-retries=2"
             env:
                 GIRDER_API_KEY: ${{ secrets.GIRDER }}
+                PROJECT_ID: ${{matrix.project_id || ''}}
+                GHCRIO_USER: ${{ github.actor }}
+                GHCRIO_TOKEN: ${{ secrets.CR_PAT }}
 
+        #TODO TEMPORARY TMP_SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
             if: ${{ matrix.submit == 'slurm' }}
             run: |
+                ./tmp_system_entrypoints/${{matrix.machine}}.sh
                 srun --partition ${{matrix.submit_partition}} \
-                    --time 02:00:00 \
+                    --time 48:00:00 \
                     --account ${{matrix.project_id}} \
                     --qos ${{matrix.qos}} \
                     --nodes 1 --ntasks 1 --cpus-per-task 1 --ntasks-per-node 1 \
-                    ./src/feelpp/benchmarking/reframe/config/machineConfigs/${{matrix.machine}}/launchBenchmark.sh \
+                    ./tmp_system_entrypoints/${{matrix.machine}}_launchBenchmark.sh \
                         -m machine_config.json \
                         -b ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
-                        -p ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
+                        -p ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}}
             env:
                 GIRDER_API_KEY: ${{ secrets.GIRDER }}
 
@@ -146,16 +157,16 @@ jobs:
                 name: benchmark-results-${{matrix.machine}}
                 path: ${{steps.parse_reports_path.outputs.reports_base_dir}}
 
-    deploy:
+    stage:
         runs-on: self-feelpp
-        needs: [benchmark,factory]
-        name: Handle results and trigger rendering
-        if: ${{ github.event.inputs.upload_id == '' && github.event.client_payload.upload_id == '' }}
+        needs: [benchmark]
+        name: Stage results
+        if: ${{ github.event.inputs.create_pr == 'true' || github.event.client_payload.create_pr == 'true' }}
         steps:
         -   uses: actions/checkout@v5
 
         -   name: Download results
-            uses: actions/download-artifact@v5
+            uses: actions/download-artifact@v4
             with:
                 pattern: benchmark-results-*
                 path: ./tmp/results/
@@ -165,9 +176,9 @@ jobs:
             run: |
                 python3 -m venv .venv
                 source .venv/bin/activate
-                pip3 install .
+                pip3 install -r requirements.txt
 
-        -   name: Upload to girder
+        -   name: Upload to staging folder
             run: |
                 source .venv/bin/activate
                 source ./girder_deploy_config.sh
@@ -188,31 +199,44 @@ jobs:
         -   name: Create Pull Request
             uses: peter-evans/create-pull-request@v7
             with:
-                title: "Add benchmark for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
-                commit-message: "Add benchmark for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
+                title: "Add benchmark on ${{ github.event.inputs.hpc-systems }} for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
+                commit-message: "Add benchmark on ${{ github.event.inputs.hpc-systems }} for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
                 body: |
                     Generating reports from staging directory.
-                    Auto-generated by [create-pull-request][1]
-                    [1]: https://github.com/peter-evans/create-pull-request
-                reviewers: JavierCladellas
-                labels: new-benchmark
-                branch: new-benchmark
-            env:
-                GITHUB_TOKEN: ${{ secrets.CR_PAT }}
 
-    user-results:
+                    - HPC system: ${{ github.event.inputs.hpc-systems }}
+                    - Executable: ${{ steps.gather_arguments.outputs.executable_name }}
+                    - Use case: ${{ steps.gather_arguments.outputs.use_case }}
+                    - Benchmark configuration: ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }}
+                    - Plots configuration: ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config }}
+
+                    see https://github.com/peter-evans/create-pull-request for more details
+                reviewers: |
+                    JavierCladellas
+                    prudhomm
+                    vincentchabannes
+                    thomas-saigre
+                labels: new-benchmark
+                branch: new-benchmark-${{ github.event.inputs.hpc-systems || github.event.client_payload.hpc-systems }}-${{ steps.gather_arguments.outputs.use_case }}
+            env:
+                GITHUB_TOKEN: ${{ secrets.CR_PAT_WORKFLOW }}
+
+    export_results:
         runs-on: self-feelpp
-        needs: [benchmark,factory]
-        name: Deploy the website to a specific folder
-        if: ${{ github.event.inputs.upload_id != '' || github.event.client_payload.upload_id != '' }}
+        needs: [benchmark]
+        name: Export website and reports
+        if: ${{ github.event.inputs.create_website == 'true' || github.event.client_payload.create_website == 'true' }}
         steps:
+
             -   uses: actions/checkout@v5
+
             -   name: Download results
-                uses: actions/download-artifact@v5
+                uses: actions/download-artifact@v4
                 with:
                     pattern: benchmark-results-*
                     path: ./tmp/results/
                     merge-multiple: false
+
             -   name: Create Virtual Environment
                 run: |
                     python3 -m venv .venv
@@ -222,20 +246,36 @@ jobs:
                 run: |
                     source .venv/bin/activate
                     merge-json-configs -fp "./tmp/**/website_config.json" -o ./tmp/website_config.json -u
+
             -   name: Render docs
                 run: |
                     source .venv/bin/activate
                     feelpp-benchmarking-render --config-file=./tmp/website_config.json
+
             -   name: Compile docs
                 run: |
                     source .venv/bin/activate
-                    npm ci
+                    npm install
                     npm run antora
-            -   name: Upload
+
+            -   name: Zip website and reports
+                run: |
+                    zip -r dashboard.zip public/
+                    zip -r reports.zip ./tmp/results/*
+
+            -   name: Upload to girder
+                if: ${{ github.event.inputs.upload_id != '' || github.event.client_payload.upload_id != '' }}
                 run: |
                     source .venv/bin/activate
-                    feelpp-girder upload --item "./tmp/results/*" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
-                    feelpp-girder upload --item "./public/" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
+                    feelpp-girder upload --item "dashboard.zip" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
+                    feelpp-girder upload --item "reports.zip" --girder_id ${{ github.event.inputs.upload_id || github.event.client_payload.upload_id}}
                 env:
                     GIRDER_API_KEY: ${{secrets.GIRDER}}
 
+            -   name: Upload artifact
+                uses: actions/upload-artifact@v4
+                with:
+                    name: reports
+                    path: |
+                        reports.zip
+                        dashboard.zip
