@@ -36,7 +36,6 @@
         "--gmsh.filename benchmark/Eye2Brain/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.resources.tasks.value}}.json"
     ],
     "additional_files":{
-        "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
         "custom_logs":[
             "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.INFO",
             "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.WARNING"
