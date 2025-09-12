@@ -42,7 +42,7 @@ jobs:
         -   name: Get machines configuration
             id: download_systems_config
             run: |
-                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT }}' https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
+                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT_WORKFLOW }}' https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
                 machine_config=$(jq --compact-output '.' <<< $machine_config)
                 echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
 
@@ -125,10 +125,10 @@ jobs:
                     -v \
                     -rfm="-v --exec-order=name --max-retries=2"
             env:
-                GIRDER_API_KEY: ${{ secrets.GIRDER }}
+                # GIRDER_API_KEY: ${{ secrets.GIRDER }}
                 PROJECT_ID: ${{matrix.project_id || ''}}
                 GHCRIO_USER: ${{ github.actor }}
-                GHCRIO_TOKEN: ${{ secrets.CR_PAT }}
+                GHCRIO_TOKEN: ${{ secrets.CR_PAT_WORKFLOW }}
 
         #TODO TEMPORARY TMP_SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
