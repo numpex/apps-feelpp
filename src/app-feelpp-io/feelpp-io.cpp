@@ -12,34 +12,12 @@
 #include <feel/feeldiscr/pch.hpp>
 #include <feel/feelfilters/exporter.hpp>
 
-#ifndef FEELPP_DIM // Default value for IDE satisfaction, values are set in CMakeLists
-#define FEELPP_DIM 2
-#endif
-#ifndef ORDER
-#define ORDER 2
-#endif
 
-
-int main(int argc, char** argv)
+template <int DIM, int ORDER>
+int run()
 {
+    using mesh_t = Feel::Mesh<Feel::Simplex<DIM, 1>>;
     using namespace Feel;
-    po::options_description myoptions("my options");
-
-    using mesh_t = Feel::Mesh<Feel::Simplex<FEELPP_DIM, 1>>;
-    // using exporter_t = Exporter<mesh_t, ORDER>;
-    // using Function_t =
-
-    myoptions.add_options()
-        ( "nrun", Feel::po::value<int>()->default_value(10))
-    ;
-
-    Environment env( _argc=argc, _argv=argv,
-                     _desc=myoptions,
-                     _about=about(_name="Feelpp I/O",
-                                  _author="Feel++ Consortium",
-                                  _email="feelpp-devel@feelpp.org"));
-
-    std::cout << "Hello world" << std::endl;
 
     double time_loadMesh = 0,
            time_createFunctionSapce = 0,
@@ -56,11 +34,7 @@ int main(int argc, char** argv)
         auto Xh = Pch<ORDER>(mesh);
         time_createFunctionSapce += toc("create function space");
 
-        #if FEELPP_DIM == 2
-            auto u = Xh->element(Px() * Px() + 4 * Py());
-        #else
-            auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
-        #endif
+        auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
 
         auto e = exporter( _mesh = mesh,
                            _name = fmt::format("Export_{}", i)
@@ -69,7 +43,7 @@ int main(int argc, char** argv)
 
         tic();
         e->save();
-        time_export += toc("expirt time");
+        time_export += toc("export time");
     }
 
     Feel::cout << "Time load mesh " << time_loadMesh / nRun << std::endl;
@@ -89,4 +63,52 @@ int main(int argc, char** argv)
         ofs << time_measures.dump(2);
         ofs.close();
     }
+
+    return 0;
+}
+
+
+int main(int argc, char** argv)
+{
+    using namespace Feel;
+
+    po::options_description myoptions("my options");
+    myoptions.add_options()
+        ( "nrun", Feel::po::value<int>()->default_value(10) )
+        ( "dimension", Feel::po::value<int>()->default_value(3) )
+        ( "discretization", Feel::po::value<std::string>()->default_value("P1") )
+    ;
+
+    Environment env( _argc=argc, _argv=argv,
+                     _desc=myoptions,
+                     _about=about(_name="Feelpp I/O",
+                                  _author="Feel++ Consortium",
+                                  _email="feelpp-devel@feelpp.org"));
+
+    int dimension = ioption(_name="dimension");
+    std::string discretization = soption(_name="discretization");
+    int status = 0;
+
+    auto dimt = hana::make_tuple(hana::int_c<2>,hana::int_c<3>);
+    auto discretizationt = hana::make_tuple( hana::make_tuple("P1", hana::int_c<1> ),
+                                             hana::make_tuple("P2", hana::int_c<2> ),
+                                             hana::make_tuple("P3", hana::int_c<3> ),
+                                             hana::make_tuple("P4", hana::int_c<4> ),
+                                             hana::make_tuple("P5", hana::int_c<5> ),
+                                             hana::make_tuple("P6", hana::int_c<6> )
+    );
+
+    hana::for_each( hana::cartesian_product(hana::make_tuple(dimt, discretizationt)), [&discretization, &dimension, &status]( auto const& d )
+    {
+        constexpr int _dimension = std::decay_t<decltype(hana::at_c<0>(d))>::value;
+        std::string const& _discretization = hana::at_c<0>( hana::at_c<1>(d) );
+        constexpr int _order = std::decay_t<decltype(hana::at_c<1>(hana::at_c<1>(d)))>::value;
+
+        if (dimension == _dimension && discretization == _discretization)
+        {
+            status = run<_dimension, _order>();
+        }
+    } );
+
+    return status;
 }
