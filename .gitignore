@@ -71,7 +71,9 @@ outputs/
 # TeX files
 *.aux
 *.bbl
+*.bbl-SAVE-ERROR
 *.bcf
+*.bcf-SAVE-ERROR
 *.blg
 *.chl
 *.fdb_latexmk

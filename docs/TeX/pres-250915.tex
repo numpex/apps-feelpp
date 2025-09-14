@@ -2,13 +2,33 @@
 
 \usetheme{numpex}
 
-\usepackage{tikz,pgfplots}
+\usepackage{tikz,pgfplots,pgfplotstable}
 \usepackage{tikz-shields}
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
 \usepackage{minted}
+\usepackage{tabularray}
+\usepackage{currfile} % Required for getting the current file name
 \newsavebox{\mintedbox}
-\newsavebox{\mintedboxd}
+
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+}
+
+\definecolor{numpexblack}{RGB}{0,0,0}
+\definecolor{numpexblue}{RGB}{42,46,128}
+\definecolor{numpexfont}{RGB}{54,54,54}
+\definecolor{numpexred}{RGB}{250,40,35}
+\definecolor{numpexgray}{RGB}{127,127,127}
+\definecolor{numpexlightgray}{RGB}{219,219,219}
+\definecolor{numpexlightergray}{RGB}{237,237,237}
+
+
+\usepackage[natbib, defernumbers=true, backend=biber, style=alphabetic, eprint=false, maxbibnames=1, url=false, doi=false]{biblatex}
+\addbibresource{exa-ma.bib}
 
 
 \title{Feelpp Apps}
@@ -38,10 +58,8 @@
 \end{frame}
 
 
-\section{Tool used: Feelpp-benchmarking}
-
 \begin{frame}
-  \frametitle{Feelpp-benchmarking}
+  \frametitle{Tool used: Feelpp-benchmarking}
 
   \begin{itemize}
     \item Tool to automate and facilitate the benchmarking process for applications.
@@ -51,10 +69,32 @@
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{Benchmarking Feel++ applications for NumPEx}
+
+  \begin{itemize}
+    \item Small applications for benchmarking usage of Feel++
+    \item Development in \githubBadge[baseline=2mm]{numpex/apps-feelpp}
+  \end{itemize}
+
+  \pause
+
+  Applications to be tested:
+  \begin{small}
+  \begin{itemize}
+    \item \drawBadge[baseline=2mm,font=\tt, labelColor=green]{}{app-feelpp-discr} Solve a PDE with different discretization methods and order
+    \item \drawBadge[baseline=2mm,font=\tt, labelColor=red]{}{app-feelpp-distance} Compute distance to a range of entities using FMM or BVH
+    \item \drawBadge[baseline=2mm,font=\tt, labelColor=red]{}{app-feelpp-nlcrb} Test nonlinear compressive reduced basis methods
+    \item \drawBadge[baseline=2mm,font=\tt, labelColor=orange]{}{app-feelpp-rb} Test reduced basis methods and empirical interpolation
+    \item \drawBadge[baseline=2mm,font=\tt, labelColor=green!50!orange]{}{app-feelpp-io} Test I/O at large scale
+  \end{itemize}
+  \end{small}
+
+\end{frame}
+
+
 \begin{frame}[fragile]
   \frametitle{Example of benchmark configuration}
-
-% \only<1>{
 
   \begin{lrbox}{\mintedbox}
   \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
@@ -79,33 +119,134 @@
   \end{lrbox}
 
   \resizebox{\textwidth}{!}{\usebox{\mintedbox}}
-% }
 
-% \only<2>{
+\end{frame}
 
-%   \begin{lrbox}{\mintedboxd}
-%   \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
-%   \begin{minted}[fontsize=\tiny]{json}
-% {
-%   "scalability": {
-%     "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
-%     "clean_directory":true,
-%     "stages": [
-%       {
-%         "name": "timeMeasures",
-%         "filepath": "time_measures.json",
-%         "format": "json",
-%         "variables_path": "time.*",
-%         "units": { "*": "s"}
-%       }
-%     ]
-%   },
-% }
-%   \end{minted}
-%   \end{lrbox}
+\begin{frame}[fragile]
+  \frametitle{Get the values for plotting}
 
-%   \resizebox{\textwidth}{!}{\usebox{\mintedboxd}}
-% }
+  \begin{lrbox}{\mintedbox}
+  \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+  \begin{minted}[fontsize=\tiny]{json}
+{
+  "scalability": {
+    "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+    "clean_directory":true,
+    "stages": [
+      {
+        "name": "timeMeasures",
+        "filepath": "time_measures.json",
+        "format": "json",
+        "variables_path": "time.*",
+        "units": { "*": "s"}
+      }
+    ]
+  }
+}
+  \end{minted}
+  \end{lrbox}
+
+  \resizebox{\textwidth}{!}{\usebox{\mintedbox}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bonus: a new feature in Feel++}
+
+  Add any data to the journal during execution:
+
+  \begin{minted}[bgcolor=gray!10]{cpp}
+JournalManager::journalAdd( nl::json const &j, bool merge );
+  \end{minted}
+
+  Example:
+
+  \begin{minted}[bgcolor=gray!10]{cpp}
+tic();
+offlineStage();
+double offline_time = toc("offline");
+nl::json time_tree = {{ "crb", {"offline", offline_time} }};
+JournalManager::journalAdd( time_tree );
+  \end{minted}
+
+
+
+\end{frame}
+
+\section{Benchmarks and results}
+
+
+\begin{frame}{\texttt{app-feelpp-discr}}
+
+\only<1>{
+  \begin{columns}
+  \begin{column}{0.4\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/feelpp-benchmark-thermalbridges-geom.png}
+      \end{figure}
+  \end{column}
+
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item Execution of the toolbox \emph{heat} on the thermal bridge benchmark\footfullcite{noauthor_iso_2017}.
+        \item Execution for various mesh sizes, and order of discretization
+      \end{itemize}
+  \end{column}
+
+  \end{columns}
+}
+
+\only<2>{
+
+\SetTblrInner{rowsep=0pt}
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tblr}{
+        colspec={c*{7}{Q[c, cmd=\pgfmathprintnumber]}},
+        vlines={numpexgray},
+        hlines={numpexgray},
+        row{1,2}={bg=numpexgray, fg=white, font=\bfseries, halign=c, cmd=\normalfont},
+        rowhead=2, % This option excludes the first two rows from the column command
+    }
+    \SetCell[c=5]{c}{Mesh properties} & & & & & \SetCell[c=3]{c}{Number of degrees of freedom} & &\\
+        Tag & \# points & \# edge & \# faces & \# elements & $P_1$ & $P_2$ & $P_3$ \\
+        \texttt{M1} & 193654 & 1299920 & 2164759 & 1058492 & 193654 & 1493574 & 4958253\\
+        \texttt{M2} & 1401135 & 9778744 & 16566803 & 8189193 & 1401135 & 11179879 & 37525426\\
+        \texttt{M3} & 10572256 & 75307308 & 128722252 & 63987199 & 10572256 & 85879564 & 289909124\\
+    \end{tblr}
+    }
+
+  \caption{Thermal bridges benchmarks - Statistics on meshes and number of degrees of freedom with respect to finite element approximation}
+  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
+\end{table}
+}
+
+\only<3>{
+  \input{fig/iso10211/figures}
+}
+
+
+\end{frame}
+
+\begin{frame}{\texttt{app-feelpp-rb}}
+
+  \begin{itemize}
+    \item Run the module of certified reduced basis of feelpp, on the test case of heat transfer in the human eyeball\footfullcite{saigre_model_2024}.
+    \item Current state: the benchmark application run well, for a various number of parallel tasks, and on various meshes,
+    \item but no figure has been generated yet :/
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{\texttt{app-feelpp-io}}
+
+  Small application that loads a mesh form disk, and write data on it.
+
+  \input{fig/io/figures}
 
 \end{frame}
 

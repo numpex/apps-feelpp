@@ -1,0 +1,53 @@
+% \documentclass[12pt]{article}
+
+% \usepackage{pgf-pie}  % For pie charts
+% \usepackage{currfile} % Required for getting the current file name
+% \usepackage{tikz}     % Required for drawing graphics
+% \usepackage{pgfplots}
+% \usepackage{pgfplotstable}
+% \pgfplotsset{compat=newest}
+% \usepackage{underscore}
+
+
+% \begin{document}
+
+\pgfplotstableread[col sep=comma]{\currfiledir/M1.csv}\dataA
+\pgfplotstableread[col sep=comma]{\currfiledir/M2.csv}\dataB
+\pgfplotstableread[col sep=comma]{\currfiledir/M3.csv}\dataC
+
+\begin{figure}
+
+  \begin{tikzpicture}[scale=0.7]
+    \begin{axis}[
+      width=\textwidth, height=0.6172\textwidth,
+      xlabel={ Number of tasks }, ylabel={ execution time (s) },
+      xticklabels from table={\dataA}{resources.tasks},
+      xtick=data, xtick align=outside,
+      ymajorgrids=true, yminorgrids=true,
+      bar width=7pt,
+      ybar stacked,
+      legend style={at={(1.01,1)},anchor=north west}
+    ]
+
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red ] table [x expr=\coordindex+0.25*1, y=Constructor] {\dataA} ;
+      \addlegendentry{ Constructor }
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green ] table [x expr=\coordindex+0.25*1, y=PostProcessing] {\dataA} ;
+      \addlegendentry{ solve }
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue ] table [x expr=\coordindex+0.25*1, y=solve] {\dataA} ;
+      \addlegendentry{ PostProcessing }
+      \resetstackedplots
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red, forget plot ] table [x expr=\coordindex+0.25*2, y=Constructor] {\dataB} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green, forget plot ] table [x expr=\coordindex+0.25*2, y=PostProcessing] {\dataB} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue, forget plot ] table [x expr=\coordindex+0.25*2, y=solve] {\dataB} ;
+      \resetstackedplots
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red, forget plot ] table [x expr=\coordindex+0.25*3, y=Constructor] {\dataC} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green, forget plot ] table [x expr=\coordindex+0.25*3, y=PostProcessing] {\dataC} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue, forget plot ] table [x expr=\coordindex+0.25*3, y=solve] {\dataC} ;
+
+    \end{axis}
+  \end{tikzpicture}
+
+  \caption{ General Performance (P1) }
+\end{figure}
+
+% \end{document}

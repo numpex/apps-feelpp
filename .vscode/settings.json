@@ -90,6 +90,8 @@
     "ltex.latex.commands": {
         "\\arrayrulecolor{}": "ignore",
         "\\SetTblrInner{}": "ignore",
-        "\\RecustomVerbatimEnvironment{}{}": "ignore"
+        "\\RecustomVerbatimEnvironment{}{}": "ignore",
+        "\\githubBadge[]{}": "ignore",
+        "\\drawBadge[]{}{}": "ignore",
     }
 }
