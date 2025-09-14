@@ -33,15 +33,14 @@
     }
   },
   "options": [
-    "--config-file benchmark/{{use_case_name}}/eye2brain-3d.cfg",
+    "--config-file $PWD/{{input_file_dependencies.config_file}}",
     "--gmsh.filename={{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}",
     "--eye2brain.model-name=eye2brain_{{instance}}",
     "--crb.cvg-study 1",
     "--repository.append.np 0",
     "--directory {{output_directory}}/{{instance}}",
     "--crb.db.id crbdb-eye2brain-{{instance}}",
-    "--crb.load-elements-database 1",
-    "--crb.dimension-max 6"
+    "--crb.load-elements-database 1"
   ],
   "additional_files": {
     "parameterized_descriptions_filepath":"{{output_directory}}/{{instance}}/{{use_case_name}}/heat.information.adoc",
@@ -52,23 +51,23 @@
   },
 
   "scalability": {
-    "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+    "directory": "{{output_directory}}/{{instance}}/",
     "clean_directory": true,
     "stages": [
       {
-        "name": "offline",
+        "name": "crb_time",
         "filepath": "journal.json",
         "format": "json",
-        "variables_path": "crv.offline_time",
+        "variables_path": "crb.*",
         "units": { "*": "s" }
       },
-      {
-        "name": "online",
-        "filepath": "journal.json",
-        "format": "json",
-        "variables_path": "crb.online_*",
-        "units": { "*": "s" }
-      },
+      // {
+      //   "name": "online",
+      //   "filepath": "journal.json",
+      //   "format": "json",
+      //   "variables_path": "crb.online_*",
+      //   "units": { "*": "s" }
+      // },
       {
         "name": "FEM",
         "filepath": "cvg-crb-FemTime.dat",
@@ -105,9 +104,7 @@
       "zip": [
         {
           "name": "tasks",
-          "sequence": [12]
-          // "sequence": [1, 2, 4]
-          //, 8, 12, 24]
+          "sequence": [1, 2, 4, 8, 12, 24]
         },
         {
           "name": "exclusive_access",
@@ -117,9 +114,7 @@
     },
     {
       "name": "mesh",
-      "sequence": ["M3"],
-      //, "M2"],
-      //, "M4", "M5"]
+      "sequence": ["M2", "M3", "M4", "M5"],
       "conditions": {
         "M2": [{ "resources.tasks": [1, 4, 24] }],
         "M3": [{ "resources.tasks": [1, 2, 4, 8, 12, 24] }],
