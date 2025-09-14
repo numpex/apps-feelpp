@@ -1,5 +1,5 @@
 {
-    "executable": "{{machine.output_app_dir}}/../build/default/src/app-feelpp-io/feelpp_app_io",
+    "executable": "$PWD/build/default/src/app-feelpp-io/feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
     "use_case_name": "eye-mesh",
     "timeout":"0-01:00:00",
