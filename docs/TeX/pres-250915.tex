@@ -98,7 +98,7 @@
 
   \begin{lrbox}{\mintedbox}
   \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
-  \begin{minted}[fontsize=\tiny]{json}
+  \begin{minted}[fontsize=\tiny, bgcolor=gray!10]{json}
 {
   "executable": "build/default/src/app-feelpp-io/feelpp_app_io",
   "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
@@ -127,7 +127,7 @@
 
   \begin{lrbox}{\mintedbox}
   \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
-  \begin{minted}[fontsize=\tiny]{json}
+  \begin{minted}[fontsize=\tiny, bgcolor=gray!10]{json}
 {
   "scalability": {
     "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
@@ -178,7 +178,7 @@ JournalManager::journalAdd( time_tree );
 
 \begin{frame}{\texttt{app-feelpp-discr}}
 
-\only<1>{
+\only<1-2>{
   \begin{columns}
   \begin{column}{0.4\textwidth}
       \begin{figure}
@@ -191,13 +191,17 @@ JournalManager::journalAdd( time_tree );
       \begin{itemize}
         \item Execution of the toolbox \emph{heat} on the thermal bridge benchmark\footfullcite{noauthor_iso_2017}.
         \item Execution for various mesh sizes, and order of discretization
+
+        \pause
+
+        \item To be added: Execution of the toolbox \emph{fluid} on the benchmark FDA
       \end{itemize}
   \end{column}
 
   \end{columns}
 }
 
-\only<2>{
+\only<3>{
 
 \SetTblrInner{rowsep=0pt}
 \begin{table}[!ht]
@@ -223,7 +227,7 @@ JournalManager::journalAdd( time_tree );
 \end{table}
 }
 
-\only<3>{
+\only<4>{
   \input{fig/iso10211/figures}
 }
 
@@ -251,8 +255,26 @@ JournalManager::journalAdd( time_tree );
 \end{frame}
 
 
-\section{Conclusion}
+\section{Conclusion / Next steps}
 
-\plain{Questions?}
+\begin{frame}{Conclusion}
+
+  \begin{itemize}
+    \item Repository \texttt{apps-feelpp} to perform performance measures on the library Feel++,
+    \item some applications already included, showing how the application behaves at different order and for various mesh sizes,
+  \end{itemize}
+
+
+
+  \pause
+
+  \textbf{Next steps:}
+  \begin{itemize}
+    \item Trigger the run of benchmark from GitHub action,
+    \item Add other benchmarks (FDA, ...) and applications (\emph{cf} above).
+  \end{itemize}
+
+
+\end{frame}
 
 \end{document}
