@@ -37,7 +37,7 @@ int run()
         tic();
         auto Xh = Pch<ORDER>(mesh);
         time_createFunctionSapce += toc("create function space");
-        Feel::cout << "nDof = " << Xh->nDof() << std::endl;
+        // Feel::cout << "nDof = " << Xh->nDof() << std::endl;
 
         auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
 
