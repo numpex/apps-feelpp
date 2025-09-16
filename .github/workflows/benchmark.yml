@@ -42,7 +42,7 @@ jobs:
         -   name: Get machines configuration
             id: download_systems_config
             run: |
-                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT_WORKFLOW }}' https://gist.githubusercontent.com/thomas-saigre/50760ea0999fb22dbf623c962a3c7664/raw/ad944cdfab26a7183e2d0f44cfb24088eb501a5f/systems.json
+                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT_WORKFLOW }}' https://gist.githubusercontent.com/thomas-saigre/50760ea0999fb22dbf623c962a3c7664/raw/ad944cdfab26a7183e2d0f44cfb24088eb501a5f/systems.json )
                 machine_config=$(jq --compact-output '.' <<< $machine_config)
                 echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
 
