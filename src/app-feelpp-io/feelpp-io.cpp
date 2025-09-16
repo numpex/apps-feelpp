@@ -21,6 +21,7 @@ int run()
 
     double time_loadMesh = 0,
            time_createFunctionSapce = 0,
+           time_saveMesh = 0,
            time_export = 0;
     const int nRun = ioption( "nrun" );
 
@@ -29,10 +30,14 @@ int run()
         tic();
         auto mesh = loadMesh( _mesh=new mesh_t);
         time_loadMesh += toc("loadMesh");
+        // Feel::cout << "nPoints = " << mesh->numGlobalPoints() << std::endl;
+        // Feel::cout << "nEdged = " << mesh->numGlobalEdges() << std::endl;
+        // Feel::cout << "nFaces = " << mesh->numGlobalFaces() << std::endl;
 
         tic();
         auto Xh = Pch<ORDER>(mesh);
         time_createFunctionSapce += toc("create function space");
+        Feel::cout << "nDof = " << Xh->nDof() << std::endl;
 
         auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
 
@@ -42,12 +47,17 @@ int run()
         e->add("u", u);
 
         tic();
+        mesh->saveHDF5(fmt::format("mesh_{}.json", i));
+        time_saveMesh += toc("save mesh");
+
+        tic();
         e->save();
         time_export += toc("export time");
     }
 
     Feel::cout << "Time load mesh " << time_loadMesh / nRun << std::endl;
     Feel::cout << "Time load create function space " << time_createFunctionSapce / nRun << std::endl;
+    Feel::cout << "Time save mesh " << time_saveMesh / nRun << std::endl;
     Feel::cout << "Time to export " << time_export / nRun << std::endl;
 
     nl::json time_measures = {{
@@ -55,6 +65,7 @@ int run()
     }};
     time_measures["time"]["loadMesh"] = time_loadMesh / nRun;
     time_measures["time"]["functionSpace"] = time_createFunctionSapce / nRun;
+    time_measures["time"]["saveMesh"] = time_saveMesh / nRun;
     time_measures["time"]["export"] = time_export / nRun;
 
     if ( Environment::isMasterRank() )
