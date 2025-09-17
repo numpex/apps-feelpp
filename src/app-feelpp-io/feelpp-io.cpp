@@ -42,7 +42,8 @@ int run()
         auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
 
         auto e = exporter( _mesh = mesh,
-                           _name = fmt::format("Export_{}", i)
+                           _name = fmt::format("Export_{}", I),
+                           _geo = "static"
         );
         e->add("u", u);
 
