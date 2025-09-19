@@ -1,0 +1,29 @@
+= App Feelpp I/O
+
+Run the application by hand:
+
+[source, bash]
+----
+feelpp_app_io [--nrun <N> --dimension <DIM> --discretization <DISC> --gmsh.filename <path>]
+----
+with the following options:
+
+- `--nrun` the number of time where the process is iterated
+- `--dimension` the dimension of the case, can be `2` or `3` (default `3`)
+- `--discretization` the order of discretization, can be from `P1` to  `P6` (default `P1`)
+- `--gmsh.filename` the path to the mesh desired. The other options related to gmsh can be used as well (`gmsh.hsize`, ...)
+
+
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-io/feelpp-io.json -rc src/config/gaya/reframe.py
+----
+
+--plots-config src/app-feelpp-discr-1/heat_plots.json --website
+
+
+[source, bash]
+----
+feelpp-benchmarking-render --plot-configs src/app-feelpp-io/plots.json --patch-reports gaya:all:all:all -sp
+----
