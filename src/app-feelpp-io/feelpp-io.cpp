@@ -20,8 +20,11 @@ int run()
     using namespace Feel;
 
     double time_loadMesh = 0,
-           time_createFunctionSapce = 0,
+           time_createFunctionSpace = 0,
+           time_createFunctionSpaceV = 0,
            time_saveMesh = 0,
+           time_saveField = 0,
+           time_saveFieldV = 0,
            time_export = 0;
     const int nRun = ioption( "nrun" );
 
@@ -35,38 +38,59 @@ int run()
         // Feel::cout << "nFaces = " << mesh->numGlobalFaces() << std::endl;
 
         tic();
-        auto Xh = Pch<ORDER>(mesh);
-        time_createFunctionSapce += toc("create function space");
+        auto Xh = Pch<ORDER>(mesh);     // Scalar function space
+        time_createFunctionSpace += toc("create function space");
+
+        tic();
+        auto Xhv = Pchv<ORDER>(mesh);
+        time_createFunctionSpaceV += toc("create vectorial function space");
         // Feel::cout << "nDof = " << Xh->nDof() << std::endl;
 
         auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
+        auto uV = Xhv->element( "{x+y+z,x+y+z,x+y+z}:x:y:z" );
 
         auto e = exporter( _mesh = mesh,
-                           _name = fmt::format("Export_{}", I),
+                           _name = fmt::format("Export_{}", i),
                            _geo = "static"
         );
-        e->add("u", u);
+
+        tic();
+        u.save(_name = fmt::format("u_{}.h5", i), _path = ".");
+        time_saveField += toc("save field");
+
+        tic();
+        uV.save(_name = fmt::format("uV_{}.h5", i), _path = ".");
+        time_saveFieldV += toc("save vector field");
+
 
         tic();
         mesh->saveHDF5(fmt::format("mesh_{}.json", i));
         time_saveMesh += toc("save mesh");
 
         tic();
+        e->add("u", u);     // interpolate to P1 before saving
+        e->add("uV", uV);
         e->save();
         time_export += toc("export time");
     }
 
     Feel::cout << "Time load mesh " << time_loadMesh / nRun << std::endl;
-    Feel::cout << "Time load create function space " << time_createFunctionSapce / nRun << std::endl;
+    Feel::cout << "Time load create function space " << time_createFunctionSpace / nRun << std::endl;
+    Feel::cout << "Time load create vectorial function space " << time_createFunctionSpaceV / nRun << std::endl;
     Feel::cout << "Time save mesh " << time_saveMesh / nRun << std::endl;
+    Feel::cout << "Time save field " << time_saveField / nRun << std::endl;
+    Feel::cout << "Time save vector field " << time_saveFieldV / nRun << std::endl;
     Feel::cout << "Time to export " << time_export / nRun << std::endl;
 
     nl::json time_measures = {{
         "time", {}
     }};
     time_measures["time"]["loadMesh"] = time_loadMesh / nRun;
-    time_measures["time"]["functionSpace"] = time_createFunctionSapce / nRun;
+    time_measures["time"]["functionSpace"] = time_createFunctionSpace / nRun;
+    time_measures["time"]["functionSpaceV"] = time_createFunctionSpaceV / nRun;
     time_measures["time"]["saveMesh"] = time_saveMesh / nRun;
+    time_measures["time"]["saveField"] = time_saveField / nRun;
+    time_measures["time"]["saveFieldV"] = time_saveFieldV / nRun;
     time_measures["time"]["export"] = time_export / nRun;
 
     if ( Environment::isMasterRank() )
