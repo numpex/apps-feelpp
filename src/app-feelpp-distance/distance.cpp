@@ -72,135 +72,6 @@ int main(int argc, char**argv )
             ("M", po::value<int>()->default_value( 100 ), "sampling points")
         ;
 
-        Environment env(_argc=argc, _argv=argv,
-                        _desc=distop,
-                        _about=about(_name="qs_dist_3d",
-                                    _author="Feel++ Consortium",
-                                    _email="feelpp-devel@feelpp.org") );
-
-        using bvh_ray_type = BVHRay<FEELPP_DIM>;
-
-        // Load parameters
-        double h_ = doption(_name="h");
-        // int M = ioption(_name="M");
-        std::string filename = soption(_name="gmsh.filename");
-
-        // Load the mesh
-        tic();
-        auto mesh_ = loadMesh( _mesh = new Mesh<Simplex<FEELPP_DIM,1>>, _filename = filename, _h = h_);
-        toc("loadMesh");
-
-        // Define exporter
-        auto Xh_ = Pch<1>( mesh_, elements( mesh_) );
-        auto e_ = Feel::exporter(_mesh = mesh_, _name = "distance_from_boundary" );
-        e_->addRegions();
-
-        // FMM
-
-        tic();
-        auto d_FMM = distanceToRange(_space = Xh_, _range = markedfaces(mesh_, "wall"));
-        toc("distance_FMM");
-        e_->add( "d_FMM", d_FMM );
-
-
-        // Ray-Tracing with BVH
-
-
-        tic();
-
-        // Define distance field
-        auto d_BVH = Xh_->element();
-
-        // Preprocessing
-        auto bvhThirdParty = boundingVolumeHierarchy(_range=markedfaces(mesh_, "wall"), _kind="third-party");
-
-
-        Eigen::VectorXd origin(FEELPP_DIM);
-        Eigen::VectorXd dir(FEELPP_DIM);
-        dir << 0, -1, 0;
-
-
-        std::vector<std::size_t> faceIDs;
-        BVHRaysDistributed<FEELPP_DIM> allrays;
-
-        for ( auto const& theface : markedfaces( mesh_, "boundary" ) )
-        {
-            auto & face = boost::unwrap_ref( theface );
-
-            auto &point = face.point(0);
-            if (point.isOnBoundary())
-            {
-                origin << point.node()[0], point.node()[1], point.node()[2];
-
-                bvh_ray_type ray(origin,dir);
-
-                allrays.push_back(std::move(ray));
-                faceIDs.push_back(face.id());
-            }
-
-        }
-
-
-
-        auto multiRayIntersectionResult = bvhThirdParty->intersect(_ray=allrays);
-
-        for (auto const& [fid,rirs] : enumerate(multiRayIntersectionResult))
-        {
-            for (auto const& [rid,rir] : enumerate(rirs))
-            {
-                for (auto const& ldof : Xh_->dof()->faceLocalDof(faceIDs[fid]))
-                    d_BVH[ldof.index()] = rir.distance();
-            }
-
-        }
-
-        e_->add( "d_BVH", d_BVH );
-        toc("bvh");
-
-
-        // Compute exact solution
-        tic();
-        auto d_exact = Xh_->element();
-        auto d_exact_expr = expr("sqrt(1 - x*x - z*z):x:z");
-        d_exact.on(_range=elements(support(Xh_)), _expr = d_exact_expr);
-        e_->add( "d_exact", d_exact );
-        toc("exact");
-        e_->save();
-
-        // Compute errors
-        auto L2_error_FMM = normL2( _range=markedfaces(mesh_,"boundary"), _expr = d_exact_expr - idv(d_FMM) );
-        auto L2_error_BVH = normL2( _range=markedfaces(mesh_,"boundary"), _expr = d_exact_expr - idv(d_BVH) );
-
-        if ( Environment::isMasterRank() )
-        {
-            std::cout << "L2_error_FMM: " << L2_error_FMM << std::endl;
-            std::cout << "L2_error_BVH: " << L2_error_BVH << std::endl;
-        }
-
-        return 0;
-
-    }
-    catch(...)
-    {
-        handleExceptions();
-    }
-    return 1;
-}
-
-/*
-int main(int argc, char**argv )
-{
-
-    using Feel::cout;
-
-    try
-    {
-        po::options_description distop( "Distance options" );
-        distop.add_options()
-            ("h", po::value<double>()->default_value( 0.1 ), "mesh size" )
-            ("M", po::value<int>()->default_value( 100 ), "sampling points")
-        ;
-
         Environment env( _argc=argc, _argv=argv,
                         _desc=distop,
                         _about=about(_name="qs_dist_3d",
@@ -221,13 +92,13 @@ int main(int argc, char**argv )
 
         // Define exporter
         auto Xh_ = Pch<1>( mesh_, elements( mesh_) );
-        auto e_ = Feel::exporter(_mesh = mesh_, _name = "distance_from_boundary" );
+        auto e_ = Feel::exporter(_mesh = mesh_, _name = "distance_from_boundary", _geo = "static" );
         e_->addRegions();
 
         // FMM
         tic();
         auto d_FMM = distanceToRange(_space = Xh_, _range = markedfaces(mesh_, "boundary"));
-        toc("distance_FMM");
+        double time_FMM = toc("distance_FMM");
         e_->add( "d_FMM", d_FMM );
 
         // Ray-Tracing with BVH
@@ -305,7 +176,7 @@ int main(int argc, char**argv )
         }
         //toc("rays");
         //tic();
-        auto multiRayIntersectionResult = bvhThirdParty->intersect(_ray=allrays, _parallel=false);
+        auto multiRayIntersectionResult = bvhThirdParty->intersect(_ray=allrays, _parallel=true);
         //toc("intersection");
         //tic();
         // Get distance
@@ -319,8 +190,8 @@ int main(int argc, char**argv )
             if (fid % M == M - 1)
                 d_BVH[origins[static_cast<int>(fid / M)].id] = *(std::min_element(dist.begin(), dist.end()));
         }
+        double time_BVH = toc("bvh");
         e_->add( "d_BVH", d_BVH );
-        toc("bvh");
 
         // Get min for each point
         //for (int k = 0; k < pointIDs.size(); k++)
@@ -339,13 +210,28 @@ int main(int argc, char**argv )
         e_->save();
 
         // Compute errors
-        auto L2_error_FMM = normL2( _range=elements(mesh_), _expr = d_exact_expr - idv(d_FMM) );
-        auto L2_error_BVH = normL2( _range=elements(mesh_), _expr = d_exact_expr - idv(d_BVH) );
+        auto L2_error_FMM = normL2( _range = elements(mesh_), _expr = d_exact_expr - idv(d_FMM) );
+        auto L2_error_BVH = normL2( _range = elements(mesh_), _expr = d_exact_expr - idv(d_BVH) );
+
+        nl::json measures = {
+            { "time", {} },
+            { "error", {} }
+        };
+
+        measures["error"]["L2_error_FMM"] = L2_error_FMM;
+        measures["error"]["L2_error_BVH"] = L2_error_BVH;
+        measures["time"]["time_FMM"] = time_FMM;
+        measures["time"]["time_BVH"] = time_BVH;
+
 
         if ( Environment::isMasterRank() )
         {
             std::cout << "L2_error_FMM: " << L2_error_FMM << std::endl;
             std::cout << "L2_error_BVH: " << L2_error_BVH << std::endl;
+
+            std::ofstream ofs("measures.json");
+            ofs << measures.dump(2);
+            ofs.close();
         }
 
         return 0;
@@ -357,4 +243,3 @@ int main(int argc, char**argv )
     }
     return 1;
 }
-*/
