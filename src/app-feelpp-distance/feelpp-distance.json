@@ -2,7 +2,7 @@
   "executable": "$PWD/build/default/src/app-feelpp-distance/feelpp_app_distance",
   "output_directory": "{{machine.output_app_dir}}/app-feelpp-distance/distance",
   "use_case_name": "distance",
-  "timeout": "0-01:00:00",
+  "timeout": "0-02:00:00",
   "resources": {
     "tasks": "{{parameters.tasks.value}}",
     "exclusive_access": false
@@ -77,11 +77,11 @@
     },
     {
       "name": "h",
-      "sequence": [0.06, 0.03, 0.015, 0.0075]
+      "sequence": [0.12, 0.06, 0.03, 0.015]
     },
     {
       "name": "M",
-      "sequence": [1000, 1500, 2000, 2500, 3000]
+      "sequence": [1000, 1500, 2000, 2500]
     }
 	]
 }
