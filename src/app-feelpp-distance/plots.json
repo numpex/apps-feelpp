@@ -1,0 +1,18 @@
+{
+  "plots": [
+    {
+      "title": "Errors",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["errors_L2_error_BVH", "errors_L2_error_FMM"],
+      "names": ["BVH", "FMM"],
+      "xaxis":{
+        "parameter": "tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Error"
+      }
+    }
+  ]
+}

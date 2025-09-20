@@ -1,0 +1,1 @@
+feelpp_add_application(distance SRCS distance.cpp DEFS FEELPP_DIM=3)

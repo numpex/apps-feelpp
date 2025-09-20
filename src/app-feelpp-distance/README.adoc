@@ -1,0 +1,23 @@
+= App Feelpp Distance
+
+Run the application by hand:
+
+[source, bash]
+----
+feelpp_app_distance [--h <h> --M <M> --config-file <path>]
+----
+
+
+
+[source, bash]
+----
+feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-distance/feelpp-distance.json -rc src/config/gaya/reframe.py
+----
+
+--plots-config src/app-feelpp-discr-1/heat_plots.json --website
+
+
+[source, bash]
+----
+feelpp-benchmarking-render --plot-configs src/app-feelpp-distance/plots.json --patch-reports gaya:all:all:all -sp
+----
