@@ -1,17 +1,93 @@
 {
   "plots": [
     {
-      "title": "Errors",
+      "title": "Errors BVH",
       "plot_types": ["scatter"],
       "transformation": "performance",
-      "variables": ["errors_L2_error_BVH", "errors_L2_error_FMM"],
-      "names": ["BVH", "FMM"],
+      "variables": ["errors_L2_error_BVH"],
+      "names": ["BVH"],
       "xaxis":{
         "parameter": "tasks",
         "label": "Number of tasks"
       },
       "yaxis":{
         "label": "Error"
+      },
+      "color_axis":{
+        "parameter": "h",
+        "label": "h"
+      },
+      "secondary_axis":{
+        "parameter": "M",
+        "label": "M"
+      }
+    },
+    {
+      "title": "Errors FMM",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["errors_L2_error_FMM"],
+      "names": ["FMM"],
+      "xaxis":{
+        "parameter": "tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Error"
+      },
+      "color_axis":{
+        "parameter": "h",
+        "label": "h"
+      },
+      "secondary_axis":{
+        "parameter": "M",
+        "label": "M"
+      }
+    },
+
+
+    {
+      "title": "Time BVH",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["times_time_BVH"],
+      "names": ["BVH"],
+      "xaxis":{
+        "parameter": "tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "h",
+        "label": "h"
+      },
+      "secondary_axis":{
+        "parameter": "M",
+        "label": "M"
+      }
+    },
+    {
+      "title": "Time FMM",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["times_time_FMM"],
+      "names": ["FMM"],
+      "xaxis":{
+        "parameter": "tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "h",
+        "label": "h"
+      },
+      "secondary_axis":{
+        "parameter": "M",
+        "label": "M"
       }
     }
   ]
