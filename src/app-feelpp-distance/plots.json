@@ -7,8 +7,8 @@
       "variables": ["errors_L2_error_BVH"],
       "names": ["BVH"],
       "xaxis":{
-        "parameter": "tasks",
-        "label": "Number of tasks"
+        "parameter": "M",
+        "label": "M"
       },
       "yaxis":{
         "label": "Error"
@@ -18,8 +18,30 @@
         "label": "h"
       },
       "secondary_axis":{
+        "parameter": "tasks",
+        "label": "number of tasks"
+      }
+    },
+    {
+      "title": "Errors BVH",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["errors_L2_error_BVH"],
+      "names": ["BVH"],
+      "xaxis":{
+        "parameter": "h",
+        "label": "h"
+      },
+      "yaxis":{
+        "label": "Error"
+      },
+      "color_axis":{
         "parameter": "M",
         "label": "M"
+      },
+      "secondary_axis":{
+        "parameter": "tasks",
+        "label": "number of tasks"
       }
     },
     {
@@ -29,19 +51,19 @@
       "variables": ["errors_L2_error_FMM"],
       "names": ["FMM"],
       "xaxis":{
-        "parameter": "tasks",
-        "label": "Number of tasks"
+        "parameter": "h",
+        "label": "h"
       },
       "yaxis":{
         "label": "Error"
       },
       "color_axis":{
-        "parameter": "h",
-        "label": "h"
-      },
-      "secondary_axis":{
         "parameter": "M",
         "label": "M"
+      },
+      "secondary_axis":{
+        "parameter": "tasks",
+        "label": "tasks"
       }
     },
 

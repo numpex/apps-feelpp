@@ -1,20 +1,23 @@
 = App Feelpp Distance
 
+In this mini-app, we take a cubic geometry, and compute the distance of each node to the border of the geometry.
+
 Run the application by hand:
 
 [source, bash]
 ----
-feelpp_app_distance [--h <h> --M <M> --config-file <path>]
+feelpp_app_distance [--h <h> --M <M> --gmsh.filename <path>]
 ----
 
+- `h` is the size of the mesh
+- `M` is the number of ray casted for the BVH method
+- `gmsh.filename` is the path to the geometry (or the mesh). This geometry should contain a physical marker named `boundary`.
 
 
 [source, bash]
 ----
 feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-distance/feelpp-distance.json -rc src/config/gaya/reframe.py
 ----
-
---plots-config src/app-feelpp-discr-1/heat_plots.json --website
 
 
 [source, bash]
