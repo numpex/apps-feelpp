@@ -44,11 +44,77 @@
         "label": "Discretization"
       }
     },
-        {
+    {
+      "title": "Time to generate vectorial function space",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_functionSpaceV"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      }
+    },
+    {
       "title": "Time to export Mesh",
       "plot_types": ["scatter"],
       "transformation": "performance",
       "variables": ["timeMeasures_saveMesh"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      }
+    },
+    {
+      "title": "Time to write field on disk",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_saveField"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      }
+    },
+    {
+      "title": "Time to write vector field on disk",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_saveFieldV"],
       "names": ["ksp"],
       "xaxis":{
         "parameter": "resources.tasks",
@@ -88,6 +154,10 @@
         "label": "Discretization"
       }
     },
+
+
+
+
     {
       "title": "Time to load mesh",
       "plot_types": ["scatter"],
@@ -132,11 +202,77 @@
         "label": "Number of tasks"
       }
     },
+        {
+      "title": "Time to create vectorial function space",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_functionSpaceV"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      }
+    },
     {
       "title": "Time to save mesh",
       "plot_types": ["scatter"],
       "transformation": "performance",
       "variables": ["timeMeasures_saveMesh"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      }
+    },
+    {
+      "title": "Time to write field on disk",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_saveField"],
+      "names": ["ksp"],
+      "xaxis":{
+        "parameter": "discretization",
+        "label": "Discretization"
+      },
+      "yaxis":{
+        "label": "Time [s]"
+      },
+      "color_axis":{
+        "parameter": "mesh",
+        "label": "Mesh"
+      },
+      "secondary_axis":{
+        "parameter": "resources.tasks",
+        "label": "Number of tasks"
+      }
+    },
+        {
+      "title": "Time to write vector field on disk",
+      "plot_types": ["scatter"],
+      "transformation": "performance",
+      "variables": ["timeMeasures_saveFieldV"],
       "names": ["ksp"],
       "xaxis":{
         "parameter": "discretization",
@@ -175,78 +311,6 @@
         "parameter": "resources.tasks",
         "label": "Number of tasks"
       }
-    },
-    {
-      "title": "General Performance (P1)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export", "SaveMesh" ],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P1"} ]
-    },
-    {
-      "title": "General Performance (P2)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export", "SaveMesh" ],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P2"} ]
-    },
-    {
-      "title": "General Performance (P3)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export", "SaveMesh" ],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P3"} ]
-    },
-    {
-      "title": "General Performance (P4)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export", "SaveMesh" ],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P4"} ]
-    },
-    {
-      "title": "General Performance (P5)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export", "SaveMesh" ],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P5"} ]
-    },
-    {
-      "title": "General Performance (P6)",
-      "plot_types": ["stacked_bar", "grouped_bar"],
-      "transformation": "performance",
-      "variables": ["timeMeasures_loadMesh","timeMeasures_functionSpace","timeMeasures_export","timeMeasures_saveMesh"],
-      "names": ["LoadMesh", "CreateFunctionSpace", "Export" , "SaveMesh"],
-      "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
-      "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
-      "yaxis": { "label": "execution time (s)" },
-      "color_axis":{ "parameter": "performance_variable", "label": "Performance variable" },
-      "aggregations": [ {"column": "discretization", "agg": "filter:P6"} ]
     }
   ]
 }

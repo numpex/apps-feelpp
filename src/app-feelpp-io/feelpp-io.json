@@ -33,7 +33,8 @@
         "--directory {{output_directory}}/{{instance}}/{{use_case_name}}",
         "--discretization {{parameters.discretization.value}}",
         "--repository.append.np 0",
-        "--gmsh.filename $PWD/{{input_file_dependencies.mesh_json}}"
+        "--gmsh.filename $PWD/{{input_file_dependencies.mesh_json}}",
+        "--nrun 2"
     ],
     "additional_files":{
         "custom_logs":[
