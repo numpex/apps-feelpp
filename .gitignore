@@ -71,7 +71,9 @@ outputs/
 # TeX files
 *.aux
 *.bbl
+*.bbl-SAVE-ERROR
 *.bcf
+*.bcf-SAVE-ERROR
 *.blg
 *.chl
 *.fdb_latexmk
@@ -81,8 +83,11 @@ outputs/
 *.pdf
 *.run.xml
 *.synctex.gz
+*.toc
+*.vrb
 *.xdv
 *-blx.bib
+**/_minted/*
 
 .spack/*
 # Spack files

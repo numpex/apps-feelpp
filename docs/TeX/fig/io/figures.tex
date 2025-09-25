@@ -1,0 +1,65 @@
+% \documentclass[12pt]{article}
+
+% \usepackage{pgf-pie}  % For pie charts
+% \usepackage{currfile} % Required for getting the current file name
+% \usepackage{tikz}     % Required for drawing graphics
+% \usepackage{pgfplots}
+% \usepackage{pgfplotstable}
+% \pgfplotsset{compat=newest}
+% \usepackage{underscore}
+
+% \makeatletter
+% \newcommand\resetstackedplots{
+% \makeatletter
+% \pgfplots@stacked@isfirstplottrue
+% \makeatother
+% }
+
+% \begin{document}
+
+\pgfplotstableread[col sep=comma]{\currfiledir/M2.csv}\dataA
+\pgfplotstableread[col sep=comma]{\currfiledir/M3.csv}\dataB
+\pgfplotstableread[col sep=comma]{\currfiledir/M4.csv}\dataC
+\pgfplotstableread[col sep=comma]{\currfiledir/M5.csv}\dataD
+
+
+\begin{figure}
+
+  \begin{tikzpicture}[scale=0.7]
+    \begin{axis}[
+      width=\textwidth, height=0.6172\textwidth,
+      xlabel={ Number of tasks }, ylabel={ execution time (s) },
+      xticklabels from table={\dataA}{resources.tasks},
+      xtick=data, xtick align=outside,
+      ymajorgrids=true, yminorgrids=true,
+      bar width=7pt,
+      ybar stacked,
+      legend style={at={(1.01,1)},anchor=north west}
+    ]
+
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red ] table [x expr=\coordindex+0.25*1, y=Export] {\dataA} ;
+      \addlegendentry{ LoadMesh }
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green ] table [x expr=\coordindex+0.25*1, y=CreateFunctionSpace] {\dataA} ;
+      \addlegendentry{ CreateFunctionSpace }
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue ] table [x expr=\coordindex+0.25*1, y=LoadMesh] {\dataA} ;
+      \addlegendentry{ Export }
+      \resetstackedplots
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red, forget plot ] table [x expr=\coordindex+0.25*2, y=Export] {\dataB} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green, forget plot ] table [x expr=\coordindex+0.25*2, y=CreateFunctionSpace] {\dataB} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue, forget plot ] table [x expr=\coordindex+0.25*2, y=LoadMesh] {\dataB} ;
+      \resetstackedplots
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red, forget plot ] table [x expr=\coordindex+0.25*3, y=Export] {\dataC} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green, forget plot ] table [x expr=\coordindex+0.25*3, y=CreateFunctionSpace] {\dataC} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue, forget plot ] table [x expr=\coordindex+0.25*3, y=LoadMesh] {\dataC} ;
+      \resetstackedplots
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=red, forget plot ] table [x expr=\coordindex+0.25*4, y=Export] {\dataD} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=green, forget plot ] table [x expr=\coordindex+0.25*4, y=CreateFunctionSpace] {\dataD} ;
+      \addplot+[ybar, bar width=0.2,point meta=y,draw=black,fill=blue, forget plot ] table [x expr=\coordindex+0.25*4, y=LoadMesh] {\dataD} ;
+
+    \end{axis}
+  \end{tikzpicture}
+
+  \caption{ General Performance (P1) }
+\end{figure}
+
+% \end{document}
