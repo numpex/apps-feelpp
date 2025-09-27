@@ -12,37 +12,19 @@
 #include <feel/feeldiscr/pch.hpp>
 #include <feel/feelfilters/exporter.hpp>
 
-#ifndef FEELPP_DIM // Default value for IDE satisfaction, values are set in CMakeLists
-#define FEELPP_DIM 2
-#endif
-#ifndef ORDER
-#define ORDER 2
-#endif
 
-
-int main(int argc, char** argv)
+template <int DIM, int ORDER>
+int run()
 {
+    using mesh_t = Feel::Mesh<Feel::Simplex<DIM, 1>>;
     using namespace Feel;
-    po::options_description myoptions("my options");
-
-    using mesh_t = Feel::Mesh<Feel::Simplex<FEELPP_DIM, 1>>;
-    // using exporter_t = Exporter<mesh_t, ORDER>;
-    // using Function_t =
-
-    myoptions.add_options()
-        ( "nrun", Feel::po::value<int>()->default_value(10))
-    ;
-
-    Environment env( _argc=argc, _argv=argv,
-                     _desc=myoptions,
-                     _about=about(_name="Feelpp I/O",
-                                  _author="Feel++ Consortium",
-                                  _email="feelpp-devel@feelpp.org"));
-
-    std::cout << "Hello world" << std::endl;
 
     double time_loadMesh = 0,
-           time_createFunctionSapce = 0,
+           time_createFunctionSpace = 0,
+           time_createFunctionSpaceV = 0,
+           time_saveMesh = 0,
+           time_saveField = 0,
+           time_saveFieldV = 0,
            time_export = 0;
     const int nRun = ioption( "nrun" );
 
@@ -51,36 +33,64 @@ int main(int argc, char** argv)
         tic();
         auto mesh = loadMesh( _mesh=new mesh_t);
         time_loadMesh += toc("loadMesh");
+        // Feel::cout << "nPoints = " << mesh->numGlobalPoints() << std::endl;
+        // Feel::cout << "nEdged = " << mesh->numGlobalEdges() << std::endl;
+        // Feel::cout << "nFaces = " << mesh->numGlobalFaces() << std::endl;
 
         tic();
-        auto Xh = Pch<ORDER>(mesh);
-        time_createFunctionSapce += toc("create function space");
+        auto Xh = Pch<ORDER>(mesh);     // Scalar function space
+        time_createFunctionSpace += toc("create function space");
 
-        #if FEELPP_DIM == 2
-            auto u = Xh->element(Px() * Px() + 4 * Py());
-        #else
-            auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
-        #endif
+        tic();
+        auto Xhv = Pchv<ORDER>(mesh);
+        time_createFunctionSpaceV += toc("create vectorial function space");
+        // Feel::cout << "nDof = " << Xh->nDof() << std::endl;
+
+        auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
+        auto uV = Xhv->element( "{x+y+z,x+y+z,x+y+z}:x:y:z" );
 
         auto e = exporter( _mesh = mesh,
-                           _name = fmt::format("Export_{}", i)
+                           _name = fmt::format("Export_{}", i),
+                           _geo = "static"
         );
-        e->add("u", u);
 
         tic();
+        u.save(_name = fmt::format("u_{}.h5", i), _path = ".");
+        time_saveField += toc("save field");
+
+        tic();
+        uV.save(_name = fmt::format("uV_{}.h5", i), _path = ".");
+        time_saveFieldV += toc("save vector field");
+
+
+        tic();
+        mesh->saveHDF5(fmt::format("mesh_{}.json", i));
+        time_saveMesh += toc("save mesh");
+
+        tic();
+        e->add("u", u);     // interpolate to P1 before saving
+        e->add("uV", uV);
         e->save();
-        time_export += toc("expirt time");
+        time_export += toc("export time");
     }
 
     Feel::cout << "Time load mesh " << time_loadMesh / nRun << std::endl;
-    Feel::cout << "Time load create function space " << time_createFunctionSapce / nRun << std::endl;
+    Feel::cout << "Time load create function space " << time_createFunctionSpace / nRun << std::endl;
+    Feel::cout << "Time load create vectorial function space " << time_createFunctionSpaceV / nRun << std::endl;
+    Feel::cout << "Time save mesh " << time_saveMesh / nRun << std::endl;
+    Feel::cout << "Time save field " << time_saveField / nRun << std::endl;
+    Feel::cout << "Time save vector field " << time_saveFieldV / nRun << std::endl;
     Feel::cout << "Time to export " << time_export / nRun << std::endl;
 
     nl::json time_measures = {{
         "time", {}
     }};
     time_measures["time"]["loadMesh"] = time_loadMesh / nRun;
-    time_measures["time"]["functionSpace"] = time_createFunctionSapce / nRun;
+    time_measures["time"]["functionSpace"] = time_createFunctionSpace / nRun;
+    time_measures["time"]["functionSpaceV"] = time_createFunctionSpaceV / nRun;
+    time_measures["time"]["saveMesh"] = time_saveMesh / nRun;
+    time_measures["time"]["saveField"] = time_saveField / nRun;
+    time_measures["time"]["saveFieldV"] = time_saveFieldV / nRun;
     time_measures["time"]["export"] = time_export / nRun;
 
     if ( Environment::isMasterRank() )
@@ -89,4 +99,52 @@ int main(int argc, char** argv)
         ofs << time_measures.dump(2);
         ofs.close();
     }
+
+    return 0;
+}
+
+
+int main(int argc, char** argv)
+{
+    using namespace Feel;
+
+    po::options_description myoptions("my options");
+    myoptions.add_options()
+        ( "nrun", Feel::po::value<int>()->default_value(10) )
+        ( "dimension", Feel::po::value<int>()->default_value(3) )
+        ( "discretization", Feel::po::value<std::string>()->default_value("P1") )
+    ;
+
+    Environment env( _argc=argc, _argv=argv,
+                     _desc=myoptions,
+                     _about=about(_name="Feelpp I/O",
+                                  _author="Feel++ Consortium",
+                                  _email="feelpp-devel@feelpp.org"));
+
+    int dimension = ioption(_name="dimension");
+    std::string discretization = soption(_name="discretization");
+    int status = 0;
+
+    auto dimt = hana::make_tuple(hana::int_c<2>,hana::int_c<3>);
+    auto discretizationt = hana::make_tuple( hana::make_tuple("P1", hana::int_c<1> ),
+                                             hana::make_tuple("P2", hana::int_c<2> ),
+                                             hana::make_tuple("P3", hana::int_c<3> ),
+                                             hana::make_tuple("P4", hana::int_c<4> ),
+                                             hana::make_tuple("P5", hana::int_c<5> ),
+                                             hana::make_tuple("P6", hana::int_c<6> )
+    );
+
+    hana::for_each( hana::cartesian_product(hana::make_tuple(dimt, discretizationt)), [&discretization, &dimension, &status]( auto const& d )
+    {
+        constexpr int _dimension = std::decay_t<decltype(hana::at_c<0>(d))>::value;
+        std::string const& _discretization = hana::at_c<0>( hana::at_c<1>(d) );
+        constexpr int _order = std::decay_t<decltype(hana::at_c<1>(hana::at_c<1>(d)))>::value;
+
+        if (dimension == _dimension && discretization == _discretization)
+        {
+            status = run<_dimension, _order>();
+        }
+    } );
+
+    return status;
 }
