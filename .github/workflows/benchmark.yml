@@ -113,7 +113,7 @@ jobs:
         timeout-minutes: 7200
         name: ${{matrix.machine}}
         steps:
-        -   uses: actions/checkout@v5
+        -   uses: actions/checkout@v6
 
         -   name: Create machine config
             run: |
@@ -170,7 +170,7 @@ jobs:
         name: Stage results
         if: ${{ github.event.inputs.create_pr == 'true' || github.event.client_payload.create_pr == 'true' }}
         steps:
-        -   uses: actions/checkout@v5
+        -   uses: actions/checkout@v6
 
         -   name: Download results
             uses: actions/download-artifact@v5
@@ -235,7 +235,7 @@ jobs:
         if: ${{ github.event.inputs.create_website == 'true' || github.event.client_payload.create_website == 'true' }}
         steps:
 
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   name: Download results
                 uses: actions/download-artifact@v5
