@@ -28,7 +28,7 @@
         "@antora/site-generator": "~3.1.14",
         "@antora/site-generator-default": "~3.1.14",
         "@asciidoctor/core": "~2.2.8",
-        "@feelpp/asciidoctor-extensions": "1.0.0-rc.13",
+        "@feelpp/asciidoctor-extensions": "1.0.0-rc.15",
         "asciidoctor": "~2.2.8",
         "asciidoctor-jupyter": "^0.7.0",
         "asciidoctor-kroki": "^0.18.1",
