@@ -1,4 +1,42 @@
-= Apps-Feelpp
-:page-layout: toolboxes
-:page-tags: catalog, catalog-index
-:docdatetime: 2025-07-10T13:37:50
+:imagesprefix:
+ifdef::env-github,env-browser,env-vscode[:imagesprefix: ../images/]
+= feelpp.benchmarking
+:page-layout: manuals
+:page-cards-tag: benchmark,report,machine,application,usecase,example
+:page-tags: dashboard_index
+:page-cards-within-module: false
+:docdatetime: 2025-12-09:10:33:57
+
+- Feel++ Benchmarking Version : 4.0.0
+
+== Overview
+
+=== Latest benchmarks
+
+
+
+
+
+
+
+[.scrollable]
+--
+[cols="^1,^2,^1,^1,^1, options="header"]
+|===
+| Status | Date | machine | application | Use Case
+
+|🟢 | 2025-12-09 10:30:47 | gaya | feelpp_app_io | eye-mesh
+|🟢 | 2025-12-09 10:27:36 | gaya | feelpp_app_io | eye-mesh
+
+|===
+--
+
+++++
+<input type="text" class="filter-button" id="filterParamTable" placeholder="Filter testcases..." style="margin-bottom:0.5em;padding:0.3em;width:50%;">
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const table = document.querySelector('.scrollable table');
+    initTable(table, 'filterParamTable');
+  });
+</script>
+++++
