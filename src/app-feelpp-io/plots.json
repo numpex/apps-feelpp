@@ -171,7 +171,7 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P1 disc.)",
-                                "plot_types": [ "stacked_bar", "grouped_bar" ],
+                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
@@ -194,7 +194,7 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P2 disc.)",
-                                "plot_types": [ "stacked_bar", "grouped_bar" ],
+                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
@@ -217,7 +217,7 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P3 disc.)",
-                                "plot_types": [ "stacked_bar", "grouped_bar" ],
+                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
