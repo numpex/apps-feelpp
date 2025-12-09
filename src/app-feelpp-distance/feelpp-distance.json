@@ -1,87 +1,86 @@
 {
-  "executable": "$PWD/build/default/src/app-feelpp-distance/feelpp_app_distance",
-  "output_directory": "{{machine.output_app_dir}}/app-feelpp-distance/distance",
-  "use_case_name": "distance",
-  "timeout": "0-02:00:00",
-  "resources": {
-    "tasks": "{{parameters.tasks.value}}",
-    "exclusive_access": false
-  },
-  "input_file_dependencies": {
-    "config": "src/app-feelpp-distance/dist2.cfg",
-    "geometry": "src/app-feelpp-distance/dist.geo"
-  },
-  "platforms": {
-    "apptainer": {
-      "image": {
-        "filepath": "{{machine.containers.apptainer.image_base_dir}}/feelpp-noble.sif"
-      },
-      "input_dir": "/input_data",
-      "options": [
-        "--home {{machine.output_app_dir}}",
-        "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
-        "--env OMP_NUM_THREADS=1"
-      ],
-      "append_app_option": []
+    "executable": "$PWD/build/default/src/app-feelpp-distance/feelpp_app_distance",
+    "output_directory": "{{machine.output_app_dir}}/app-feelpp-distance/distance",
+    "use_case_name": "distance",
+    "timeout": "0-02:00:00",
+    "resources": {
+        "tasks": "{{parameters.tasks.value}}",
+        "exclusive_access": false
     },
-    "builtin": {
-      "input_dir": "{{machine.input_dataset_base_dir}}",
-      "append_app_option": []
-    }
-  },
-  "options": [
-    "--directory {{output_directory}}/{{instance}}/{{use_case_name}}",
-    "--h {{parameters.h.value}}",
-		"--M {{parameters.M.value}}",
-    "--repository.append.np 0",
-    "--config-file $PWD/{{input_file_dependencies.config}}"
-  ],
-  "additional_files": {
-    "custom_logs": [
-      "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.INFO",
-      "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.WARNING"
-    ]
-  },
-  "scalability": {
-    "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
-    "clean_directory": true,
-    "stages": [
-      {
-        "name": "times",
-        "filepath": "measures.json",
-        "format": "json",
-        "variables_path": "time.*",
-        "units": {
-          "*": "s"
+    "input_file_dependencies": {
+        "config": "$PWD/src/app-feelpp-distance/dist2.cfg",
+        "geometry": "$PWD/src/app-feelpp-distance/dist.geo"
+    },
+    "platforms": {
+        // "apptainer": {
+        //     "image": {
+        //         "filepath": "{{machine.containers.apptainer.image_base_dir}}/feelpp-noble.sif"
+        //     },
+        //     "input_dir": "/input_data",
+        //     "options": [
+        //         "--home {{machine.output_app_dir}}",
+        //         "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
+        //         "--env OMP_NUM_THREADS=1"
+        //     ],
+        //     "append_app_option": []
+        // },
+        "builtin": {
+            "input_dir": "{{machine.input_dataset_base_dir}}",
+            "append_app_option": []
         }
-      },
-			{
-        "name": "errors",
-        "filepath": "measures.json",
-        "format": "json",
-        "variables_path": "error.*",
-        "units": {
-          "*": "s"
+    },
+    "options": [
+        "--directory {{output_directory}}/{{instance}}/{{use_case_name}}",
+        "--h {{parameters.h.value}}",
+        "--M {{parameters.M.value}}",
+        "--repository.append.np 0",
+        "--config-file $PWD/{{input_file_dependencies.config}}"
+    ],
+    "additional_files": {
+        "custom_logs": [
+            "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.INFO",
+            "{{output_directory}}/{{instance}}/{{use_case_name}}/logs/{{executable}}.WARNING"
+        ]
+    },
+    "scalability": {
+        "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
+        "clean_directory": true,
+        "stages": [
+            {
+                "name": "times",
+                "filepath": "measures.json",
+                "format": "json",
+                "variables_path": "time.*",
+                "units": { "*": "s" }
+            },
+            {
+                "name": "errors",
+                "filepath": "measures.json",
+                "format": "json",
+                "variables_path": "error.*",
+                "units": { "*": "s" }
+            }
+        ]
+    },
+    "sanity": {
+        "success": [],
+        "error": []
+    },
+    "parameters": [
+        {
+            "name": "tasks",
+            // "sequence": [ 1,2,4,8,16,32,64,128,256]
+            "sequence": [ 1,2]
+        },
+        {
+            "name": "h",
+            // "sequence": [ 0.12, 0.06, 0.03, 0.015 ]
+            "sequence": [ 0.12, 0.06 ]
+        },
+        {
+            "name": "M",
+            // "sequence": [ 1000, 1500, 2000, 2500]
+            "sequence": [ 1000, 1500]
         }
-      }
     ]
-  },
-  "sanity": {
-    "success": [],
-    "error": []
-  },
-  "parameters": [
-    {
-      "name": "tasks",
-			"sequence": [1, 2, 4, 8, 16, 32, 64, 128, 256]
-    },
-    {
-      "name": "h",
-      "sequence": [0.12, 0.06, 0.03, 0.015]
-    },
-    {
-      "name": "M",
-      "sequence": [1000, 1500, 2000, 2500]
-    }
-	]
 }
