@@ -10,7 +10,7 @@ on:
             hpc-systems:
                 description: 'List of systems to run'
                 required: True
-                default: gaya-builtin
+                default: gaya_builtin
             benchmark_config:
                 description: 'Path to benchmark configuration'
                 required: True
@@ -59,45 +59,45 @@ jobs:
                 filtered_systems_config=$(jq --compact-output '.' <<< $filtered_systems_config)
                 echo "filtered_systems_config=$filtered_systems_config" >> $GITHUB_OUTPUT
 
-        # -   name: Filter Available Runners
-        #     id: filter-available-systems
-        #     run: |
-        #         all_runners=$(curl -H "Accept: application/vnd.github+json" \
-        #                             -H "Authorization: Bearer ${{ secrets.CR_PAT }}" \
-        #                             -H "X-GitHub-Api-Version: 2022-11-28" \
-        #                             https://api.github.com/repos/numpex/apps-feelpp/actions/runners
-        #                     )
-        #         echo $all_runners
+        -   name: Filter Available Runners
+            id: filter-available-systems
+            run: |
+                all_runners=$(curl -H "Accept: application/vnd.github+json" \
+                                    -H "Authorization: Bearer ${{ secrets.CR_PAT }}" \
+                                    -H "X-GitHub-Api-Version: 2022-11-28" \
+                                    https://api.github.com/repos/numpex/apps-feelpp/actions/runners
+                            )
+                echo $all_runners
 
-        #         all_runners=$(echo $all_runners | jq -r '.runners')
+                all_runners=$(echo $all_runners | jq -r '.runners')
 
-        #         available_systems="[]"
+                available_systems="[]"
 
-        #         while read -r system; do
-        #             tag=$(echo "$system" | jq -r .runner_tag);
-        #             runner=$(echo "$all_runners" | jq --arg tag "$tag" '
-        #                 map(select(.labels[].name | contains($tag)))
-        #             ')
+                while read -r system; do
+                    tag=$(echo "$system" | jq -r .runner_tag);
+                    runner=$(echo "$all_runners" | jq --arg tag "$tag" '
+                        map(select(.labels[].name | contains($tag)))
+                    ')
 
-        #             if [ "$(echo "$runner" | jq 'length')" -eq 0 ]; then
-        #                 echo "No runner found for $tag ..."
-        #                 continue
-        #             fi
+                    if [ "$(echo "$runner" | jq 'length')" -eq 0 ]; then
+                        echo "No runner found for $tag ..."
+                        continue
+                    fi
 
-        #             if echo "$runner" | jq -e 'map(select(.status == "online")) | length > 0' >/dev/null; then
-        #                 available_systems=$(echo "$available_systems" | jq --argjson sys "$system" '. + [$sys]')
-        #             else
-        #                 echo "No online runners for $tag ..."
-        #             fi
-        #         done < <(echo '${{steps.filter-systems.outputs.filtered_systems_config}}' | jq -c '.[]')
+                    if echo "$runner" | jq -e 'map(select(.status == "online")) | length > 0' >/dev/null; then
+                        available_systems=$(echo "$available_systems" | jq --argjson sys "$system" '. + [$sys]')
+                    else
+                        echo "No online runners for $tag ..."
+                    fi
+                done < <(echo '${{steps.filter-systems.outputs.filtered_systems_config}}' | jq -c '.[]')
 
-        #         available_systems=$(jq --compact-output '.' <<< $available_systems)
-        #         echo "available_systems=$available_systems" >> $GITHUB_OUTPUT
+                available_systems=$(jq --compact-output '.' <<< $available_systems)
+                echo "available_systems=$available_systems" >> $GITHUB_OUTPUT
 
         -   name: Set matrix
             id: hpc-systems
             run: |
-                echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-systems.outputs.filtered_systems_config}}' '{include: $config}')" >> $GITHUB_OUTPUT
+                echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-available-systems.outputs.available_systems}}' '{include: $config}')" >> $GITHUB_OUTPUT
 
     benchmark:
         needs: [factory]
