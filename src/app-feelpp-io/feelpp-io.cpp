@@ -28,14 +28,17 @@ int run()
            time_export = 0;
     const int nRun = ioption( "nrun" );
 
+    int nPoints, nEdges, nFaces;
+
     for (int i=0; i<nRun; ++i)
     {
         tic();
         auto mesh = loadMesh( _mesh=new mesh_t);
         time_loadMesh += toc("loadMesh");
-        // Feel::cout << "nPoints = " << mesh->numGlobalPoints() << std::endl;
-        // Feel::cout << "nEdged = " << mesh->numGlobalEdges() << std::endl;
-        // Feel::cout << "nFaces = " << mesh->numGlobalFaces() << std::endl;
+
+        nPoints = mesh->numGlobalPoints();
+        nEdges = mesh->numGlobalEdges();
+        nFaces = mesh->numGlobalFaces();
 
         tic();
         auto Xh = Pch<ORDER>(mesh);     // Scalar function space
@@ -98,6 +101,11 @@ int run()
         std::ofstream ofs("time_measures.json");
         ofs << time_measures.dump(2);
         ofs.close();
+
+        std::ofstream ofsMeshSize("mesh_stats.csv");
+        ofsMeshSize << "nPoints,nEdges,nFaces\n";
+        ofsMeshSize << nPoints << ","<< nEdges << "," << nFaces;
+        ofsMeshSize.close();
     }
 
     return 0;
@@ -110,7 +118,7 @@ int main(int argc, char** argv)
 
     po::options_description myoptions("my options");
     myoptions.add_options()
-        ( "nrun", Feel::po::value<int>()->default_value(10) )
+        ( "nrun", Feel::po::value<int>()->default_value(1) )
         ( "dimension", Feel::po::value<int>()->default_value(3) )
         ( "discretization", Feel::po::value<std::string>()->default_value("P1") )
     ;
