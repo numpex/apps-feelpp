@@ -54,7 +54,7 @@ jobs:
 
                 filtered_systems_config=$(echo "$machine_config" | jq --arg valid_systems "$valid_systems" '
                     ($valid_systems | split(",")) as $systems |
-                    with_entries(select([.key] | inside($systems))) | [.[]]
+                    with_entries(select(.key as $k | $systems | index($k))) | [.[]]
                 ')
                 filtered_systems_config=$(jq --compact-output '.' <<< $filtered_systems_config)
                 echo "filtered_systems_config=$filtered_systems_config" >> $GITHUB_OUTPUT
