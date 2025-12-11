@@ -91,7 +91,7 @@
                                         {"export": "Exporter"}
                                     ]
                                 },
-                                "secondary_axis":"mesh",
+                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
                                 "aggregations":[ {"column":"discretization","agg":"mean"} ]
                             }
                         },
