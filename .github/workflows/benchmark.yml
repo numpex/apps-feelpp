@@ -117,8 +117,10 @@ jobs:
                 json_machine_config='${{ toJson(matrix.system_config) }}'
                 echo "$json_machine_config" > machine_config.json
 
-        -   name: Sync Deps
-            run: uv pip install feelpp-benchmarking
+        -   name: Create venv and install
+            run: |
+                uv venv .venv
+                uv pip install feelpp-benchmarking --python .venv/bin/python
 
         # -   name: Print system Usage
         #     run: bash ./system_entrypoints/${{matrix.machine}}.sh
@@ -128,7 +130,7 @@ jobs:
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
             run: |
-                uv run feelpp-benchmarking-exec \
+                uv run --python .venv/bin/python feelpp-benchmarking-exec \
                     -mc machine_config.json \
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
