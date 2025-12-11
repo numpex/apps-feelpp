@@ -108,7 +108,7 @@ jobs:
         timeout-minutes: 7200
         name: ${{matrix.machine}}
         steps:
-        -   uses: actions/checkout@v5
+        -   uses: actions/checkout@v6
 
         -   uses: astral-sh/setup-uv@v5
 
@@ -160,7 +160,7 @@ jobs:
             run: echo "reports_base_dir=${{matrix.system_config.reports_base_dir}}" | sed "s|\$PWD|${{ github.workspace }}|g" >> $GITHUB_OUTPUT
 
         -   name: Upload reframe report
-            uses: actions/upload-artifact@v4
+            uses: actions/upload-artifact@v5
             with:
                 name: benchmark-results-${{matrix.machine}}
                 path: ${{steps.parse_reports_path.outputs.reports_base_dir}}
@@ -171,13 +171,13 @@ jobs:
         name: Stage results
         if: ${{ github.event.inputs.create_pr == 'true' || github.event.client_payload.create_pr == 'true' }}
         steps:
-        -   uses: actions/checkout@v5
+        -   uses: actions/checkout@v6
 
         -   uses: astral-sh/setup-uv@v5
 
 
         -   name: Download results
-            uses: actions/download-artifact@v5
+            uses: actions/download-artifact@v6
             with:
                 pattern: benchmark-results-*
                 path: ./tmp/results/
@@ -241,12 +241,12 @@ jobs:
         if: ${{ github.event.inputs.create_website == 'true' || github.event.client_payload.create_website == 'true' }}
         steps:
 
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: astral-sh/setup-uv@v5
 
             -   name: Download results
-                uses: actions/download-artifact@v5
+                uses: actions/download-artifact@v6
                 with:
                     pattern: benchmark-results-*
                     path: ./tmp/results/
@@ -291,7 +291,7 @@ jobs:
                     GIRDER_API_KEY: ${{secrets.GIRDER}}
 
             -   name: Upload artifact
-                uses: actions/upload-artifact@v4
+                uses: actions/upload-artifact@v5
                 with:
                     name: reports
                     path: |
