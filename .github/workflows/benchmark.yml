@@ -42,7 +42,7 @@ jobs:
         -   name: Get machines configuration
             id: download_systems_config
             run: |
-                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT }}' https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
+                machine_config=$(curl -H "Authorization: token ${{ secrets.CR_PAT }}" https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
                 machine_config=$(jq --compact-output '.' <<< $machine_config)
                 echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
 
