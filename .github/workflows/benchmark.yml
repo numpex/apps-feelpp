@@ -117,16 +117,18 @@ jobs:
                 json_machine_config='${{ toJson(matrix.system_config) }}'
                 echo "$json_machine_config" > machine_config.json
 
-        -   name: Create venv and install
+        -   name: Create venv
             run: |
                 uv venv .venv
                 source .venv/bin/activate
-                uv pip install feelpp-benchmarking
 
-        # -   name: Print system Usage
-        #     run: bash ./system_entrypoints/${{matrix.machine}}.sh
-        #     env:
-        #         PROJECT_ID: ${{matrix.project_id || ''}}
+        -   name: Install feelpp-benchmarking
+            run: uv pip install feelpp-benchmarking
+
+        -   name: Print system Usage
+            run: bash ./system_entrypoints/${{matrix.machine}}.sh
+            env:
+                PROJECT_ID: ${{matrix.project_id || ''}}
 
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
@@ -143,7 +145,6 @@ jobs:
         -   name: Execute benchmarks (slurm)
             if: ${{ matrix.submit == 'slurm' }}
             run: |
-                ./system_entrypoints/${{matrix.machine}}.sh
                 srun --partition ${{matrix.submit_partition}} \
                     --time 48:00:00 \
                     --account ${{matrix.project_id}} \
@@ -153,8 +154,6 @@ jobs:
                         -m machine_config.json \
                         -b ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                         -p ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}}
-            env:
-                GIRDER_API_KEY: ${{ secrets.GIRDER }}
 
         -   name: Parse reports path
             id: parse_reports_path
@@ -174,6 +173,9 @@ jobs:
         steps:
         -   uses: actions/checkout@v5
 
+        -   uses: astral-sh/setup-uv@v5
+
+
         -   name: Download results
             uses: actions/download-artifact@v5
             with:
@@ -183,9 +185,11 @@ jobs:
 
         -   name: Create Virtual Environment
             run: |
-                python3 -m venv .venv
+                uv venv .venv
                 source .venv/bin/activate
-                pip3 install -r requirements.txt
+
+        -   name: Install feelpp-benchmarking
+            run: uv pip install feelpp-benchmarking
 
         -   name: Upload to staging folder
             run: |
@@ -239,6 +243,8 @@ jobs:
 
             -   uses: actions/checkout@v5
 
+            -   uses: astral-sh/setup-uv@v5
+
             -   name: Download results
                 uses: actions/download-artifact@v5
                 with:
@@ -248,9 +254,12 @@ jobs:
 
             -   name: Create Virtual Environment
                 run: |
-                    python3 -m venv .venv
+                    uv venv .venv
                     source .venv/bin/activate
-                    pip3 install -r requirements.txt
+
+            -   name: Install feelpp-benchmarking
+                run: uv pip install feelpp-benchmarking
+
             -   name: Merge website configs
                 run: |
                     source .venv/bin/activate
