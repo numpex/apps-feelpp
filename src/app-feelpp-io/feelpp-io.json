@@ -8,8 +8,8 @@
         "exclusive_access":false
     },
     "input_file_dependencies":{
-        "mesh_json":"Eye2Brain/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.json",
-        "mesh_hdf5":"Eye2Brain/mesh/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.h5"
+        "mesh_json":"feelpp_toolboxes/eye/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.json",
+        "mesh_hdf5":"feelpp_toolboxes/eye/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.h5"
     },
     "platforms": {
         // "apptainer":{
@@ -62,16 +62,12 @@
     "parameters": [
         {
             "name":"tasks",
-            // "sequence":[1, 2, 4, 8, 16 ,32, 64, 128, 256]
-            "sequence":[1,2,4,8]
+            "sequence":[1, 64, 128, 256, 384]
         },
         {
             "name":"mesh",
             // "sequence":["M2", "M3", "M4", "M5"],
-            "sequence":["M2","M3"],
-            "conditions":{
-                "M5":[{ "tasks":[1, 2, 4, 8, 16, 64] }]
-            }
+            "sequence":["M2","M3"]
         },
         {
             "name":"discretization",
