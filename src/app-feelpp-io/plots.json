@@ -1,40 +1,4 @@
 {
-    "data": [
-        {
-            "name": "reframe_json",
-            "filepath": "./reframe_report.json"
-        },
-        {
-            "type": "DataTable",
-            "name": "reframe_df",
-            "ref": "reframe_json",
-            "preprocessor": "feelpp.benchmarking.report.plugins.reframeReport:runsToDfPreprocessor"
-        },
-        {
-            "type": "DataTable",
-            "name": "parameter_table",
-            "ref": "reframe_df",
-            "table_options": {
-                "computed_columns": {
-                    "logs_link": "f'link:logs/{row[\"testcases.hashcode\"]}.html[Logs]'"
-                },
-                "group_by": {
-                    "columns": [
-                        "testcases.hashcode"
-                    ],
-                    "agg": "first"
-                },
-                "format": {
-                    "testcases.time_total": "%.3f",
-                    "result": {
-                        "pass": "\ud83d\udfe2",
-                        "fail": "\ud83d\udd34",
-                        "abort": "\ud83d\udfe0"
-                    }
-                }
-            }
-        }
-    ],
     "contents":[
         {
             "type":"section",
@@ -80,10 +44,7 @@
                             "ref": "parameter_table",
                             "layout":{
                                 "column_order":["result","testcases.hashcode","tasks","mesh", "discretization", "testcases.time_total", "logs_link"],
-                                "rename":{
-                                    "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
-                                    "result":"", "logs_link":""
-                                }
+                                "rename":{ "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash", "result":"", "logs_link":"" }
                             },
                             "style":{
                                 "column_align":{ "result":"center" },
@@ -109,30 +70,62 @@
                     "type":"section",
                     "title":"Aggregated Metrics",
                     "contents":[
+                        //--------------RELATIVE PERFORMANCE OF EACH OPERATION------------------//
+                        {
+                            "type":"text",
+                            "text": ""
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Relative Performance of the pipline operations, averaged by discretization",
+                                "plot_types":["stacked_bar"],
+                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
+                                "yaxis": { "label": "%" },
+                                "color_axis":{
+                                    "parameter":"perfvalue", "label":"Operation",
+                                    "filter":[
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
+                                        {"export": "Exporter"}
+                                    ]
+                                },
+                                "secondary_axis":"mesh",
+                                "aggregations":[ {"column":"discretization","agg":"mean"} ]
+                            }
+                        },
+                        //------------------------------------------------------------//
+                        //--------------ABSOLUTE PERFORMANCE OF EACH OPERATION------------------//
+                        {
+                            "type":"text",
+                            "text":""
+                        },
                         {
                             "type":"plot",
                             "plot":{
                                 "title":"Parallel Performance per operation (average)",
-                                "plot_types":["scatter","grouped_bar"],
+                                "plot_types":["scatter","grouped_bar","marked_scatter"],
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Mean execution time (s)" },
                                 "color_axis":{
                                     "parameter":"perfvalue", "label":"Operation",
                                     "filter":[
-                                        {"loadMesh": "Load mesh"},
-                                        {"functionSpace": "Function space (scalar)"},
-                                        {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"},
-                                        {"saveFieldV": "Save vector field"},
-                                        {"saveMesh": "Save mesh"},
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
                                         {"export": "Exporter"}
                                     ]
                                 },
-                                "aggregations":[
-                                    {"column":"discretization","agg":"mean"},
-                                    {"column":"mesh","agg":"mean"}
-                                ]
+                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
+                                "aggregations":[ {"column":"discretization","agg":"mean"} ]
                             }
+                        },
+                        //------------------------------------------------------------//
+                        //--------------SPEEDUP OF EACH OPERATION------------------//
+                        {
+                            "type":"text",
+                            "text":""
                         },
                         {
                             "type":"plot",
@@ -145,23 +138,21 @@
                                 "color_axis":{
                                     "parameter":"perfvalue", "label":"Operation",
                                     "filter":[
-                                        {"loadMesh": "Load mesh"},
-                                        {"functionSpace": "Function space (scalar)"},
-                                        {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"},
-                                        {"saveFieldV": "Save vector field"},
-                                        {"saveMesh": "Save mesh"},
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
                                         {"export": "Exporter"}
                                     ]
                                 },
-                                "aggregations":[
-                                    {"column":"discretization","agg":"mean"},
-                                    {"column":"mesh","agg":"mean"}
-                                ]
+                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
+                                "aggregations":[ {"column":"mesh","agg":"mean"} ]
                             }
                         }
+                        //------------------------------------------------------------//
                     ]
                 },
+
+
 
                 {
                     "type":"section",
@@ -171,19 +162,16 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P1 disc.)",
-                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
+                                "plot_types": ["stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
                                 "color_axis": {
                                     "parameter": "perfvalue", "label": "Operation",
                                     "filter": [
-                                        {"loadMesh": "Load mesh"},
-                                        {"functionSpace": "Function space (scalar)"},
-                                        {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"},
-                                        {"saveFieldV": "Save vector field"},
-                                        {"saveMesh": "Save mesh"},
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
                                         {"export": "Exporter"}
                                     ] },
                                 "secondary_axis":{"parameter":"mesh","label":"Mesh"},
@@ -194,19 +182,16 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P2 disc.)",
-                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
+                                "plot_types": [ "stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
                                 "color_axis": {
                                     "parameter": "perfvalue", "label": "Operation",
                                     "filter": [
-                                        {"loadMesh": "Load mesh"},
-                                        {"functionSpace": "Function space (scalar)"},
-                                        {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"},
-                                        {"saveFieldV": "Save vector field"},
-                                        {"saveMesh": "Save mesh"},
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
                                         {"export": "Exporter"}
                                 ] },
                                 "secondary_axis":{"parameter":"mesh","label":"Mesh"},
@@ -217,26 +202,22 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Relative I/O performance per operation (P3 disc.)",
-                                "plot_types": [ "grouped_bar" ,"stacked_bar"],
+                                "plot_types": [ "stacked_bar"],
                                 "transformation":"relative_performance",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Time [s]" },
                                 "color_axis": {
                                     "parameter": "perfvalue", "label": "Operation",
                                     "filter": [
-                                        {"loadMesh": "Load mesh"},
-                                        {"functionSpace": "Function space (scalar)"},
-                                        {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"},
-                                        {"saveFieldV": "Save vector field"},
-                                        {"saveMesh": "Save mesh"},
+                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
+                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
+                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
                                         {"export": "Exporter"}
                                 ] },
                                 "secondary_axis":{"parameter":"mesh","label":"Mesh"},
                                 "aggregations":[ {"column":"discretization","agg":"filter:P3"} ]
                             }
                         }
-                        //MAYBE MORE DISC HERE...
                     ]
                 },
 
@@ -246,17 +227,11 @@
                     "contents": [
                         {
                             "type": "text",
-                            "text": "This benchmark isolates I/O-heavy operations of Feel++. Mesh loading and exporter performance often depend heavily on the filesystem, memory availability, and MPI distribution."
+                            "text": ""
                         },
                         {
                             "type": "itemize",
-                            "items": [
-                                "TODO: CHECK THIS INFO",
-                                "Mesh loading time typically scales with the number of elements.",
-                                "Function space creation time increases with polynomial order.",
-                                "Field saving and mesh saving performance depends on HDF5 throughput.",
-                                "Exporter time may include P1 interpolation overhead."
-                            ]
+                            "items": []
                         }
                     ]
                 },
