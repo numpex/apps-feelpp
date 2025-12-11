@@ -110,27 +110,31 @@ jobs:
         steps:
         -   uses: actions/checkout@v5
 
+        -   uses: astral-sh/setup-uv@v5
+
         -   name: Create machine config
             run: |
                 json_machine_config='${{ toJson(matrix.system_config) }}'
                 echo "$json_machine_config" > machine_config.json
 
+        -   name: Sync Deps
+            run: uv pip install feelpp-benchmarking
+
+        -   name: Print system Usage
+            run: bash ./system_entrypoints/${{matrix.machine}}/setup.sh
+            env:
+                PROJECT_ID: ${{matrix.project_id || ''}}
+
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
             run: |
-                ./system_entrypoints/${{matrix.machine}}.sh
                 source .venv/bin/activate
                 feelpp-benchmarking-exec \
                     -mc machine_config.json \
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
                     -v \
-                    -rfm="-v --exec-order=name --max-retries=2"
-            env:
-                # GIRDER_API_KEY: ${{ secrets.GIRDER }}
-                PROJECT_ID: ${{matrix.project_id || ''}}
-                GHCRIO_USER: ${{ github.actor }}
-                GHCRIO_TOKEN: ${{ secrets.CR_PAT_WORKFLOW }}
+                    -rfm="-v --exec-order=name --max-retries=1"
 
         #TODO TEMPORARY SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
