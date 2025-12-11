@@ -120,7 +120,8 @@ jobs:
         -   name: Create venv and install
             run: |
                 uv venv .venv
-                uv pip install feelpp-benchmarking --python .venv/bin/python
+                source .venv/bin/activate
+                uv pip install feelpp-benchmarking
 
         # -   name: Print system Usage
         #     run: bash ./system_entrypoints/${{matrix.machine}}.sh
@@ -130,7 +131,8 @@ jobs:
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
             run: |
-                uv run --python .venv/bin/python feelpp-benchmarking-exec \
+                source .venv/bin/activate
+                uv run feelpp-benchmarking-exec \
                     -mc machine_config.json \
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
