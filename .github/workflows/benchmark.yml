@@ -10,15 +10,15 @@ on:
             hpc-systems:
                 description: 'List of systems to run'
                 required: True
-                default: gaya
+                default: gaya-builtin
             benchmark_config:
                 description: 'Path to benchmark configuration'
                 required: True
-                default: src/app-feelpp-discr-1/thermal_bridges_case_3.json
+                default: src/app-feelpp-io/feelpp-io.json
             plots_config:
                 description: 'Path to plots related configuration'
                 required: True
-                default: src/app-feelpp-discr-1/heat_plots.json
+                default: src/app-feelpp-io/plots.json
             create_pr:
                 description: 'Create Pull Request'
                 type: boolean
@@ -42,7 +42,7 @@ jobs:
         -   name: Get machines configuration
             id: download_systems_config
             run: |
-                machine_config=$(curl https://gist.githubusercontent.com/thomas-saigre/50760ea0999fb22dbf623c962a3c7664/raw/1ebe7c248e6d50466e492480cc24928bbc60be3c/systems.json )
+                machine_config=$(curl -H 'Authorization: token ${{ secrets.CR_PAT }}' https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
                 machine_config=$(jq --compact-output '.' <<< $machine_config)
                 echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
 
