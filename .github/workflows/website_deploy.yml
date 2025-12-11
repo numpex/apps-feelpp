@@ -1,0 +1,60 @@
+name: Website Deploy
+
+on:
+    push:
+        branches:
+            - 'main'
+    pull_request:
+        branches: ['main']
+    workflow_dispatch:
+
+jobs:
+    docs:
+        runs-on: self-antora
+        name: Build Antora Site
+        if: "!contains(github.event.head_commit.message, 'docs skip')"
+        steps:
+        -   uses: actions/checkout@v4
+
+        -   name: Install credentials
+            run: echo https://$GITHUB_OAUTH:@github.com > $HOME/.git-credentials
+            env:
+                GITHUB_OAUTH: ${{ secrets.CR_PAT }}
+
+        -   name: Install NPM dependencies
+            run: npm install
+
+        -   name: Create Virtual Environment
+            run: |
+                uv venv .venv
+                source .venv/bin/activate
+
+        -   name: Install feelpp-benchmarking
+            run: uv pip install feelpp-benchmarking
+
+        -   name: Download website config
+            run: |
+                source .venv/bin/activate
+                source ./girder_deploy_config.sh
+                feelpp-girder download --girder_id=$production_website_config_id --output_dir=./tmp/ --filename=website_config.json
+            env:
+                GIRDER_API_KEY: ${{secrets.GIRDER}}
+
+        -   name: Render reports
+            run: |
+                source .venv/bin/activate
+                feelpp-benchmarking-render --config-file=./tmp/website_config.json
+            env:
+                GIRDER_API_KEY: ${{ secrets.GIRDER }}
+
+        -   name: Build Antora Site
+            run: |
+                source .venv/bin/activate
+                npm run antora
+
+        -   name: Deploy
+            uses: JamesIves/github-pages-deploy-action@v4
+            if: ${{ github.ref_name == 'main' }}
+            with:
+                branch: gh-pages
+                folder: public
