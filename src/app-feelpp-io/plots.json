@@ -121,7 +121,7 @@
                                 "transformation":"relative_performance",
                                 "plot_types":["stacked_bar"],
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "%" },
+                                "yaxis": { "label": "Perc." },
                                 "color_axis":{
                                     "parameter":"perfvalue", "label":"Operation",
                                     "filter":[
