@@ -1,4 +1,22 @@
 {
+    "data":[
+        {
+            "name":"mesh_stats", "ref":"reframe_df",
+            "table_options":{
+                "filter":[
+                    { "column":"perfvalue", "op":"in", "value":["meshStats_nPoints","meshStats_nEdges","meshStats_nFaces"] }
+                ],
+                "pivot":{
+                    "index":["mesh"], "columns":["perfvalue"], "values":"value", "agg":"mean"
+                },
+                "format":{
+                    "meshStats_nPoints":"%i",
+                    "meshStats_nEdges":"%i",
+                    "meshStats_nFaces":"%i"
+                }
+            }
+        }
+    ],
     "contents":[
         {
             "type":"section",
@@ -68,17 +86,39 @@
 
                 {
                     "type":"section",
+                    "title":"Mesh statistics",
+                    "contents":[
+                        {
+                            "type":"table",
+                            "ref":"mesh_stats",
+                            "layout":{
+                                "column_order":["mesh","meshStats_nPoints","meshStats_nEdges","meshStats_nFaces"],
+                                "rename":{
+                                    "mesh":"Mesh", "meshStats_nPoints":"# Points", "meshStats_nEdges":"# Edges", "meshStats_nFaces":"# Faces"
+                                }
+                            },
+                            "style":{
+                                "column_align":{ "mesh":"center","meshStats_nPoints":"center","meshStats_nEdges":"center","meshStats_nFaces":"center"},
+                                "column_width":{ "mesh":1 }
+                            }
+                        }
+                    ]
+                },
+
+                {
+                    "type":"section",
                     "title":"Aggregated Metrics",
                     "contents":[
-                        //--------------RELATIVE PERFORMANCE OF EACH OPERATION------------------//
                         {
                             "type":"text",
-                            "text": ""
+                          "text": "The following plots summarize both relative and absolute performance metrics across operations and task counts."
                         },
+                        //--------------RELATIVE PERFORMANCE OF EACH OPERATION------------------//
                         {
                             "type":"plot",
                             "plot":{
                                 "title":"Relative Performance of the pipline operations, averaged by discretization",
+                                "transformation":"relative_performance",
                                 "plot_types":["stacked_bar"],
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "%" },
@@ -104,7 +144,7 @@
                         {
                             "type":"plot",
                             "plot":{
-                                "title":"Parallel Performance per operation (average)",
+                                "title":"Parallel Performance per operation (averaged by discretization)",
                                 "plot_types":["scatter","grouped_bar","marked_scatter"],
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
                                 "yaxis": { "label": "Mean execution time (s)" },
@@ -134,7 +174,7 @@
                                 "plot_types":["scatter"],
                                 "transformation":"speedup",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Mean execution time (s)" },
+                                "yaxis": { "label":"Speedup factor" },
                                 "color_axis":{
                                     "parameter":"perfvalue", "label":"Operation",
                                     "filter":[
@@ -222,21 +262,6 @@
                 },
 
                 {
-                    "type": "section",
-                    "title": "Observations and Notes",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": ""
-                        },
-                        {
-                            "type": "itemize",
-                            "items": []
-                        }
-                    ]
-                },
-
-                {
                     "type":"section",
                     "title":"Operation : Export ",
                     "contents":[
@@ -259,7 +284,7 @@
                                 "plot_types": [ "scatter" ],
                                 "transformation":"speedup",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
+                                "yaxis": { "label":"Speedup factor" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
@@ -290,7 +315,7 @@
                                 "plot_types": [ "scatter" ],
                                 "transformation":"speedup",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
+                                "yaxis": { "label":"Speedup factor" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
@@ -321,7 +346,7 @@
                                 "plot_types": [ "scatter" ],
                                 "transformation":"speedup",
                                 "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
+                                "yaxis": { "label":"Speedup factor" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ]
@@ -356,7 +381,7 @@
                                         "plot_types": [ "scatter" ],
                                         "transformation":"speedup",
                                         "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
+                                        "yaxis": { "label":"Speedup factor" },
                                         "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                         "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                         "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
@@ -387,7 +412,7 @@
                                         "plot_types": [ "scatter" ],
                                         "transformation":"speedup",
                                         "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
+                                        "yaxis": { "label":"Speedup factor" },
                                         "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                         "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                         "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
@@ -424,7 +449,7 @@
                                         "plot_types": [ "scatter" ],
                                         "transformation":"speedup",
                                         "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
+                                        "yaxis": { "label":"Speedup factor" },
                                         "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                         "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                         "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
@@ -455,7 +480,7 @@
                                         "plot_types": [ "scatter" ],
                                         "transformation":"speedup",
                                         "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
+                                        "yaxis": { "label":"Speedup factor" },
                                         "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                         "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                         "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
