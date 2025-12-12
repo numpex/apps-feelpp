@@ -139,7 +139,7 @@ jobs:
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
                     -v \
-                    -rfm="-v --exec-order=name --max-retries=1"
+                    -rfm="-v --exec-order=name"
 
         #TODO TEMPORARY SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
