@@ -237,26 +237,6 @@
                                 "secondary_axis":{"parameter":"mesh","label":"Mesh"},
                                 "aggregations":[ {"column":"discretization","agg":"filter:P2"} ]
                             }
-                        },
-                        {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Relative I/O performance per operation (P3 disc.)",
-                                "plot_types": [ "stacked_bar"],
-                                "transformation":"relative_performance",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
-                                "color_axis": {
-                                    "parameter": "perfvalue", "label": "Operation",
-                                    "filter": [
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
-                                ] },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"discretization","agg":"filter:P3"} ]
-                            }
                         }
                     ]
                 },
