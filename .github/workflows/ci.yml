@@ -9,11 +9,16 @@ on:
 
 jobs:
   build:
-    runs-on: self-gaya
+    runs-on: self-feelpp
 
     name: Build deb packages
     if: ${{ !contains(github.event.head_commit.message, 'build skip') }}
     steps:
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - uses: actions/checkout@v6
 
       - name: Configure
@@ -36,7 +41,7 @@ jobs:
           path: build/default/assets/feelpp-app-*.deb
 
   docker:
-    runs-on: self-gaya
+    runs-on: self-feelpp
     needs: build
     name: Build docker image
     steps:
