@@ -1,5 +1,5 @@
 {
-    "executable": "$PWD/build/default/src/app-feelpp-io/feelpp_app_io",
+    "executable": "feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
     "use_case_name": "ThermalBridgesENISO10211",
     "timeout":"0-00:15:00",
@@ -12,6 +12,18 @@
         "mesh_hdf5":"feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.tasks.value}}.h5"
     },
     "platforms": {
+        "apptainer":{
+            "image": {
+                "url":"oras://ghcr.io/feelpp/apps-feelpp:bench-io",
+                "filepath":"{{machine.containers.apptainer.image_base_dir}}/apps-feelpp.sif"
+            },
+            "input_dir":"/input_data",
+            "options": [
+                "--home {{machine.output_app_dir}}",
+                "--bind {{machine.input_dataset_base_dir}}/:{{platforms.apptainer.input_dir}}",
+                "--env OMP_NUM_THREADS=1"
+            ]
+        },
         "builtin":{
             "input_dir":"{{machine.input_dataset_base_dir}}"
         }
