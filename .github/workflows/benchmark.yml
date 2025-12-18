@@ -126,11 +126,6 @@ jobs:
             run: uv pip install feelpp-benchmarking
 
 
-        -   name: Compile feelpp-apps
-            run: |
-                cmake --preset default
-                cmake --build --preset default
-
         -   name: Print system Usage
             run: bash ./system_entrypoints/${{matrix.machine}}.sh
             env:
