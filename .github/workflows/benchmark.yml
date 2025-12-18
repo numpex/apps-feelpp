@@ -10,7 +10,7 @@ on:
             hpc-systems:
                 description: 'List of systems to run'
                 required: True
-                default: gaya_builtin
+                default: gaya_cladellas
             benchmark_config:
                 description: 'Path to benchmark configuration'
                 required: True
