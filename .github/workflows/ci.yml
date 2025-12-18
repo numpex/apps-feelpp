@@ -14,7 +14,6 @@ jobs:
     name: Build deb packages
     if: ${{ !contains(github.event.head_commit.message, 'build skip') }}
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Configure
@@ -39,13 +38,40 @@ jobs:
   docker:
     runs-on: self-feelpp
     needs: build
-    name: Build docker image
+    name: Build and push docker image
+    if: ${{ github.ref_name == 'master' || startsWith(github.ref ,'refs/tags/v') || contains(github.event.head_commit.message, '[build container]') }}
+    outputs:
+      tag: ${{ steps.tag_extractor.outputs.tag }}
     steps:
       - name: Download
         uses: actions/download-artifact@v6
         with:
           name: deb-artifacts
           path: artifacts/
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        with:
+          images: |
+            ghcr.io/feelpp/apps-feelpp
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.url="https://github.com/numpex/apps-feelpp"
+            org.opencontainers.image.source="https://github.com/numpex/apps-feelpp"
+            org.opencontainers.image.authors="Cemosis <contact@cemosis.fr>"
+
+      - name: Extract tag
+        id: tag_extractor
+        run: |
+          FIRST_TAG=$(echo "${{ steps.meta.outputs.tags }}" | tr ' ' '\n' | head -n 1)
+          echo "tag=$FIRST_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -65,6 +91,29 @@ jobs:
         with:
           platforms: linux/amd64
           context: artifacts
-          push: false
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           file: ./Dockerfile
 
+  apptainer :
+    runs-on: self-feelpp
+    name: Build and Push apptainer image
+    needs: docker
+    env:
+      apptainer: /opt/apptainer/latest/bin/apptainer
+    steps:
+      - name: Login to GHCR
+        run: |
+          ${{ env.apptainer }} remote login  -u ${{ github.repository_owner }} -p ${{ secrets.CR_PAT }} oras://ghcr.io
+
+      - name: Get docker image ${{ needs.docker.outputs.tag }}
+        run: |
+          echo "Using tag: ${{ needs.docker.outputs.tag }}"
+          ${{ env.apptainer }} pull -F apps-feelpp.sif docker://${{ needs.docker.outputs.tag }}
+          ls -lrt
+
+      - name: Push apptainer image ${{ needs.docker.outputs.tag }} to ghcr.io
+        run: |
+          echo "Using tag: ${{ needs.docker.outputs.tag }}"
+          ${{ env.apptainer }} push apps-feelpp.sif oras://${{ needs.docker.outputs.tag }}-sif
