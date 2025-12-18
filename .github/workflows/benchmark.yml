@@ -146,6 +146,9 @@ jobs:
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
                     -v \
                     -rfm="-v --exec-order=name"
+            env:
+                GHCRIO_USER: ${{ github.actor }}
+                GHCRIO_TOKEN: ${{ secrets.CR_PAT }}
 
         #TODO TEMPORARY SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
