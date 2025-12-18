@@ -56,7 +56,7 @@ jobs:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
         with:
           images: |
-            ghcr.io/feelpp/apps-feelpp
+            ghcr.io/numpex/apps-feelpp
           tags: |
             type=ref,event=branch
             type=ref,event=pr
