@@ -14,7 +14,6 @@
     "platforms": {
         "apptainer":{
             "image": {
-                "url":"oras://ghcr.io/feelpp/apps-feelpp:bench-io",
                 "filepath":"{{machine.containers.apptainer.image_base_dir}}/apps-feelpp.sif"
             },
             "input_dir":"/input_data",
