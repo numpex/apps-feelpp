@@ -21,6 +21,8 @@ jobs:
             env:
                 GITHUB_OAUTH: ${{ secrets.CR_PAT }}
 
+        -   uses: astral-sh/setup-uv@v5
+
         -   name: Install NPM dependencies
             run: npm install
 
