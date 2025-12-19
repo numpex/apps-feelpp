@@ -1,0 +1,197 @@
+= ReFrame logs
+
+== ReFrame scheduler script
+
+[source,bash]
+----
+#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_eaa88b74"
+#SBATCH --ntasks=64
+#SBATCH --ntasks-per-node=64
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=public
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:15:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 /data/scratch/cladellash/bin/feelpp_app_io --directory /data/cemosis/benchmark/app-feelpp-io/io/eaa88b74/ThermalBridgesENISO10211 --discretization P1 --repository.append.np 0 --gmsh.filename /data/cemosis/benchmark/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M3/case3_p64.json --nrun 1
+
+----
+
+== ReFrame error log
+
+[source,bash]
+----
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+[feelpp.boost.filesystem.filesystem_error] cannot create directory root repository: /data/cemosis/benchmark/app-feelpp-io/io/eaa88b74/ThermalBridgesENISO10211
+terminate called after throwing an instance of 'std::filesystem::__cxx11::filesystem_error'
+  what():  filesystem error: cannot create directories: Permission denied [/data/cemosis/benchmark/app-feelpp-io/io/eaa88b74/ThermalBridgesENISO10211]
+[gaya6:598395] *** Process received signal ***
+[gaya6:598395] Signal: Aborted (6)
+[gaya6:598395] Signal code:  (-6)
+[gaya6:598395] [ 0] /lib/x86_64-linux-gnu/libc.so.6(+0x45330)[0x7e7e4a445330]
+[gaya6:598395] [ 1] /lib/x86_64-linux-gnu/libc.so.6(pthread_kill+0x11c)[0x7e7e4a49eb2c]
+[gaya6:598395] [ 2] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x1e)[0x7e7e4a44527e]
+[gaya6:598395] [ 3] /lib/x86_64-linux-gnu/libc.so.6(abort+0xdf)[0x7e7e4a4288ff]
+[gaya6:598395] [ 4] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5ff5)[0x7e7e4a8a5ff5]
+[gaya6:598395] [ 5] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xbb0da)[0x7e7e4a8bb0da]
+[gaya6:598395] [ 6] /lib/x86_64-linux-gnu/libstdc++.so.6(_ZSt10unexpectedv+0x0)[0x7e7e4a8a5a55]
+[gaya6:598395] [ 7] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5a6f)[0x7e7e4a8a5a6f]
+[gaya6:598395] [ 8] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x834924)[0x7e7e50a34924]
+[gaya6:598395] [ 9] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel10Repository9configureEv+0x81d)[0x7e7e50a33e2d]
+[gaya6:598395] [10] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11Environment20changeRepositoryImplEN5boost12basic_formatIcSt11char_traitsIcESaIcEEERKNSt7__cxx1112basic_stringIcS4_S5_EENS_8LocationEbRKNS_9WorldCommEb+0x495)[0x7e7e509ed5b5]
+[gaya6:598395] [11] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x7effcd)[0x7e7e509effcd]
+[gaya6:598395] [12] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11EnvironmentC2EiPPcN5boost3mpi9threading5levelERKNS3_15program_options19options_descriptionESA_RKNS_9AboutDataERKNS_10Repository6ConfigE+0x20bf)[0x7e7e509ceacf]
+[gaya6:598395] [13] /data/scratch/cladellash/bin/feelpp_app_io(+0x12fd7b)[0x6370ca587d7b]
+[gaya6:598395] [14] /data/scratch/cladellash/bin/feelpp_app_io(main+0x3d2)[0x6370ca580492]
+[gaya6:598395] [15] /lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca)[0x7e7e4a42a1ca]
+[gaya6:598395] [16] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b)[0x7e7e4a42a28b]
+[gaya6:598395] [17] /data/scratch/cladellash/bin/feelpp_app_io(+0x127ff5)[0x6370ca57fff5]
+[gaya6:598395] *** End of error message ***
+srun: error: gaya6: task 0: Aborted (core dumped)
+slurmstepd-gaya6: error:  mpi/pmix_v5: _errhandler: gaya6 [0]: pmixp_client_v2.c:211: Error handler invoked: status = -61, source = [slurm.pmix.25125.0:0]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-gaya6: error: *** STEP 25125.0 ON gaya6 CANCELLED AT 2025-12-19T14:07:00 ***
+srun: error: gaya6: tasks 1-63: Killed
+
+----
+
+== ReFrame output log
+
+[source,bash]
+----
+[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2025-Dec-19
+
+----
+
+

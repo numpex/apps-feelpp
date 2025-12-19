@@ -1,0 +1,77 @@
+= ReFrame logs
+
+== ReFrame scheduler script
+
+[source,bash]
+----
+#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_b65a0f2e"
+#SBATCH --ntasks=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=public
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:15:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 /data/scratch/cladellash/bin/feelpp_app_io --directory /data/cemosis/benchmark/app-feelpp-io/io/b65a0f2e/ThermalBridgesENISO10211 --discretization P1 --repository.append.np 0 --gmsh.filename /data/cemosis/benchmark/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p4.json --nrun 1
+
+----
+
+== ReFrame error log
+
+[source,bash]
+----
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+[feelpp.boost.filesystem.filesystem_error] cannot create directory root repository: /data/cemosis/benchmark/app-feelpp-io/io/b65a0f2e/ThermalBridgesENISO10211
+terminate called after throwing an instance of 'std::filesystem::__cxx11::filesystem_error'
+  what():  filesystem error: cannot create directories: Permission denied [/data/cemosis/benchmark/app-feelpp-io/io/b65a0f2e/ThermalBridgesENISO10211]
+[gaya1:1997274] *** Process received signal ***
+[gaya1:1997274] Signal: Aborted (6)
+[gaya1:1997274] Signal code:  (-6)
+[gaya1:1997274] [ 0] /lib/x86_64-linux-gnu/libc.so.6(+0x45330)[0x720a8e845330]
+[gaya1:1997274] [ 1] /lib/x86_64-linux-gnu/libc.so.6(pthread_kill+0x11c)[0x720a8e89eb2c]
+[gaya1:1997274] [ 2] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x1e)[0x720a8e84527e]
+[gaya1:1997274] [ 3] /lib/x86_64-linux-gnu/libc.so.6(abort+0xdf)[0x720a8e8288ff]
+[gaya1:1997274] [ 4] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5ff5)[0x720a8eca5ff5]
+[gaya1:1997274] [ 5] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xbb0da)[0x720a8ecbb0da]
+[gaya1:1997274] [ 6] /lib/x86_64-linux-gnu/libstdc++.so.6(_ZSt10unexpectedv+0x0)[0x720a8eca5a55]
+[gaya1:1997274] [ 7] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5a6f)[0x720a8eca5a6f]
+[gaya1:1997274] [ 8] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x834924)[0x720a94e34924]
+[gaya1:1997274] [ 9] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel10Repository9configureEv+0x81d)[0x720a94e33e2d]
+[gaya1:1997274] [10] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11Environment20changeRepositoryImplEN5boost12basic_formatIcSt11char_traitsIcESaIcEEERKNSt7__cxx1112basic_stringIcS4_S5_EENS_8LocationEbRKNS_9WorldCommEb+0x495)[0x720a94ded5b5]
+[gaya1:1997274] [11] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x7effcd)[0x720a94deffcd]
+[gaya1:1997274] [12] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11EnvironmentC2EiPPcN5boost3mpi9threading5levelERKNS3_15program_options19options_descriptionESA_RKNS_9AboutDataERKNS_10Repository6ConfigE+0x20bf)[0x720a94dceacf]
+[gaya1:1997274] [13] /data/scratch/cladellash/bin/feelpp_app_io(+0x12fd7b)[0x5718c8165d7b]
+[gaya1:1997274] [14] /data/scratch/cladellash/bin/feelpp_app_io(main+0x3d2)[0x5718c815e492]
+[gaya1:1997274] [15] /lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca)[0x720a8e82a1ca]
+[gaya1:1997274] [16] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b)[0x720a8e82a28b]
+[gaya1:1997274] [17] /data/scratch/cladellash/bin/feelpp_app_io(+0x127ff5)[0x5718c815dff5]
+[gaya1:1997274] *** End of error message ***
+srun: error: gaya1: task 0: Aborted (core dumped)
+slurmstepd-gaya1: error:  mpi/pmix_v5: _errhandler: gaya1 [0]: pmixp_client_v2.c:211: Error handler invoked: status = -61, source = [slurm.pmix.25117.0:0]
+slurmstepd-gaya1: error: *** STEP 25117.0 ON gaya1 CANCELLED AT 2025-12-19T14:06:51 ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: gaya1: tasks 1-3: Killed
+
+----
+
+== ReFrame output log
+
+[source,bash]
+----
+[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2025-Dec-19
+
+----
+
+

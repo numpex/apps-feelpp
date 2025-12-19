@@ -1,0 +1,73 @@
+= ReFrame logs
+
+== ReFrame scheduler script
+
+[source,bash]
+----
+#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_dc0bc855"
+#SBATCH --ntasks=2
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=public
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:15:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 /data/scratch/cladellash/bin/feelpp_app_io --directory /data/cemosis/benchmark/app-feelpp-io/io/dc0bc855/ThermalBridgesENISO10211 --discretization P1 --repository.append.np 0 --gmsh.filename /data/cemosis/benchmark/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p2.json --nrun 1
+
+----
+
+== ReFrame error log
+
+[source,bash]
+----
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+[feelpp.boost.filesystem.filesystem_error] cannot create directory root repository: /data/cemosis/benchmark/app-feelpp-io/io/dc0bc855/ThermalBridgesENISO10211
+terminate called after throwing an instance of 'std::filesystem::__cxx11::filesystem_error'
+  what():  filesystem error: cannot create directories: Permission denied [/data/cemosis/benchmark/app-feelpp-io/io/dc0bc855/ThermalBridgesENISO10211]
+[gaya5:860952] *** Process received signal ***
+[gaya5:860952] Signal: Aborted (6)
+[gaya5:860952] Signal code:  (-6)
+[gaya5:860952] [ 0] /lib/x86_64-linux-gnu/libc.so.6(+0x45330)[0x760076245330]
+[gaya5:860952] [ 1] /lib/x86_64-linux-gnu/libc.so.6(pthread_kill+0x11c)[0x76007629eb2c]
+[gaya5:860952] [ 2] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x1e)[0x76007624527e]
+[gaya5:860952] [ 3] /lib/x86_64-linux-gnu/libc.so.6(abort+0xdf)[0x7600762288ff]
+[gaya5:860952] [ 4] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5ff5)[0x7600766a5ff5]
+[gaya5:860952] [ 5] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xbb0da)[0x7600766bb0da]
+[gaya5:860952] [ 6] /lib/x86_64-linux-gnu/libstdc++.so.6(_ZSt10unexpectedv+0x0)[0x7600766a5a55]
+[gaya5:860952] [ 7] /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa5a6f)[0x7600766a5a6f]
+[gaya5:860952] [ 8] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x834924)[0x76007c834924]
+[gaya5:860952] [ 9] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel10Repository9configureEv+0x81d)[0x76007c833e2d]
+[gaya5:860952] [10] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11Environment20changeRepositoryImplEN5boost12basic_formatIcSt11char_traitsIcESaIcEEERKNSt7__cxx1112basic_stringIcS4_S5_EENS_8LocationEbRKNS_9WorldCommEb+0x495)[0x76007c7ed5b5]
+[gaya5:860952] [11] /lib/x86_64-linux-gnu/libfeelpp.so.1(+0x7effcd)[0x76007c7effcd]
+[gaya5:860952] [12] /lib/x86_64-linux-gnu/libfeelpp.so.1(_ZN4Feel11EnvironmentC2EiPPcN5boost3mpi9threading5levelERKNS3_15program_options19options_descriptionESA_RKNS_9AboutDataERKNS_10Repository6ConfigE+0x20bf)[0x76007c7ceacf]
+[gaya5:860952] [13] /data/scratch/cladellash/bin/feelpp_app_io(+0x12fd7b)[0x596241124d7b]
+[gaya5:860952] [14] /data/scratch/cladellash/bin/feelpp_app_io(main+0x3d2)[0x59624111d492]
+[gaya5:860952] [15] /lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca)[0x76007622a1ca]
+[gaya5:860952] [16] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b)[0x76007622a28b]
+[gaya5:860952] [17] /data/scratch/cladellash/bin/feelpp_app_io(+0x127ff5)[0x59624111cff5]
+[gaya5:860952] *** End of error message ***
+srun: error: gaya5: task 0: Aborted (core dumped)
+slurmstepd-gaya5: error:  mpi/pmix_v5: _errhandler: gaya5 [0]: pmixp_client_v2.c:211: Error handler invoked: status = -61, source = [slurm.pmix.25107.0:0]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-gaya5: error: *** STEP 25107.0 ON gaya5 CANCELLED AT 2025-12-19T14:06:44 ***
+srun: error: gaya5: task 1: Killed
+
+----
+
+== ReFrame output log
+
+[source,bash]
+----
+[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2025-Dec-19
+
+----
+
+
