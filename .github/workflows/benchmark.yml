@@ -230,9 +230,6 @@ jobs:
                     see https://github.com/peter-evans/create-pull-request for more details
                 reviewers: |
                     JavierCladellas
-                    prudhomm
-                    vincentchabannes
-                    thomas-saigre
                 labels: new-benchmark
                 branch: new-benchmark-${{ github.event.inputs.hpc-systems || github.event.client_payload.hpc-systems }}-${{ steps.gather_arguments.outputs.use_case }}
             env:
