@@ -3,7 +3,7 @@
 FROM ghcr.io/feelpp/feelpp:noble
 
 USER root
-COPY ./build/default/assets/ /home/feelpp/
+COPY . /home/feelpp/
 RUN ls -lrtR /home/feelpp
 
 RUN dpkg -i /home/feelpp/*.deb
