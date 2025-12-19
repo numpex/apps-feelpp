@@ -1,6 +1,6 @@
 # -*- mode: Dockerfile -*-
 
-FROM ghcr.io/feelpp/feelpp:jammy
+FROM ghcr.io/feelpp/feelpp:noble
 
 USER root
 COPY ./build/default/assets/ /home/feelpp/
