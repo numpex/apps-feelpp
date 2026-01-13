@@ -1,39 +1,4 @@
-{    "data": [
-        {
-            "name": "reframe_json",
-            "filepath": "./reframe_report.json"
-        },
-        {
-            "type": "DataTable",
-            "name": "reframe_df",
-            "ref": "reframe_json",
-            "preprocessor": "feelpp.benchmarking.report.plugins.reframeReport:runsToDfPreprocessor"
-        },
-        {
-            "type": "DataTable",
-            "name": "parameter_table",
-            "ref": "reframe_df",
-            "table_options": {
-                "computed_columns": {
-                    "logs_link": "f'link:logs/{row[\"testcases.hashcode\"]}.html[Logs]'"
-                },
-                "group_by": {
-                    "columns": [
-                        "testcases.hashcode"
-                    ],
-                    "agg": "first"
-                },
-                "format": {
-                    "testcases.time_total": "%.3f",
-                    "result": {
-                        "pass": "\ud83d\udfe2",
-                        "fail": "\ud83d\udd34",
-                        "abort": "\ud83d\udfe0"
-                    }
-                }
-            }
-        }
-    ],
+{
     "contents": [
         {
             "type":"section",
