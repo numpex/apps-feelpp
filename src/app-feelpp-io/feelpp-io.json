@@ -1,5 +1,6 @@
 {
-    "executable": "/data/scratch/cladellash/bin/feelpp_app_io",
+    "bin_dir":"/data/scratch/cladellash/bin",
+    "executable": "{{bin_dir}}/feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
     "use_case_name": "ThermalBridgesENISO10211",
     "timeout":"0-00:15:00",
@@ -61,21 +62,18 @@
     "parameters": [
         {
             "name":"tasks",
-            // "sequence":[1, 2, 4, 8, 16, 32, 64, 128]
-            "sequence":[1]
+            "sequence":[1, 2, 4, 8, 16, 32, 64, 128]
         },
         {
             "name":"mesh",
-            // "sequence":["M1","M2","M3"],
-            "sequence":["M1"],
+            "sequence":["M1","M2","M3"],
             "conditions":{
                 "M3":[{"tasks":[32,64,128]}]
             }
         },
         {
             "name":"discretization",
-            // "sequence":["P1","P2"]
-            "sequence":["P1"]
+            "sequence":["P1","P2"]
         }
     ]
 }
