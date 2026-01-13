@@ -1,6 +1,6 @@
 # -*- mode: Dockerfile -*-
 
-FROM ghcr.io/feelpp/feelpp:noble
+FROM ghcr.io/feelpp/feelpp:ubuntu-24.04
 
 USER root
 COPY . /home/feelpp/
