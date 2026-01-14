@@ -1,0 +1,79 @@
+{
+    "bin_dir":"/data/scratch/cladellash/bin",
+    "executable":"{{bin_dir}}/ktirio_geom_app_terrain",
+    "use_case_name":"Perlin",
+    "timeout":"0-0:10:0",
+    "output_directory": "{{machine.output_app_dir}}/terrain/{{use_case_name}}/{{instance}}",
+    "input_file_dependencies":{
+        "cfg" : "ktirio-geom/terrain/{{use_case_name}}/perlin.cfg"
+    },
+    "platforms": {
+        "builtin":{
+            "input_dir":"{{machine.input_dataset_base_dir}}"
+        }
+    },
+    "options":[
+        "--config-file {{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.cfg}}",
+        "--input.terrain.output-directory={{output_directory}}",
+        "--input.terrain.perlin.tile-grid-size={{parameters.tile_grid_size.value}}",
+        "--input.terrain.perlin.terrain-grid-size={{parameters.terrain_grid_size.value}}",
+        "--input.multithreaded={{fixed.multithreaded}}"
+    ],
+    "scalability":{
+        "directory":"{{output_directory}}",
+        "stages":[
+            {
+                "name":"Terrain",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.times.*","terrain.subsections.*.times.elapsed"]
+            },
+            {
+                "name":"Terrain_createMesh",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.subsections.createMesh.times.*","terrain.subsections.createMesh.subsections.*.times.elapsed"]
+            },
+            {
+                "name":"Tile_createMesh",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.subsections.createMesh.subsections.createTileMeshes.times.*","terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.*.times.*"]
+            },
+            {
+                "name":"Tile_elevation",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.createContourMesh.subsections.*.times.*","terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.createContourMesh.times.*"]
+            },
+            {
+                "name":"Tile_corefineFeatures",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.corefineFeatures.subsections.*.times.*","terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.corefineFeatures.times.*"]
+            },
+            {
+                "name":"Tile_constrainedMesher",
+                "filepath":"timekeeper.json",
+                "format":"json",
+                "variables_path":["terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.createContourMesh.subsections.createConstrainedMesh.subsections.*.times","terrain.subsections.createMesh.subsections.createTileMeshes.subsections.createMesh.subsections.createContourMesh.subsections.createConstrainedMesh.times.*"]
+            }
+        ]
+    },
+    "resources":{
+        "tasks":1,
+        "exclusive_access":false
+    },
+    "sanity":{
+        "success":["TERRAIN done in"],
+        "error":[]
+    },
+    "fixed":{
+        "multithreaded": "true"
+    },
+    "parameters":[
+        { "name": "tile_grid_size", "range":{"min":200,"max":1000,"step":200} },
+        { "name": "terrain_grid_size", "range":{"min":1,"max":5,"step":1} },
+        {"name":"triangles","sequence":[0]}
+    ]
+}

@@ -1,0 +1,471 @@
+{
+    "contents":[
+        {
+            "type":"section",
+            "title":"Benchmark Execution Summary",
+            "contents": [
+                {
+                    "type":"section",
+                    "title":"Session",
+                    "contents":[
+                        {
+                            "type":"itemize",
+                            "ref":"reframe_json",
+                            "items":[
+                                "Hostname: @{session_info.hostname}@",
+                                "User: @{session_info.hostname}@",
+                                "Time Start: @{session_info.time_start}@",
+                                "Time End: @{session_info.time_end}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Cases",
+                    "contents":[
+                        {
+                            "type":"itemize",
+                            "ref":"reframe_json",
+                            "items":[
+                                "Total: @{session_info.num_cases}@ ",
+                                "Failures: @{session_info.num_failures}@",
+                                "Runs: @{runs | length}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Parametrization",
+                    "contents":[
+                        {
+                            "type":"table",
+                            "ref": "parameter_table",
+                            "layout":{
+                                "column_order":["result","testcases.hashcode","isolines_step","simplification_threshold", "logs_link"],
+                                "rename":{
+                                    "testcases.hashcode":"Hash", "result":"", "logs_link":""}
+                            },
+                            "style":{
+                                "column_align":{ "result":"center" },
+                                "column_width":{ "result":1,"logs_link":1},
+                                "classnames":["scrollable","sortable"]
+                            },
+                            "filter":{ "placeholder":"Filter testcases..." }
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "type": "section",
+            "title": "Benchmark: Ktirio-Geom - Terrain Generation Pipeline",
+            "contents": [
+                {
+                    "type": "section",
+                    "title": "Description",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "This benchmark evaluates the performance of the Ktirio-Geom terrain generation pipeline. The pipeline transforms elevation datasets into high-quality terrain meshes suitable for numerical simulation, visualization, and downstream geometric processing."
+                        },
+                        {
+                            "type": "text",
+                            "text": "The terrain generation workflow relies on multithreaded execution and advanced geometric algorithms, including contour extraction, constrained triangulation, mesh corefinement, and simplification. Particular attention is paid to scalability with respect to geometric complexity and algorithmic parameters."
+                        },
+                        {
+                            "type": "text",
+                            "text": "Two primary parameters are explored in this benchmark: the isolines step, which controls contour density and therefore geometric resolution, and the simplification threshold, which governs geometric decimation during constrained triangulation."
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Benchmarking Tools Used",
+                    "contents": [
+                            {
+                                "type": "text",
+                                "text": "Performance measurements were collected using internal timing instrumentation integrated into Ktirio-Geom. Each stage of the pipeline reports elapsed wall-clock time, with additional per-thread statistics for multithreaded sections."
+                            },
+                            {
+                                "type": "text",
+                                "text": "For tile-level parallel operations, the benchmark reports the longest executing thread, reflecting the critical path and providing a conservative estimate of scalability limits."
+                            }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Input / Output Dataset Description",
+                    "contents": [
+                        {
+                            "type": "section",
+                            "title": "Input Data",
+                            "contents": [
+                                {
+                                    "type": "itemize",
+                                    "items": [
+                                        "Elevation grids representing terrain height fields.",
+                                        "Overlay features in GIS format, for buildings, roads, water bodies, landuse, ...",
+                                        "Isoline extraction parameters controlling contour spacing.",
+                                        "Simplification thresholds influencing contour line simplification complexity."
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "section",
+                            "title": "Output Data",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "The output consists of a conforming terrain surface triangulation, with tagged features (water,roads,buildings...), and timing metrics for each major processing stage. These outputs are suitable for visualization, simulation preprocessing, and further geometric analysis."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "title": "Results Summary",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "The benchmark results highlight the strong influence of isoline density on total execution time, particularly during constrained triangulation and contour mesh generation. Simplification thresholds provide an effective lever to balance geometric fidelity against computational cost."
+                },
+                {
+                    "type": "text",
+                    "text": "Multithreaded execution significantly reduces wall-clock time for large terrain configurations. However, several stages exhibit diminishing returns due to synchronization points and geometric dependencies."
+                }
+            ]
+        },
+
+
+        {
+            "type": "section",
+            "title": "Results",
+            "contents": [
+                {
+                    "type": "section",
+                    "title": "Terrain Full Pipeline",
+                    "contents": [
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Terrain generation performance agains isolines spacing",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"parameter":"perfvalue","label":"Pipeline step", "filter":[
+                                    {"Terrain_createMesh":"createMesh"}, {"Terrain_exportMesh":"exportMesh"}, {"Terrain_updateForUse":"updateForUse"}
+                                ]},
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"As the isolines step increases (i.e. isolines are more widely separated), the execution time of createMesh decreases significantly, reflecting the reduced geometric complexity and fewer constraints in the meshing process. However, beyond a certain isoline spacing, the performance gain levels off and stagnates, indicating that other fixed costs or algorithmic overheads begin to dominate. Each specific mesh contains a \"sweetspot\" for which users can get the best performance vs mesh quality."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Terrain generation performance against simplification threshold",
+                                "plot_types":["scatter","grouped_bar"],
+                                "secondary_axis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"parameter":"perfvalue","label":"Pipeline step", "filter":[
+                                    {"Terrain_createMesh":"createMesh"}, {"Terrain_exportMesh":"exportMesh"}, {"Terrain_updateForUse":"updateForUse"}
+                                ]},
+                                "xaxis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"This figure shows that the execution time linearly increases with the simplification threshold parameter, meaning that the simplification cost actually is negligeable with respect to the other pipeline stages. If resolution is not important, users should select a simplification threshold of 0 along with sparse isolines to get the fastest performance."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Terrain Generation pipeline - Relative performance",
+                                "transformation":"relative_performance",
+                                "plot_types":["stacked_bar"],
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Percentage"},
+                                "color_axis":{"parameter":"perfvalue","label":"Pipeline step", "filter":[
+                                    {"Terrain_createMesh":"createMesh"}, {"Terrain_exportMesh":"exportMesh"}, {"Terrain_updateForUse":"updateForUse"}
+                                ]},
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"The figures show that the createMesh step of the pipeline takes most of the execution time (~99%)."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Terrain full pipeline - simplification threshold vs isolines step (Multithreaded)",
+                                "plot_types":["scatter","heatmap"],
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s)"},
+                                "color_axis":{"parameter":"simplification_threshold","label":"Simplification threshold"},
+                                "aggregations":[{"column":"perfvalue","agg":"filter:Terrain_elapsed"}]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Terrain createMesh breakdown",
+                    "contents":[
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Terrain create Mesh - Relative performance - (Multithreaded)",
+                                "plot_types":["stacked_bar"],
+                                "transformation":"relative_performance",
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s)"},
+                                "color_axis":{"label":"Step",
+                                    "filter":[
+                                        {"Terrain_createMesh_preProcess":"preProcess"},
+                                        {"Terrain_createMesh_createTileMeshes":"createTileMeshes"},
+                                        {"Terrain_createMesh_mergeTileMeshes":"mergeTileMeshes"}
+                                    ]
+                                },
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"It is seen in this figure that the createTileMeshes step of the pipeline is what dominates. Altough, tile merging is non-negligeable, taking around 5% of the execution time of the createMesh step."
+                        },
+
+                        {
+                            "type":"plot",
+                            "plot":{
+
+                                "title":"Terrain create Mesh (Multithreaded)",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s)"},
+                                "color_axis":{"label":"Step",
+                                    "filter":[
+                                        {"Terrain_createMesh_elapsed":"Total"},
+                                        {"Terrain_createMesh_preProcess":"preProcess"},
+                                        {"Terrain_createMesh_createTileMeshes":"createTileMeshes"},
+                                        {"Terrain_createMesh_mergeTileMeshes":"mergeTileMeshes"}
+                                    ]
+                                },
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"As expected, the total execution time of the `createMesh` step (represented by the 'Total' series) decreases significantly as the `isolines_step` increases, showing a clear performance improvement for coarser meshes. The `createTileMeshes` step remains the most time-consuming part of the process, consuming almost all the 'Total' time."
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Performance per tile (longest thread)",
+                    "contents":[
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Tile createMesh (Multithreaded) - longest thread",
+                                "plot_types":["scatter","grouped_bar","stacked_bar"],
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s)"},
+                                "color_axis":{"label":"Method", "filter":[
+                                    {"Tile_createMesh_elapsed":"Total"},
+                                    {"Tile_createMesh_createContourMesh.max":"contourMesh"},
+                                    {"Tile_createMesh_corefineFeatures.max":"corefineFeatures"},
+                                    {"Tile_createMesh_postProcess.max":"PostProcess"}
+                                ]},
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"This figure breaks down the time spent in the `createMesh` step for the longest running tile. The total time for a single tile follows the same trend as the overall execution time with respect to the `isolines_step`. The two main contributing factors are `contourMesh` and `corefineFeatures`, with `contourMesh` generally dominating for smaller `isolines_step` (higher complexity) and `corefineFeatures` becoming more prominent as `isolines_step` increases, due to the fact that features are almost independent of the terrain elevation."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Tile createMesh (Multithreaded) - Relative Performance - longest thread",
+                                "plot_types":["stacked_bar"],
+                                "transformation":"relative_performance",
+                                "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                "yaxis":{"label":"Execution time (s)"},
+                                "color_axis":{"label":"Method", "filter":[
+                                    {"Tile_createMesh_createContourMesh.max":"contourMesh"},
+                                    {"Tile_createMesh_corefineFeatures.max":"corefineFeatures"},
+                                    {"Tile_createMesh_postProcess.max":"PostProcess"}
+                                ]},
+                                "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"The relative performance breakdown of the tile meshing process clearly shows that the time is mainly split between `contourMesh` and `corefineFeatures`. As the `isolines_step` increases (less contour density), the relative contribution of the initial `contourMesh` step decreases significantly, and the `corefineFeatures` step becomes the major time sink."
+                        },
+
+
+                        {
+                            "type":"section",
+                            "title":"Computational algorithms",
+                            "contents":[
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Tile Corefine Features (Multithreaded) - longest thread",
+                                        "plot_types":["scatter","grouped_bar","stacked_bar"],
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_corefineFeatures_max":"Total"},
+                                            {"Tile_corefineFeatures_createFeatureMeshes.max":"Create Feature Meshes"},
+                                            {"Tile_corefineFeatures_postProcess.max":"PostProcess"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"This plot breaks down the execution time of the corefineFeatures stage for the longest-running tile. The total time for corefineFeatures decreases significantly as the isolines_step increases, consistent with the reduced geometric complexity. The primary cost is consistently in the PostProcess stage, which performs operations such as refinement and quality control after the initial feature mesh creation. The cost of Create Feature Meshes is relatively minor in comparison, suggesting that the initial mesh generation is quick, but the subsequent post-processing of the mesh (likely including complex geometric checks and topological cleanup) dominates the feature refinement time."
+                                },
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Tile Corefine Features (Multithreaded) - Relative Performance - longest thread",
+                                        "plot_types":["stacked_bar"],
+                                        "transformation":"relative_performance",
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_corefineFeatures_createFeatureMeshes.max":"Create Feature Meshes"},
+                                            {"Tile_corefineFeatures_postProcess.max":"PostProcess"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"The relative time distribution within the corefineFeatures step clearly indicates that the PostProcess step is the performance bottleneck, accounting for around 95% of the time in all parameter configurations. The relative contribution of Create Feature Meshes consistently remains very low (around 1-5%). As the isolines_step increases, the relative portion of Create Feature Meshes slightly increases, but PostProcess remains overwhelmingly dominant. This suggests optimization efforts should be heavily focused on improving the performance and scalability of the PostProcess algorithms within the feature corefinement stage, which mostly consist of actually performing the mesh autorefinement."
+                                },
+
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Tile Create Elevation Mesh (Multithreaded) - longest thread",
+                                        "plot_types":["scatter","grouped_bar","stacked_bar"],
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_elevation_max":"Total"},
+                                            {"Tile_elevation_buildGhostMatrix.max":"Build Ghost Matrix"},
+                                            {"Tile_elevation_computeContourLevels.max":"compute Contour Levels"},
+                                            {"Tile_elevation_createConstrainedMesh.max":"Create Constrained Mesh"},
+                                            {"Tile_elevation_matrixToMesh.max":"create Grid"},
+                                            {"Tile_elevation_preProcess.max":"preProcess"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"This figure details the time spent in the contourMesh stage (Total) for the longest-running tile. The overall time decreases significantly with increasing isolines_step. The largest single component across all runs is compute Contour Levels, often consuming the majority of the time, especially for smaller isolines_step values (high contour density). The Create Constrained Mesh time is also substantial, showing a dependence on contour density and the simplification threshold. The create Grid and preProcess steps consume a relatively small and stable portion of the total time."
+                                },
+
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Tile Create Elevation Mesh (Multithreaded) - Relative Performance - longest thread",
+                                        "plot_types":["stacked_bar"],
+                                        "transformation":"relative_performance",
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_elevation_buildGhostMatrix.max":"Build Ghost Matrix"},
+                                            {"Tile_elevation_computeContourLevels.max":"compute Contour Levels"},
+                                            {"Tile_elevation_createConstrainedMesh.max":"Create Constrained Mesh"},
+                                            {"Tile_elevation_matrixToMesh.max":"create Grid"},
+                                            {"Tile_elevation_preProcess.max":"preProcess"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"The relative breakdown of the elevation mesh creation process highlights the trade-off in computational cost driven by the isolines_step. For high-fidelity meshes (isolines_step=1.0), compute Contour Levels is the largest component, consuming over 60% of the time. As the isolines_step increases (sparser contours), its relative share decreases. Simultaneously, the relative cost of the Create Constrained Mesh step increases, becoming the dominant factor for sparser meshes (isolines_step=20.0), accounting for over 40% of the time. This crossover indicates that optimization strategies should target contour computation for dense meshes and the constrained meshing process for sparser meshes."
+                                },
+
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Constrained Mesher (Multithreaded) - longest thread",
+                                        "plot_types":["scatter","grouped_bar","stacked_bar"],
+                                        "transformation":"performance",
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_constrainedMesher_max":"Total"},
+                                            {"Tile_constrainedMesher_cgalToMesh.max":"CGAL to Mesh"},
+                                            {"Tile_constrainedMesher_createCgalTriangulation.max":"create Triangulation"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"This chart focuses on the internal performance of the constrained mesher process within the tile meshing stage. The total time dramatically decreases as the isolines_step increases. The breakdown shows that the time is overwhelmingly dominated by the create Triangulation step, often taking over 90% of the total time within this subprocess. The time spent converting the CGAL output back to a Mesh (CGAL to Mesh) is consistently negligible in comparison across all parameters. This confirms that the geometric constraint satisfaction and triangulation algorithm itself is the computational bottleneck."
+                                },
+
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Tile Create Elevation Mesh (Multithreaded) - Relative Performance - longest thread",
+                                        "plot_types":["stacked_bar"],
+                                        "transformation":"relative_performance",
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"label":"Method", "filter":[
+                                            {"Tile_constrainedMesher_cgalToMesh.max":"CGAL to Mesh"},
+                                            {"Tile_constrainedMesher_createCgalTriangulation.max":"create Triangulation"}
+                                        ]},
+                                        "secondary_axis":{ "parameter": "simplification_threshold", "label":"Simplification threshold" }
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"This relative view of the constrained mesher (excluding pre-computation steps) clearly emphasizes that create Triangulation is the dominant operation, maintaining a relative cost of over 82% and frequently over 95%. This indicates that the choice of isolines_step and simplification_threshold dramatically affects the intrinsic difficulty of the constrained triangulation operation."
+                                },
+
+                                {
+                                    "type":"plot",
+                                    "plot":{
+                                        "title":"Constrained Triangulation + Simplification (Multithreaded) - longest thread",
+                                        "plot_types":["heatmap"],
+                                        "xaxis":{ "parameter":"isolines_step", "label":"Isolines Step" },
+                                        "yaxis":{"label":"Execution time (s)"},
+                                        "color_axis":{"parameter":"simplification_threshold","label":"Simplification threshold"},
+                                        "aggregations":[{"column":"perfvalue","agg":"filter:Tile_constrainedMesher_createCgalTriangulation.max"}]
+                                    }
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"This heatmap shows the absolute time spent solely in the main computational core of the constrained meshing process (create Triangulation). The color gradient confirms the primary observations: the total time is minimized at the highest isolines_step (20.0, lowest row) and lowest simplification_threshold (0.0, leftmost column)."
+                                }
+
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,134 @@
+{
+    "data": [
+        {
+            "type": "DataTable",
+            "name": "reframe_df_parsed",
+            "ref": "reframe_df",
+            "table_options":{
+                "computed_columns":{
+                    "triangles": "2*(row[\"tile_grid_size\"]*row[\"terrain_grid_size\"])**2"
+                }
+            }
+        }
+    ],
+    "contents":[
+
+        {
+            "type":"section",
+            "title":"Benchmark Execution Summary",
+            "contents": [
+                {
+                    "type":"section",
+                    "title":"Session",
+                    "contents":[
+                        {
+                            "type":"itemize",
+                            "ref":"reframe_json",
+                            "items":[
+                                "Hostname: @{session_info.hostname}@",
+                                "User: @{session_info.hostname}@",
+                                "Time Start: @{session_info.time_start}@",
+                                "Time End: @{session_info.time_end}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Cases",
+                    "contents":[
+                        {
+                            "type":"itemize",
+                            "ref":"reframe_json",
+                            "items":[
+                                "Total: @{session_info.num_cases}@ ",
+                                "Failures: @{session_info.num_failures}@",
+                                "Runs: @{runs | length}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Parametrization",
+                    "contents":[
+                        {
+                            "type":"table",
+                            "ref": "parameter_table",
+                            "layout":{
+                                "column_order":["result","testcases.hashcode","tile_grid_size","terrain_grid_size", "logs_link"],
+                                "rename":{
+                                    "testcases.hashcode":"Hash", "result":"", "logs_link":""}
+                            },
+                            "style":{
+                                "column_align":{ "result":"center" },
+                                "column_width":{ "result":1,"logs_link":1},
+                                "classnames":["scrollable","sortable"]
+                            },
+                            "filter":{ "placeholder":"Filter testcases..." }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+
+            "type": "section",
+            "title": "Benchmark: Ktirio-Geom - Perlin Noise Generation",
+            "contents": [
+            ]
+        },
+        {
+            "type": "section",
+            "title": "Results",
+            "contents": [
+                {
+                    "type": "section",
+                    "title": "Total Time",
+                    "contents": [
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for tile grid size",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"tile_grid_size", "label":"Tile size" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "secondary_axis":{ "parameter": "terrain_grid_size", "label":"Terrain Grid Size" }
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for terrain grid size",
+                                "plot_types":["scatter","grouped_bar"],
+                                "secondary_axis":{ "parameter":"tile_grid_size", "label":"Tile size" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "xaxis":{ "parameter": "terrain_grid_size", "label":"Terrain Grid Size" }
+                            }
+                        },
+
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for total number of initial triangles",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"triangles", "label":"Initial triangles" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "aggregations":[{ "column":"terrain_grid_size", "agg":"max" }]
+
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ]
+}
