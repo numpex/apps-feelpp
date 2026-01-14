@@ -1,0 +1,190 @@
+= ReFrame logs
+
+== ReFrame scheduler script
+
+[source,bash]
+----
+#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_acc22360"
+#SBATCH --ntasks=8
+#SBATCH --ntasks-per-node=8
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=public
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:15:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 apptainer exec -B"/data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/public/default/RegressionTest_acc22360:/rfm_workdir" --home /data/scratch/cladellash/feelppdb --bind /data/scratch/cladellash/feelppdb/input_data/:/input_data --env OMP_NUM_THREADS=1 --sharens --bind /opt/:/opt/ --bind /data/:/data/ /data/scratch/cladellash/images//apps-feelpp.sif feelpp_app_io --directory /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211 --discretization P1 --repository.append.np 0 --gmsh.filename /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p8.json --nrun 1
+
+----
+
+== ReFrame error log
+
+[source,bash]
+----
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+
+----
+
+== ReFrame output log
+
+[source,bash]
+----
+[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2026-Jan-14
+[feelpp] create Feel++ root repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211
+
+[feelpp] create Feel++ geo repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/geo
+
+[feelpp] create Feel++ expressions directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/exprs
+
+[feelpp] create Feel++ logs directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/logs
+
+ . O files are stored in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/
+ .. logfiles :/data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/logs
+[loadMesh] Loading mesh in format json+h5: "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p8.json"
+[loadMesh] Time : 2.28738s
+ [create function space] Time : 1.50408s
+  [create vectorial function space] Time : 3.46685s
+  [save field] Time : 0.0255012s
+  [save vector field] Time : 0.0369076s
+  [save mesh] Time : 0.2415s
+    [export time] Time : 2.35228s
+Time load mesh 2.28738
+Time load create function space 1.50408
+Time load create vectorial function space 3.46685
+Time save mesh 0.2415
+Time save field 0.0255012
+Time save vector field 0.0369076
+Time to export 2.35228
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                         O                                                                          |
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+| +-------------+----------------------------------------------------------------------------------------------------------------------------------+ |
+| | logs        | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/logs                                        | |
+| +-------------+----------------------------------------------------------------------------------------------------------------------------------+ |
+| | journal     | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/journal.json                                | |
+| +-------------+----------------------------------------------------------------------------------------------------------------------------------+ |
+| | directories | +------------------------------------------------------------------------------------------------------------------------------+ | |
+| |             | | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/                                        | | |
+| |             | +------------------------------------------------------------------------------------------------------------------------------+ | |
+| |             | | /data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/public/default/RegressionTest_acc22360 | | |
+| |             | +------------------------------------------------------------------------------------------------------------------------------+ | |
+| +-------------+----------------------------------------------------------------------------------------------------------------------------------+ |
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+
+[ Stopping Feel++ ] application O execution time 12.8135s
+
+----
+
+== feelpp_app_io.INFO
+
+[source,bash]
+----
+Log file created at: 2026/01/14 17:06:55
+Running on machine: gaya2
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0114 17:06:55.080544 472801 environment.cpp:1708] File /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p8.json found
+I0114 17:06:55.081976 472801 loadmesh.hpp:246]  Loading mesh in json+h5 format "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M1/case3_p8.json"
+I0114 17:06:55.140584 472801 partitionio.hpp:1134] read stat points 217851,26450,0
+I0114 17:06:55.140592 472801 partitionio.hpp:1137] read stat elements 1145402,140471,0
+I0114 17:06:55.140594 472801 partitionio.hpp:1140] read stat ghost_elements 86910,8159,0
+I0114 17:06:55.140595 472801 partitionio.hpp:1143] read stat marked_faces 94934,12315,0
+I0114 17:06:55.140597 472801 partitionio.hpp:1146] read stat marked_edges 0,0,0
+I0114 17:06:55.140599 472801 partitionio.hpp:1149] read stat marked_points 0,0,0
+I0114 17:06:55.141034 472801 partitionio.hpp:1168] loaded points_ids:1x217851
+I0114 17:06:55.141399 472801 partitionio.hpp:1170] loaded points_coords:1x653553
+I0114 17:06:55.194555 472801 partitionio.hpp:1267] loaded elements:1x5727010
+I0114 17:06:55.300328 472801 partitionio.hpp:1373] loaded ghost_elements:1x86910
+I0114 17:06:55.303630 472801 partitionio.hpp:1569] loaded marked_subentities:1x379736
+I0114 17:06:55.359972 472801 meshimpl.hpp:1051] We have 12315 faces in the database
+I0114 17:06:55.743763 472801 meshimpl.hpp:1325] We have now 288566 faces in the mesh
+I0114 17:06:56.828913 472801 meshimpl.hpp:1863] update boundary points...
+I0114 17:06:56.847301 472801 meshimpl.hpp:1883] update boundary elements...
+I0114 17:06:57.344108 472801 meshimpl.hpp:524] h average : 0.0325846
+I0114 17:06:57.344161 472801 meshimpl.hpp:525]     h min : 0.0175455
+I0114 17:06:57.344162 472801 meshimpl.hpp:526]     h max : 0.044348
+I0114 17:06:57.349538 472801 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:06:57.382429 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:06:57.382437 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:06:57.383575 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  132312 on processor 0
+I0114 17:06:57.838816 472801 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 24868
+I0114 17:06:57.838868 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:06:58.174434 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:06:58.855571 472801 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:06:58.865483 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:06:58.865494 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:06:58.867313 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  132312 on processor 0
+I0114 17:06:59.896404 472801 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 74604
+I0114 17:06:59.896485 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:07:00.420162 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:07:02.322497 472801 element_impl.hpp:199] creating element u : u
+I0114 17:07:02.526176 472801 element_impl.hpp:199] creating element {x+y+z,x+y+z,x+y+z}:x:y:z : u
+I0114 17:07:02.526259 472801 exporterimpl.hpp:219] [Exporter] format :  ensightgold
+I0114 17:07:02.526262 472801 exporterimpl.hpp:220] [Exporter] N      :  1
+I0114 17:07:02.617584 472801 partitionio.hpp:319] writing mesh in HDF5 format in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/acc22360/ThermalBridgesENISO10211/mesh_0.h5
+I0114 17:07:02.836104 472801 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:07:02.852108 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:07:02.852123 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:07:02.854234 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  132312 on processor 0
+I0114 17:07:03.267907 472801 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 24868
+I0114 17:07:03.267954 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:07:03.524614 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:07:04.044207 472801 element_impl.hpp:199] creating element u : u
+I0114 17:07:04.307955 472801 element_impl.hpp:199] creating element uV : u
+I0114 17:07:04.307984 472801 element_impl.hpp:199] creating element uV : u
+I0114 17:07:04.307994 472801 element_impl.hpp:199] creating element uV : u
+I0114 17:07:04.312108 472801 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:07:04.321861 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:07:04.321873 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:07:04.324240 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  132312 on processor 0
+I0114 17:07:04.727931 472801 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 24868
+I0114 17:07:04.727993 472801 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:07:05.062290 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:07:06.291851 472801 exporterensightgold_impl.hpp:1250] writing part 1
+I0114 17:07:06.354267 472801 exporterensightgold_impl.hpp:1250] writing part 2
+I0114 17:07:06.405103 472801 exporterensightgold_impl.hpp:1250] writing part 3
+I0114 17:07:06.418414 472801 exporterensightgold_impl.hpp:1250] writing part 4
+I0114 17:07:06.442852 472801 exporterensightgold_impl.hpp:1250] writing part 5
+I0114 17:07:06.454897 472801 exporterensightgold_impl.hpp:1250] writing part 6
+I0114 17:07:06.462023 472801 exporterensightgold_impl.hpp:1376] ExporterEnsightGold::writeVariableFiles Nodal: 2
+I0114 17:07:06.462026 472801 exporterensightgold_impl.hpp:1377] ExporterEnsightGold::writeVariableFiles Element: 0
+I0114 17:07:07.608386 472801 environment.cpp:2423] Environment::clearSomeMemory before: PETSC get current memory usage (resident memory): 941621  KBytes 941.621  MBytes 0.941621 GBytes
+I0114 17:07:07.608402 472801 environment.cpp:2428] Environment::clearSomeMemory before: PETSC get current PETSC Malloc usage: 0  KBytes 0 MBytes 0 GBytes
+I0114 17:07:07.608408 472801 environment.cpp:2430] Environment::clearSomeMemory before: PETSC get maximum PETSC Malloc usage(largest memory ever used so far): 0  KBytes 0 MBytes 0 GBytes
+I0114 17:07:07.608564 472801 environment.cpp:2423] Environment::clearSomeMemory after: PETSC get current memory usage (resident memory): 941621  KBytes 941.621  MBytes 0.941621 GBytes
+I0114 17:07:07.608569 472801 environment.cpp:2428] Environment::clearSomeMemory after: PETSC get current PETSC Malloc usage: 0  KBytes 0 MBytes 0 GBytes
+I0114 17:07:07.608572 472801 environment.cpp:2430] Environment::clearSomeMemory after: PETSC get maximum PETSC Malloc usage(largest memory ever used so far): 0  KBytes 0 MBytes 0 GBytes
+
+----
+== feelpp_app_io.WARNING
+
+[source,bash]
+----
+Log file created at: 2026/01/14 17:06:58
+Running on machine: gaya2
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0114 17:06:58.174434 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+W0114 17:07:00.420162 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+W0114 17:07:03.524614 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+W0114 17:07:05.062290 472801 doftable.hpp:2587] TODO: finish implementation of this case below
+
+----
+
