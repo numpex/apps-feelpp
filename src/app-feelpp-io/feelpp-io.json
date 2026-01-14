@@ -1,6 +1,5 @@
 {
-    "bin_dir":"/data/scratch/cladellash/bin",
-    "executable": "{{bin_dir}}/feelpp_app_io",
+    "executable": "feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
     "use_case_name": "ThermalBridgesENISO10211",
     "timeout":"0-00:15:00",
