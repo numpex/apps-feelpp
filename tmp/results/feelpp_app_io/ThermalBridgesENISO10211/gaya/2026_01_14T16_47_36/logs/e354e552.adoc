@@ -1,0 +1,257 @@
+= ReFrame logs
+
+== ReFrame scheduler script
+
+[source,bash]
+----
+#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_e354e552"
+#SBATCH --ntasks=64
+#SBATCH --ntasks-per-node=64
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=public
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:15:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 apptainer exec -B"/data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/public/default/RegressionTest_e354e552:/rfm_workdir" --home /data/scratch/cladellash/feelppdb --bind /data/scratch/cladellash/feelppdb/input_data/:/input_data --env OMP_NUM_THREADS=1 --sharens --bind /opt/:/opt/ --bind /data/:/data/ /data/scratch/cladellash/images//apps-feelpp.sif feelpp_app_io --directory /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211 --discretization P2 --repository.append.np 0 --gmsh.filename /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M3/case3_p64.json --nrun 1
+
+----
+
+== ReFrame error log
+
+[source,bash]
+----
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-gaya4: error: *** STEP 33142.0 ON gaya4 CANCELLED AT 2026-01-14T17:20:04 DUE TO TIME LIMIT ***
+slurmstepd-gaya4: error: *** JOB 33142 ON gaya4 CANCELLED AT 2026-01-14T17:20:04 DUE TO TIME LIMIT ***
+srun: error: gaya4: tasks 0-7,9-17,20-22,24-27,29-30,32-40,42-46,48-50,53-59,61-63: Terminated
+srun: got SIGCONT
+srun: error: gaya4: tasks 8,19,28,31,41,47,51-52,60: Terminated
+srun: forcing job termination
+srun: error: gaya4: task 18: Terminated
+slurmstepd-gaya4: error:  mpi/pmix_v5: _errhandler: gaya4 [0]: pmixp_client_v2.c:211: Error handler invoked: status = -61, source = [slurm.pmix.33142.0:56]
+srun: error: gaya4: task 23: Exited with exit code 143
+
+----
+
+== ReFrame output log
+
+[source,bash]
+----
+[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2026-Jan-14
+[feelpp] create Feel++ root repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211
+
+[feelpp] create Feel++ geo repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/geo
+
+[feelpp] create Feel++ expressions directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/exprs
+
+[feelpp] create Feel++ logs directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/logs
+
+ . O files are stored in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/
+ .. logfiles :/data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/logs
+[loadMesh] Loading mesh in format json+h5: "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M3/case3_p64.json"
+
+----
+
+== feelpp_app_io.INFO
+
+[source,bash]
+----
+Log file created at: 2026/01/14 17:04:54
+Running on machine: gaya4
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0114 17:04:54.543766 754763 environment.cpp:1708] File /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M3/case3_p64.json found
+I0114 17:04:54.545574 754763 loadmesh.hpp:246]  Loading mesh in json+h5 format "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M3/case3_p64.json"
+I0114 17:04:54.629472 754763 partitionio.hpp:1134] read stat points 11850574,183334,0
+I0114 17:04:54.629488 754763 partitionio.hpp:1137] read stat elements 68915492,1068529,0
+I0114 17:04:54.629490 754763 partitionio.hpp:1140] read stat ghost_elements 4928293,67533,0
+I0114 17:04:54.629492 754763 partitionio.hpp:1143] read stat marked_faces 1561612,26399,0
+I0114 17:04:54.629494 754763 partitionio.hpp:1146] read stat marked_edges 0,0,0
+I0114 17:04:54.629495 754763 partitionio.hpp:1149] read stat marked_points 0,0,0
+I0114 17:04:54.631808 754763 partitionio.hpp:1168] loaded points_ids:1x11850574
+I0114 17:04:54.633910 754763 partitionio.hpp:1170] loaded points_coords:1x35551722
+I0114 17:04:55.874532 754763 partitionio.hpp:1267] loaded elements:1x344577460
+I0114 17:05:02.152590 754763 partitionio.hpp:1373] loaded ghost_elements:1x4928293
+I0114 17:05:02.245163 754763 partitionio.hpp:1569] loaded marked_subentities:1x6246448
+I0114 17:05:03.336205 754763 meshimpl.hpp:1051] We have 26399 faces in the database
+I0114 17:05:07.595628 754763 meshimpl.hpp:1325] We have now 2162072 faces in the mesh
+I0114 17:05:21.767364 754763 meshimpl.hpp:1863] update boundary points...
+I0114 17:05:21.926587 754763 meshimpl.hpp:1883] update boundary elements...
+I0114 17:05:26.502998 754763 meshimpl.hpp:524] h average : 0.00818335
+I0114 17:05:26.503449 754763 meshimpl.hpp:525]     h min : 0.00477946
+I0114 17:05:26.503454 754763 meshimpl.hpp:526]     h max : 0.0116148
+I0114 17:05:26.575922 754763 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:05:26.897891 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:05:26.897905 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:05:26.910060 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  1000996 on processor 0
+I0114 17:05:45.958108 754763 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 1366359
+I0114 17:05:45.958282 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:05:55.853724 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:06:19.043828 754763 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:06:19.184269 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:06:19.184293 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:06:19.197649 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  1000996 on processor 0
+I0114 17:06:50.382237 754763 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 4099077
+I0114 17:06:50.382735 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:07:08.812763 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:07:59.667965 754763 element_impl.hpp:199] creating element u : u
+I0114 17:08:09.036773 754763 element_impl.hpp:199] creating element {x+y+z,x+y+z,x+y+z}:x:y:z : u
+I0114 17:08:09.042359 754763 exporterimpl.hpp:219] [Exporter] format :  ensightgold
+I0114 17:08:09.042375 754763 exporterimpl.hpp:220] [Exporter] N      :  1
+I0114 17:08:18.851001 754763 partitionio.hpp:319] writing mesh in HDF5 format in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/e354e552/ThermalBridgesENISO10211/mesh_0.h5
+I0114 17:08:31.519721 754763 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0114 17:08:31.767019 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0114 17:08:31.767046 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0114 17:08:31.779695 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  1000996 on processor 0
+I0114 17:08:39.605791 754763 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 171236
+I0114 17:08:39.605880 754763 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0114 17:08:48.339524 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+I0114 17:08:58.991531 754763 element_impl.hpp:199] creating element u : u
+I0114 17:09:22.207470 754763 element_impl.hpp:199] creating element uV : u
+
+----
+== feelpp_app_io.WARNING
+
+[source,bash]
+----
+Log file created at: 2026/01/14 17:05:55
+Running on machine: gaya4
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0114 17:05:55.853724 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+W0114 17:07:08.812763 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+W0114 17:08:48.339524 754763 doftable.hpp:2587] TODO: finish implementation of this case below
+
+----
+
