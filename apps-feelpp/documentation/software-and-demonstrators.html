@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Renaming the Project :: Apps-Feelpp</title>
+    <title>Software and demonstrators :: Apps-Feelpp</title>
     <meta name="generator" content="Antora 3.1.14">
 <link rel="stylesheet" href="../../_/css/site.css">
 
@@ -98,6 +98,9 @@ MathJax.Hub.Config({
 
   </head>
   <body class="article">
+<link rel="stylesheet" href="../../_/css/figures.css">
+<link rel="stylesheet" href="../../_/css/table.css">
+
 <header class="header">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark navbar-template-project" style="border-top: 4px solid #9E9E9E">
         <div class="navbar-brand">
@@ -139,14 +142,18 @@ MathJax.Hub.Config({
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../index.html">Apps-Feelpp</a>
   </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../overview.html">Overview</a>
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="software-and-demonstrators.html">Software and demonstrators</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../software-and-demonstrators.html">Software and demonstrators</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../add_a_case.html">Add a case</a>
+    <a class="nav-link" href="add_a_case.html">Add a case</a>
   </li>
 </ul>
   </li>
@@ -174,12 +181,12 @@ MathJax.Hub.Config({
   <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Feel++ Applications</a></li>
-    <li><a href="rename.html">Renaming the Project</a></li>
+    <li><a href="software-and-demonstrators.html">Software and demonstrators</a></li>
   </ul>
 </nav>
 
   
-    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/main/docs/modules/ROOT/pages/env/rename.adoc">Edit this Page</a></div>
+    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/HEAD/docs/modules/documentation/pages/software-and-demonstrators.adoc">Edit this Page</a></div>
   
   <div class="page-downloads">
   <span class="label">Download as</span>
@@ -199,12 +206,91 @@ MathJax.Hub.Config({
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Renaming the Project</h1>
+<h1 class="page">Software and demonstrators</h1>
+<div id="preamble">
+<div class="sectionbody">
+<style>
+.myblock {
+    background-color: #fafafa;
+    padding: 1px 2px;
+    border-radius: 10px;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 0.8em;
+}
+.mini-app{
+    background-color: #ffcfc9;
+}
+.demonstrator{
+    background-color: #bfe1f6;
+}
+.extended-mini-app{
+    background-color: #ffe5a0;
+}
+</style>
 <div class="paragraph">
-<p>The script <code>rename.sh</code> renames the project.</p>
+<p>This page gathers the software and demonstrators regarding Feel++.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_discretization_app_feelpp_discr_1"><a class="anchor" href="#_discretization_app_feelpp_discr_1"></a>1. Discretization <span class="myblock">app-feelpp-discr-1</span></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>You have to answer a few questions to set up a new project out of this template.</p>
+<p><span class="myblock extended-mini-app">extended-mini-app</span></p>
+</div>
+<div class="sect2">
+<h3 id="_benchmark_thermalbridgeseniso10211"><a class="anchor" href="#_benchmark_thermalbridgeseniso10211"></a>1.1. Benchmark: ThermalBridgesENISO10211</h3>
+<div class="paragraph">
+<p>Run the benchmark using <code>feelpp-benchmarking</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">feelpp-benchmarking-exec --machine-config src/config/gaya/gaya.json --benchmark-config src/app-feelpp-discr-1/thermal_bridges_case_3.json --plots-config src/app-feelpp-discr-1/heat_plots.json --website -rc src/config/gaya/reframe.py</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_distance_app_feelpp_distance"><a class="anchor" href="#_distance_app_feelpp_distance"></a>2. Distance <span class="myblock">app-feelpp-distance</span></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="myblock mini-app">mini-app</span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nonlinear_compressive_reduced_basis_app_feelpp_nlcrb"><a class="anchor" href="#_nonlinear_compressive_reduced_basis_app_feelpp_nlcrb"></a>3. Nonlinear Compressive Reduced Basis <span class="myblock">app-feelpp-nlcrb</span></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="myblock extended-mini-app">extended-mini-app</span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reduced_basis_app_feelpp_rb"><a class="anchor" href="#_reduced_basis_app_feelpp_rb"></a>4. Reduced basis <span class="myblock">app-feelpp-rb</span></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="myblock extended-mini-app">extended-mini-app</span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_io_at_large_scale_app_feelpp_io"><a class="anchor" href="#_test_io_at_large_scale_app_feelpp_io"></a>5. Test I/O at large scale <span class="myblock">app-feelpp-io</span></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="myblock mini-app">mini-app</span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_feel_toolboxes_at_scale_app_feelpp_toolbox"><a class="anchor" href="#_test_feel_toolboxes_at_scale_app_feelpp_toolbox"></a>6. Test Feel++ toolboxes at scale <span class="myblock">app-feelpp-toolbox</span></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="myblock demonstrator">demonstrator</span></p>
+</div>
+</div>
 </div>
 </article>
   </div>
@@ -225,12 +311,17 @@ MathJax.Hub.Config({
                 <img src="../../_/img/Logotype-rouge-bleu.png" alt="france 2030 logo" height="50">
             </a>
         </div>
-        <span style="font-size: 0.8rem; color: #9e9e9e">© 2025
+        <span style="font-size: 0.8rem; color: #9e9e9e">© 2026
             <a href="https://www.cemosis.fr" style="text-decoration: underline;">Cemosis</a>,
             <a href="https://unistra.fr" style="text-decoration: underline;"> Université de Strasbourg</a>
         </span>
     </div>
 </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../../_/js/figure-helper.js"></script>
+<script src="../../_/js/table-filter-sort.js"></script>
+
 <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
 
 

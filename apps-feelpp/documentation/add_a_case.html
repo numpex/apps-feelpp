@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>VS Code Integration :: Apps-Feelpp</title>
+    <title>Add a benchmark :: Apps-Feelpp</title>
     <meta name="generator" content="Antora 3.1.14">
 <link rel="stylesheet" href="../../_/css/site.css">
 
@@ -98,6 +98,9 @@ MathJax.Hub.Config({
 
   </head>
   <body class="article">
+<link rel="stylesheet" href="../../_/css/figures.css">
+<link rel="stylesheet" href="../../_/css/table.css">
+
 <header class="header">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark navbar-template-project" style="border-top: 4px solid #9E9E9E">
         <div class="navbar-brand">
@@ -139,14 +142,18 @@ MathJax.Hub.Config({
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../index.html">Apps-Feelpp</a>
   </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../overview.html">Overview</a>
+    <a class="nav-link" href="overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../software-and-demonstrators.html">Software and demonstrators</a>
+    <a class="nav-link" href="software-and-demonstrators.html">Software and demonstrators</a>
   </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../add_a_case.html">Add a case</a>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="add_a_case.html">Add a case</a>
   </li>
 </ul>
   </li>
@@ -174,12 +181,12 @@ MathJax.Hub.Config({
   <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Feel++ Applications</a></li>
-    <li><a href="vscode.html">VS Code Integration</a></li>
+    <li><a href="add_a_case.html">Add a case</a></li>
   </ul>
 </nav>
 
   
-    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/main/docs/modules/ROOT/pages/env/vscode.adoc">Edit this Page</a></div>
+    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/HEAD/docs/modules/documentation/pages/add_a_case.adoc">Edit this Page</a></div>
   
   <div class="page-downloads">
   <span class="label">Download as</span>
@@ -199,34 +206,71 @@ MathJax.Hub.Config({
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">VS Code Integration</h1>
+<h1 class="page">Add a benchmark</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>The project is configured to integrate VSCode using Docker Container.</p>
+<p>This page gathers the process to create a new entry for a benchmark to the site</p>
 </div>
-<div class="paragraph">
-<p>The Docker image can be set from <code>feelpp/feelpp</code> or <code>feelpp/feelpp-toolboxes</code>, simply edit <code>.devcontainer/Dockerfile</code> and choose the image you want.</p>
 </div>
-<div class="paragraph">
-<p><code>ssh-keyscan</code> is used on <code>github.com</code> to register the public key of github in $HOME/.ssh/known_hosts and avoid having git auth issues the first time we log into the container and push/pull to/from github.</p>
 </div>
+<div class="sect1">
+<h2 id="_ingredients_to_get_started"><a class="anchor" href="#_ingredients_to_get_started"></a>1. Ingredients to get started</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>An application that run some scientific computing code, with some inputs and some outputs</p>
+</li>
+<li>
+<p>The inputs files, that have a parametrization (<em>e.g.</em> meshes, solver parametrization, etc&#8230;&#8203;)</p>
+</li>
+<li>
+<p>The output files (<em>e.g.</em> post processed errors, measures, time measurments, etc&#8230;&#8203;)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_set_up_the_configuration_of_feelpp_benchmarking"><a class="anchor" href="#_set_up_the_configuration_of_feelpp_benchmarking"></a>2. Set up the configuration of <code>feelpp.benchmarking</code></h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A complete documentation of the tool <code>feelpp.benchamrking</code> can be found online <a href="https://bench.feelpp.org/benchmarking/index.html" class="bare">bench.feelpp.org/benchmarking/index.html</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_the_configuration_to_run_the_study"><a class="anchor" href="#_the_configuration_to_run_the_study"></a>2.1. The configuration to run the study</h3>
 <div class="paragraph">
-<p>The following extensions are installed in Docker:</p>
+<p>Create a first JSON file with the following entries (among others) :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>cpptools</p>
+<p><code>executable</code>: the path to the executable that is going to be benchmarked</p>
 </li>
 <li>
-<p>cmaketools</p>
+<p><code>input_file_dependencies</code>: the files that are needed to run benchmarks</p>
 </li>
 <li>
-<p>cmake</p>
-</li>
-<li>
-<p>asciidoctor-vscode</p>
+<p><code>scalability</code>: the values or performance (error, times, output, &#8230;&#8203;) that are read from output files</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_configuration_of_the_plots"><a class="anchor" href="#_the_configuration_of_the_plots"></a>2.2. The configuration of the plots</h3>
+
+</div>
+</div>
 </div>
 </article>
   </div>
@@ -247,12 +291,17 @@ MathJax.Hub.Config({
                 <img src="../../_/img/Logotype-rouge-bleu.png" alt="france 2030 logo" height="50">
             </a>
         </div>
-        <span style="font-size: 0.8rem; color: #9e9e9e">© 2025
+        <span style="font-size: 0.8rem; color: #9e9e9e">© 2026
             <a href="https://www.cemosis.fr" style="text-decoration: underline;">Cemosis</a>,
             <a href="https://unistra.fr" style="text-decoration: underline;"> Université de Strasbourg</a>
         </span>
     </div>
 </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../../_/js/figure-helper.js"></script>
+<script src="../../_/js/table-filter-sort.js"></script>
+
 <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
 
 
