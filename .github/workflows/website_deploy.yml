@@ -56,7 +56,7 @@ jobs:
 
         -   name: Deploy
             uses: JamesIves/github-pages-deploy-action@v4
-            # if: ${{ github.ref_name == 'main' }}
+            if: ${{ github.ref_name == 'main' }}
             with:
                 branch: gh-pages
                 folder: public
