@@ -95,12 +95,12 @@
                                 {
                                     "type":"image",
                                     "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-geom.png",
-                                    "caption":"Figure 4.3: Thermal Bridges benchmarks - geometry and materials"
+                                    "caption":"Thermal Bridges benchmarks - geometry and materials"
                                 },
                                 {
                                     "type":"image",
                                     "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-geom2.png",
-                                    "caption":"Figure 4.3: Thermal Bridges benchmarks - geometry and materials"
+                                    "caption":"Thermal Bridges benchmarks - geometry and materials"
                                 }
                             ]
                         }
