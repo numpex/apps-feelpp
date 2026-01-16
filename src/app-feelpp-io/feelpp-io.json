@@ -61,21 +61,18 @@
     "parameters": [
         {
             "name":"tasks",
-            "sequence":[1]
-            // "sequence":[1,64,128]
+            "sequence":[1,64,128]
         },
         {
             "name":"mesh",
-            // "sequence":["M2","M3","M4","M5"],
-            "sequence":["M2"],
+            "sequence":["M2","M3","M4","M5"],
             "conditions":{
                 "M5":[{"discretization":["P1","P2"]}]
             }
         },
         {
             "name":"discretization",
-            // "sequence":["P1","P2","P3","P4","P5","P6"]
-            "sequence":["P1"]
+            "sequence":["P1","P2","P3","P4","P5","P6"]
         }
     ]
 }
