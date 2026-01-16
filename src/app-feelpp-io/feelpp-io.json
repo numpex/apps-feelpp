@@ -1,15 +1,15 @@
 {
     "executable": "feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
-    "use_case_name": "ThermalBridgesENISO10211",
+    "use_case_name": "eye2brain",
     "timeout":"0-00:15:00",
     "resources":{
         "tasks":"{{parameters.tasks.value}}",
         "exclusive_access":true
     },
     "input_file_dependencies":{
-        "mesh_json":"feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.tasks.value}}.json",
-        "mesh_hdf5":"feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/{{parameters.mesh.value}}/case3_p{{parameters.tasks.value}}.h5"
+        "mesh_json":"feelpp_toolboxes/eye/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.json",
+        "mesh_hdf5":"feelpp_toolboxes/eye/{{parameters.mesh.value}}/Eye_Mesh3D_p{{parameters.tasks.value}}.h5"
     },
     "platforms": {
         "apptainer":{
@@ -61,18 +61,21 @@
     "parameters": [
         {
             "name":"tasks",
-            "sequence":[1, 2, 4, 8, 16, 32, 64, 128]
+            "sequence":[1]
+            // "sequence":[1,64,128]
         },
         {
             "name":"mesh",
-            "sequence":["M1","M2","M3"],
+            // "sequence":["M2","M3","M4","M5"],
+            "sequence":["M2"],
             "conditions":{
-                "M3":[{"tasks":[32,64,128]}]
+                "M5":[{"discretization":["P1","P2"]}]
             }
         },
         {
             "name":"discretization",
-            "sequence":["P1","P2"]
+            // "sequence":["P1","P2","P3","P4","P5","P6"]
+            "sequence":["P1"]
         }
     ]
 }

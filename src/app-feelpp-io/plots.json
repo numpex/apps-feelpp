@@ -1,6 +1,17 @@
 {
     "data":[
         {
+            "name":"mesh_nDof_stats", "ref":"reframe_df",
+            "table_options":{
+                "filter":[
+                    { "column":"perfvalue", "op":"in", "value":["meshStats_nDofs"] }
+                ],
+                "pivot":{
+                    "index":["mesh"], "columns":["discretization"], "values":"value", "agg":"mean"
+                }
+            }
+        },
+        {
             "name":"mesh_stats", "ref":"reframe_df",
             "table_options":{
                 "filter":[
@@ -15,462 +26,421 @@
                     "meshStats_nFaces":"%i"
                 }
             }
+        },
+        {
+            "name":"demonstrator_descr",
+            "columns":[
+                {
+                    "name":"Field",
+                    "values":[
+                        "id", "name", "Partners", "PC", "Responsible", "WP7 Engineer", "work_package", "application_type",
+                        "purpose", "Method-Algorithm WP1", "Method-Algorithm WP2", "Method-Algorithm WP3", "Method-Algorithm WP4",
+                        "Method-Algorithm WP5", "Method-Algorithm WP6", "WP7", "outputs", "metrics", "status", "Benchmark scope",
+                        "Framework", "parallel_framework", "spec_due", "proto_due", "repo_url"
+                    ]
+                },
+                {
+                    "name":"Details",
+                    "values":[
+                        "app-feelpp-io", "Test I/O at large scale", "Unistra", "PC1 - ExaMA, PC2 - ExaSoft",
+                        "(Permanent) V. Chabannes, C. Prud'homme", "Thomas Saigre, Javier Cladellas (UNISTRA)",
+                        "WP1, WP6", "mini-app", "Benchmark parallel I/O performance for mesh loading andfield export operations",
+                        "finite element spaces, mesh partitioning", " ", " ", " ", " ", "parallel I/O, HDF5, file system performance",
+                        " ", "HDF5 data files, VTK/EnSight exports, JSON performance metrics", "io-scaling, strong-scalability",
+                        "benchmark-ready", "io-performance, scaling-analysis", "Feel++, PETSc", "MPI", "6/15/2025", "7/1/2025",
+                        "https://github.com/numpex/apps-feelpp"
+                    ]
+                }
+            ]
         }
     ],
     "contents":[
         {
             "type":"section",
-            "title":"Benchmark Execution Summary",
-            "contents": [
-                {
-                    "type":"section",
-                    "title":"Session",
-                    "contents":[
-                        {
-                            "type":"itemize",
-                            "ref":"reframe_json",
-                            "items":[
-                                "Hostname: @{session_info.hostname}@",
-                                "User: @{session_info.hostname}@",
-                                "Time Start: @{session_info.time_start}@",
-                                "Time End: @{session_info.time_end}@"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Cases",
-                    "contents":[
-                        {
-                            "type":"itemize",
-                            "ref":"reframe_json",
-                            "items":[
-                                "Total: @{session_info.num_cases}@ ",
-                                "Failures: @{session_info.num_failures}@",
-                                "Runs: @{runs | length}@"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Parametrization",
-                    "contents":[
-                        {
-                            "type":"table",
-                            "ref": "parameter_table",
-                            "layout":{
-                                "column_order":["result","testcases.hashcode","tasks","mesh", "discretization", "testcases.time_total", "logs_link"],
-                                "rename":{ "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash", "result":"", "logs_link":"" }
-                            },
-                            "style":{
-                                "column_align":{ "result":"center" },
-                                "column_width":{ "result":1,"logs_link":1},
-                                "classnames":["scrollable","sortable"]
-                            },
-                            "filter":{ "placeholder":"Filter testcases..." }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type":"section",
-            "title":"I/O Performance Results",
+            "title":"Mini App: Test I/O at large scale",
             "contents":[
                 {
-                    "type": "text",
-                    "text": "This section summarizes the performance of the Feel++ I/O pipeline, measuring mesh loading, function space creation, field saving, mesh saving, and exporter time."
+                    "type":"text",
+                    "text":"This mini-app tests large-scale I/O for Feel++. The I/O operations measured here are representative of those performed in the demonstrators, where mesh loading and field export can become performance bottlenecks for large-scale simulations."
                 },
-
+                {
+                    "type":"text",
+                    "text":"The following table describes the specefications of the application"
+                },
+                { "type":"table", "ref":"demonstrator_descr" },
                 {
                     "type":"section",
-                    "title":"Mesh statistics",
+                    "title":"Description of the benchmark",
                     "contents":[
                         {
-                            "type":"table",
-                            "ref":"mesh_stats",
-                            "layout":{
-                                "column_order":["mesh","meshStats_nPoints","meshStats_nEdges","meshStats_nFaces"],
-                                "rename":{
-                                    "mesh":"Mesh", "meshStats_nPoints":"# Points", "meshStats_nEdges":"# Edges", "meshStats_nFaces":"# Faces"
+                            "type":"text",
+                            "text":"This mini-app repeats the following steps a given number of times:"
+                        },
+                        {
+                            "type":"itemize",
+                            "items":[
+                                "Load a mesh stem:[\\mathcal{M}] with discretization size stem:[h]",
+                                "Create a function space stem:[X_h = P_{c,h}^d] for the desired discretization order stem:[d]",
+                                "Create a vector-valued function space stem:[ \\mathbf{X}_h = ( P_{c,h}^d )^3 ]",
+                                "Create a vector stem:[u \\in X_h] and export it to disk",
+                                "Create a vector stem:[\\mathbf{u} \\in \\mathbf{X}_h] and export it to disk",
+                                "Write the loaded mesh to disk"
+                            ]
+                        },
+                        {
+                            "type":"text",
+                            "text":"Exports are performed in two ways: _(i)_ write at format HDF5 on the disk directly, _(ii)_ use the _exporter_ functionality of Feel++. For the second, we provide more details. The two fields are interpolated to a stem:[\\mathbb{P}_1] field before being saved on the disk. The mesh is also exported in this process. The time measured is the time to perform projections of stem:[u] and stem:[\\mathbf{u}] and to save the files."
+                        },
+                        {
+                            "type":"text",
+                            "text":"This whole process is iterated a given number of times."
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Benchmark Execution Summary",
+                    "contents": [
+                        {
+                            "type":"section",
+                            "title":"Session",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Hostname: @{session_info.hostname}@",
+                                        "User: @{session_info.hostname}@",
+                                        "Time Start: @{session_info.time_start}@",
+                                        "Time End: @{session_info.time_end}@"
+                                    ]
                                 }
-                            },
-                            "style":{
-                                "column_align":{ "mesh":"center","meshStats_nPoints":"center","meshStats_nEdges":"center","meshStats_nFaces":"center"},
-                                "column_width":{ "mesh":1 }
-                            }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Cases",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Total: @{session_info.num_cases}@ ",
+                                        "Failures: @{session_info.num_failures}@",
+                                        "Runs: @{runs | length}@"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Parametrization",
+                            "contents":[
+                                {
+                                    "type":"table",
+                                    "ref": "parameter_table",
+                                    "layout":{
+                                        "column_order":["result","testcases.hashcode","tasks","mesh", "discretization", "testcases.time_total", "logs_link"],
+                                        "rename":{ "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash", "result":"", "logs_link":"" }
+                                    },
+                                    "style":{
+                                        "column_align":{ "result":"center" },
+                                        "column_width":{ "result":1,"logs_link":1},
+                                        "classnames":["scrollable","sortable"]
+                                    },
+                                    "filter":{ "placeholder":"Filter testcases..." }
+                                }
+                            ]
                         }
                     ]
                 },
-
                 {
                     "type":"section",
-                    "title":"Aggregated Metrics",
+                    "title":"Benchmarking Tools Used",
                     "contents":[
                         {
                             "type":"text",
-                          "text": "The following plots summarize both relative and absolute performance metrics across operations and task counts."
+                            "ref":"reframe_json",
+                            "text": "This benchmark was performed on the @{runs.0.testcases.0.system}@ supercomputer, using feelpp.benchmaring (*v.{feelpp_benchmarking_version}*). The performance tools integrated into the Feel++-toolboxes framework were used to measure the execution time."
                         },
-                        //--------------RELATIVE PERFORMANCE OF EACH OPERATION------------------//
-                        {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Relative Performance of the pipline operations, averaged by discretization",
-                                "transformation":"relative_performance",
-                                "plot_types":["stacked_bar"],
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Perc." },
-                                "color_axis":{
-                                    "parameter":"perfvalue", "label":"Operation",
-                                    "filter":[
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
-                                    ]
-                                },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"discretization","agg":"mean"} ]
-                            }
-                        },
-                        //------------------------------------------------------------//
-                        //--------------ABSOLUTE PERFORMANCE OF EACH OPERATION------------------//
                         {
                             "type":"text",
-                            "text":""
+                            "text":"This mini app can be run with any mesh family. The results presented in this document are obtained with a 3D mesh of a realistic geometry of a human eyeball (Saigre, Prud'Homme, & Szopos, 2024), with various level of refinement. The steps to obtain this mesh, stemming from a human eyeball CAD are presented in (Chabannes et al., 2024). The figure below presents the mesh, and the level disparity of the refinement according to the region considered."
                         },
                         {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Parallel Performance per operation (averaged by discretization)",
-                                "plot_types":["scatter","grouped_bar","marked_scatter"],
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Mean execution time (s)" },
-                                "color_axis":{
-                                    "parameter":"perfvalue", "label":"Operation",
-                                    "filter":[
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
+                            "type":"image",
+                            "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-eyemesh.png",
+                            "caption":"Mesh discretization, with the various regions of the eye."
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Input/Output Dataset Description",
+                    "contents":[
+                        {
+                            "type":"section",
+                            "title":"Input Data",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "Meshes: We have generated meshes of various refinement levels, denoted _M2_ to _M5_. The characteristics of the meshes, as well as the number of degrees of freedom for various discretization orders, are presented in Table below. All meshes are pre-partitioned with the application _feelpp_mesh_partitionner_ (https://docs.feelpp.org/user/latest/using/tools/mesh_partitioner.html)",
+                                        "Setup: use the function provided by the library Feel++, such as mesh manipulation and data exporter. The full source code is available in _src_ directory of the GitHub repository _apps-feelpp_.",
+                                        "Sif image: _feelpp:v0.111.0-preview.10-noble-sif_ (stored in the GitHub registry of Feel++)"
                                     ]
                                 },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"discretization","agg":"mean"} ]
-                            }
+                                {
+                                    "type":"table",
+                                    "ref":"mesh_stats",
+                                    "layout":{
+                                        "column_order":["mesh","meshStats_nPoints","meshStats_nEdges","meshStats_nFaces"],
+                                        "rename":{
+                                            "mesh":"Mesh", "meshStats_nPoints":"# Points", "meshStats_nEdges":"# Edges", "meshStats_nFaces":"# Faces"
+                                        }
+                                    },
+                                    "style":{
+                                        "column_align":{ "mesh":"center","meshStats_nPoints":"center","meshStats_nEdges":"center","meshStats_nFaces":"center"},
+                                        "column_width":{ "mesh":1 }
+                                    }
+                                },
+                                //Currently cant put it on the same table due to supported operation limitations
+                                {
+                                    "type":"table",
+                                    "ref":"mesh_nDof_stats",
+                                    "layout":{
+                                        "rename":{ "mesh":"Mesh" }
+                                    },
+                                    "style":{
+                                        "column_align":{ "mesh":"center" },
+                                        "column_width":{ "mesh":1 }
+                                    }
+                                }
+                                
+                            ]
                         },
-                        //------------------------------------------------------------//
-                        //--------------SPEEDUP OF EACH OPERATION------------------//
+                        {
+                            "type":"section",
+                            "title":"Output Data",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The monitored quantities are the average times for each of the steps run in the loop described above: _(i) time_loadMesh_, the time taken by the application to load the mesh from the disk; _(ii) time_createFunctionSpace_, the time taken to create the functional space stem:[X_h] or order stem:[d]; _(iii) time_saveMesh_, the time taken to write the mesh data on the disk, in a new file; _(iv) time_export_, the time to export the vector stem:[u \\in X_h] to disk, using the exporter functionality of Feel++. The times are stored in a JSON file during execution."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Results summary",
+                    "contents":[
                         {
                             "type":"text",
-                            "text":""
+                            "ref":"reframe_json",
+                            "text":"We present in the figures below results over the mesh family for various numbers of parallel tasks. The mini-app is run on the cluster @{runs.0.testcases.0.system}@. The results presented are obtained with the degree of discretization stem:[\\mathbb{P}_1]. Similar behavior is observed for other discretization orders. "
                         },
                         {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Speedup per operation (average)",
-                                "plot_types":["scatter"],
-                                "transformation":"speedup",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label":"Speedup factor" },
-                                "color_axis":{
-                                    "parameter":"perfvalue", "label":"Operation",
-                                    "filter":[
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
-                                    ]
-                                },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"mesh","agg":"mean"} ]
-                            }
-                        }
-                        //------------------------------------------------------------//
-                    ]
-                },
-
-
-
-                {
-                    "type":"section",
-                    "title":"Performance Breakdown per operation",
-                    "contents":[
-                        {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Relative I/O performance per operation (P1 disc.)",
-                                "plot_types": ["stacked_bar"],
-                                "transformation":"relative_performance",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
-                                "color_axis": {
-                                    "parameter": "perfvalue", "label": "Operation",
-                                    "filter": [
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
-                                    ] },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"discretization","agg":"filter:P1"} ]
-                            }
+                            "type":"text",
+                            "text":"Note that some points are missing, either because the memory required exceeded what was available on a compute node, or because the iterative process took longer than the job timeout."
                         },
                         {
-                            "type":"plot",
-                            "plot":{
-                                "title":"Relative I/O performance per operation (P2 disc.)",
-                                "plot_types": [ "stacked_bar"],
-                                "transformation":"relative_performance",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
-                                "color_axis": {
-                                    "parameter": "perfvalue", "label": "Operation",
-                                    "filter": [
-                                        {"loadMesh": "Load mesh"}, {"saveMesh": "Save mesh"},
-                                        {"functionSpace": "Function space (scalar)"}, {"functionSpaceV": "Function space (vector)"},
-                                        {"saveField": "Save field"}, {"saveFieldV": "Save vector field"},
-                                        {"export": "Exporter"}
-                                ] },
-                                "secondary_axis":{"parameter":"mesh","label":"Mesh"},
-                                "aggregations":[ {"column":"discretization","agg":"filter:P2"} ]
-                            }
-                        }
-                    ]
-                },
-
-                {
-                    "type":"section",
-                    "title":"Operation : Export ",
-                    "contents":[
-                        {
-                            "type":"plot",
-                            "plot":{
-                                "title": "Export",
-                                "plot_types": [ "scatter","grouped_bar" ],
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label": "Time [s]" },
-                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
-                            }
+                            "type":"text",
+                            "text":"We see that mesh reading and function-space creation scale well with the number of parallel processes with a limit reached at np = 96 for the small meshes."
                         },
                         {
-                            "type":"plot",
-                            "plot":{
-                                "title": "Export",
-                                "plot_types": [ "scatter" ],
-                                "transformation":"speedup",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label":"Speedup factor" },
-                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Operation : Load Mesh ",
-                    "contents":[
+                            "type":"text",
+                            "text":"Conversely, the steps writing data to disk do not scale with more parallel processes. Times increase or stagnate This loss of performance stems from coordination among parallel processes when writing to a single destination. Because the mesh is pre-partitioned, the reading step does not suffer the same issue."
+                        },
+
                         {
                             "type":"plot",
                             "plot":{
                                 "title": "Load Mesh",
                                 "plot_types": [ "scatter","grouped_bar" ],
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
+                                "xaxis": { "parameter": "tasks", "label": "np" },
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
                             }
                         },
+
+
                         {
                             "type":"plot",
                             "plot":{
-                                "title": "Load Mesh (speedup)",
-                                "plot_types": [ "scatter" ],
-                                "transformation":"speedup",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label":"Speedup factor" },
-                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Operation : Save Mesh ",
-                    "contents":[
-                        {
-                            "type":"plot",
-                            "plot":{
-                                "title": "Save Mesh",
+                                "title": "Save Mesh as HDF5 on disk ",
                                 "plot_types": [ "scatter","grouped_bar" ],
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
+                                "xaxis": { "parameter": "tasks", "label": "np" },
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ]
                             }
                         },
+
                         {
                             "type":"plot",
                             "plot":{
-                                "title": "Save Mesh (speedup)",
-                                "plot_types": [ "scatter" ],
-                                "transformation":"speedup",
-                                "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                "yaxis": { "label":"Speedup factor" },
+                                "title": "$\\text{Create function space } X_h$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "tasks", "label": "np" },
+                                "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Create vector function space } \\mathbf{X}_h$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "tasks", "label": "np" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Export the field } u \\text{ as HDF5 format on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "tasks", "label": "np" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Export the vector field } \\mathbf{u} \\text{ as HDF5 format on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "tasks", "label": "np" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Ensight export of the vectors } u \\text{ and } \\mathbf{u} \\text{ and the mesh on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "tasks", "label": "np" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"discretization","label":"Discretization"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
+                            }
+                        },
+
+                        {
+                            "type":"text",
+                            "text":"Now, we present in the next figures the evolution of the time taken by each step, depending on the degree of discretization considered. Specifically, we can see that the mesh manipulation is indeed independent of the degree of discretization."
+                        },
+                        {
+                            "type":"text",
+                            "text":"Conversely, other steps are impacted by the discretization order through the increased number of degrees of freedom (see table in <<Input Data>> section). We can see that time increases roughly linearly with order, with a larger increase for disk writes."
+                        },
+
+
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "Load Mesh",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
+                            }
+                        },
+
+
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "Save Mesh as HDF5 on disk ",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ]
                             }
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Operation : Function Space ",
-                    "contents":[
+                        },
+
                         {
-                            "type":"section",
-                            "title":"Function Space [Scalar]",
-                            "contents":[
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Function Space Performance [Scalar]",
-                                        "plot_types": [ "scatter","grouped_bar" ],
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Function Space [Scalar] (speedup)",
-                                        "plot_types": [ "scatter" ],
-                                        "transformation":"speedup",
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label":"Speedup factor" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
-                                    }
-                                }
-                            ]
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Create function space } X_h$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
+                            }
                         },
                         {
-                            "type":"section",
-                            "title":"Function Space [Vector]",
-                            "contents":[
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Function Space Performance [Vector]",
-                                        "plot_types": [ "scatter","grouped_bar" ],
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Function Space [Vector] (speedup)",
-                                        "plot_types": [ "scatter" ],
-                                        "transformation":"speedup",
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label":"Speedup factor" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Operation : Save Field ",
-                    "contents":[
-                        {
-                            "type":"section",
-                            "title":"Save Field [Scalar]",
-                            "contents":[
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Save Field Performance [Scalar]",
-                                        "plot_types": [ "scatter","grouped_bar" ],
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Save Field [Scalar] (speedup)",
-                                        "plot_types": [ "scatter" ],
-                                        "transformation":"speedup",
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label":"Speedup factor" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
-                                    }
-                                }
-                            ]
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Create vector function space } \\mathbf{X}_h$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
+                            }
                         },
                         {
-                            "type":"section",
-                            "title":"Save Field [Vector]",
-                            "contents":[
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Save Field Performance [Vector]",
-                                        "plot_types": [ "scatter","grouped_bar" ],
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label": "Time [s]" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Save Field [Vector] (speedup)",
-                                        "plot_types": [ "scatter" ],
-                                        "transformation":"speedup",
-                                        "xaxis": { "parameter": "tasks", "label": "Number of tasks" },
-                                        "yaxis": { "label":"Speedup factor" },
-                                        "secondary_axis":{"parameter":"discretization","label":"Discretization"},
-                                        "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                        "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
-                                    }
-                                }
-                            ]
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Export the field } u \\text{ as HDF5 format on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Export the vector field } \\mathbf{u} \\text{ as HDF5 format on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title": "$\\text{Ensight export of the vectors } u \\text{ and } \\mathbf{u} \\text{ and the mesh on disk}$",
+                                "plot_types": [ "scatter","grouped_bar" ],
+                                "xaxis": { "parameter": "discretization", "label": "Order of discretization" },
+                                "yaxis": { "label": "Time [s]" },
+                                "secondary_axis":{"parameter":"tasks","label":"np"},
+                                "color_axis": { "parameter": "mesh", "label": "Mesh"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
+                            }
                         }
+
                     ]
                 }
-
             ]
         }
     ]
