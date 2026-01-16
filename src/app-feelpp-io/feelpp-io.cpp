@@ -28,7 +28,7 @@ int run()
            time_export = 0;
     const int nRun = ioption( "nrun" );
 
-    int nPoints, nEdges, nFaces;
+    int nPoints, nEdges, nFaces, nDofs;
 
     for (int i=0; i<nRun; ++i)
     {
@@ -48,6 +48,7 @@ int run()
         auto Xhv = Pchv<ORDER>(mesh);
         time_createFunctionSpaceV += toc("create vectorial function space");
         // Feel::cout << "nDof = " << Xh->nDof() << std::endl;
+        nDofs = Xh->nDof();
 
         auto u = Xh->element(Px() * Px() + 4 * Py() + cos(Pz()));
         auto uV = Xhv->element( "{x+y+z,x+y+z,x+y+z}:x:y:z" );
@@ -103,8 +104,8 @@ int run()
         ofs.close();
 
         std::ofstream ofsMeshSize("mesh_stats.csv");
-        ofsMeshSize << "nPoints,nEdges,nFaces\n";
-        ofsMeshSize << nPoints << ","<< nEdges << "," << nFaces;
+        ofsMeshSize << "nPoints,nEdges,nFaces,nDofs\n";
+        ofsMeshSize << nPoints << ","<< nEdges << "," << nFaces << "," << nDofs;
         ofsMeshSize.close();
     }
 
