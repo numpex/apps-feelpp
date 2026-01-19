@@ -2,7 +2,7 @@
     "executable": "feelpp_app_io",
     "output_directory": "{{machine.output_app_dir}}/app-feelpp-io/io",
     "use_case_name": "eye2brain",
-    "timeout":"0-00:15:00",
+    "timeout":"0-00:30:00",
     "resources":{
         "tasks":"{{parameters.tasks.value}}",
         "exclusive_access":true
