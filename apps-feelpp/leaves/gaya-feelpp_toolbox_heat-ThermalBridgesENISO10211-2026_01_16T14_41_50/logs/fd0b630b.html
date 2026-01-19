@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ReFrame logs :: Apps-Feelpp</title>
+    <meta name="generator" content="Antora 3.1.14">
+<link rel="stylesheet" href="../../../../_/css/site.css">
+
+<!-- Font Awesome webfont CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="icon" href="../../../../_/img/favicon.ico" type="image/x-icon">
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+<script src="../../../../_/js/vendor/tabs-block-extension.js"></script>
+<script src="../../../../_/js/vendor/tabs-block-behavior.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      bold: ["{\\bf #1}",1],
+      calTh: "{\\mathcal{T}_h}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      card: ["{\\operatorname{card}(#1)}",1],
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      diam: "{\\operatorname{diam}}",
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      disp: ["{\\mathbf{#1}}",1],
+      domain: "{\\Omega}",
+      ds: "",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      F:"{\\mathcal{F}}",
+      geo: "{\\mathrm{geo}}",
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      Id: "{\\mathcal{I}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      n:"{\\mathbf{n}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Next: "{\\mathrm{n}}",
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      NN: "{\\mathbb N}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Nso: "{N_{\\mathrm{so}}}",
+      opdim: "{\\operatorname{dim}}",
+      p: "{\\mathrm{p}}",
+      P:"{\\mathcal{P}}",
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      poly: ["{\\mathbb{#1}",1],
+      poly: ["{\\mathbb{#1}}",1],
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      q:"{\\mathbf{q}}",
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      RR: "{\\mathbb R}",
+      set: ["{\\left\\{#1\\right\\}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      T:"{\\mathcal{T}}",
+      tr: "{\\operatorname{tr}}",
+      v:"{\\mathbf{v}}",
+      vertiii: ["\\left\\vert\\kern-0.25ex\\left\\vert\\kern-0.25ex\\left\\vert #1 \\right\\vert\\kern-0.25ex\\right\\vert\\kern-0.25ex\\right\\vert",1]
+  },
+  extensions: ["mhchem.js"] 
+  }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML'></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+<script>var uiRootPath = '../../../../_'</script>
+
+  </head>
+  <body class="article">
+<link rel="stylesheet" href="../../../../_/css/figures.css">
+<link rel="stylesheet" href="../../../../_/css/table.css">
+
+<header class="header">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark navbar-template-project" style="border-top: 4px solid #9E9E9E">
+        <div class="navbar-brand">
+            <div class="navbar-item feelpp-logo">
+                <a href="">Apps-Feelpp</a>
+            </div>
+            <button class="navbar-burger" data-target="topbar-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div id="topbar-nav" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable download-item">
+                    <div class="navbar-item"><a href="https://github.com/numpex/apps-feelpp/" class="download-btn"><i class="fa-brands fa-github"></i> Source code</a></div>
+                </div>
+                <div class="navbar-item">
+                    <a class="navbar-brand"  href="https://www.cemosis.fr">
+                        <img src="../../../../_/img/logo-numpex-exama-web.png" alt="Exa-Ma logo" height="50">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="body">
+<a href="#" class="menu-expand-toggle"></a>
+<div class="nav-container" data-component="apps-feelpp" data-version="">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../../index.html">Feel++ Applications</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../index.html">Apps-Feelpp</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/software-and-demonstrators.html">Software and demonstrators</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/add_a_case.html">Add a case</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Feel++ Applications</span>
+    <span class="version"></span>
+  </div>
+  <ul class="components">
+      <li class="component is-current">
+        <a class="title" href="../../../index.html">Feel++ Applications</a>
+      </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+  <button class="nav-toggle"></button>
+    <a href="../../../index.html" class="home-link"></a>
+  <nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../../index.html">Feel++ Applications</a></li>
+    <li><a href="fd0b630b.html">ReFrame logs</a></li>
+  </ul>
+</nav>
+
+  
+    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/HEAD/docs/modules/ROOT/pages/leaves/gaya-feelpp_toolbox_heat-ThermalBridgesENISO10211-2026_01_16T14_41_50/logs/fd0b630b.adoc">Edit this Page</a></div>
+  
+  <div class="page-downloads">
+  <span class="label">Download as</span>
+  <ul class="download-options">
+    <li>
+      <a onclick="print(this)" href="#" data-toggle="tooltip" data-placement="left" title="Print to PDF"
+         class="pdf-download">
+        <img class="pdf-file-icon icon" src="../../../../_/img/pdf.svg"/> .pdf
+      </a>
+    </li>
+  </ul>
+</div>
+</div>
+
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">ReFrame logs</h1>
+<div class="sect1">
+<h2 id="_reframe_scheduler_script"><a class="anchor" href="#_reframe_scheduler_script"></a>1. ReFrame scheduler script</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_fd0b630b"
+#SBATCH --ntasks=16
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=production
+#SBATCH --nodes=3
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:20:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 apptainer exec -B"/data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/production/default/RegressionTest_fd0b630b:/rfm_workdir" --home /data/scratch/cladellash/feelppdb --bind /data/scratch/cladellash/feelppdb/input_data/:/input_data --env OMP_NUM_THREADS=1 --sharens --bind /opt/:/opt/ --bind /data/:/data/ /data/scratch/cladellash/images//feelpp-noble.sif feelpp_toolbox_heat --config-files /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/gamg.cfg --directory /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b --repository.case ThermalBridgesENISO10211 --heat.scalability-save=1 --repository.append.np 0 --case.discretization P3 --heat.json.patch='{"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" }'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reframe_error_log"><a class="anchor" href="#_reframe_error_log"></a>2. ReFrame error log</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Out of memory. This could be due to allocating
+[0]PETSC ERROR: too large an object or bleeding by not properly
+[0]PETSC ERROR: destroying unneeded objects.
+[3]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[3]PETSC ERROR: Out of memory. This could be due to allocating
+[3]PETSC ERROR: too large an object or bleeding by not properly
+[3]PETSC ERROR: destroying unneeded objects.
+[11]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[11]PETSC ERROR: Out of memory. This could be due to allocating
+[11]PETSC ERROR: too large an object or bleeding by not properly
+[11]PETSC ERROR: destroying unneeded objects.
+[7]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[7]PETSC ERROR: Out of memory. This could be due to allocating
+[7]PETSC ERROR: too large an object or bleeding by not properly
+[7]PETSC ERROR: destroying unneeded objects.
+[0]PETSC ERROR: Memory allocated 0 Memory used by process 17450401792
+[0]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[0]PETSC ERROR: Memory requested 18446744058842689536
+[0]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[0]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[0]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[0]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[3]PETSC ERROR: Memory allocated 0 Memory used by process 17509122048
+[3]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[3]PETSC ERROR: Memory requested 18446744058816239616
+[3]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[3]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[3]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[3]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[3]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[3]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[3]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[3]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[3]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[3]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[3]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+[3]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flt[0]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[0]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[0]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[0]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[0]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[0]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+[8]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[8]PETSC ERROR: Out of memory. This could be due to allocating
+[8]PETSC ERROR: too large an object or bleeding by not properly
+[8]PETSC ERROR: destroying unneeded objects.
+[0]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi "[12]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[12]PETSC ERROR: Out of memory. This could be due to allocating
+[12]PETSC ERROR: too large an object or bleeding by not properly
+[12]PETSC ERROR: destroying unneeded objects.
+ --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flt[14]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[14]PETSC ERROR: Out of memory. This could be due to allocating
+[14]PETSC ERROR: too large an object or bleeding by not properly
+[14]PETSC ERROR: destroying unneeded objects.
+o=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[0]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[0]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[9]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[9]PETSC ERROR: Out of memory. This could be due to allocating
+[9]PETSC ERROR: too large an object or bleeding by not properly
+[9]PETSC ERROR: destroying unneeded objects.
+o=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[3]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[3]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[8]PETSC ERROR: Memory allocated 0 Memory used by process 17431527424
+[8]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[8]PETSC ERROR: Memory requested 18446744059446913024
+[8]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[8]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[8]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[8]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[7]PETSC ERROR: Memory allocated 0 Memory used by process 17534287872
+[7]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[7]PETSC ERROR: Memory requested 18446744061997012992
+[7]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[7]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[7]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[7]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[7]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[8]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[8]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[8]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[8]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[8]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[8]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[8]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya3 by cladellash Fri Jan 16 14:45:55 2026
+[2]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[2]PETSC ERROR: Out of memory. This could be due to allocating
+[2]PETSC ERROR: too large an object or bleeding by not properly
+[2]PETSC ERROR: destroying unneeded objects.
+[2]PETSC ERROR: Memory allocated 0 Memory used by process 17458790400
+[2]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[2]PETSC ERROR: Memory requested 18446744059190724608
+[8]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flt[2]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[2]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[2]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[2]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[2]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[2]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[2]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[2]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[2]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[2]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[2]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+o=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MA[2]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi "KEFLAGS=w
+[8]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[8]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+ --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flt[9]PETSC ERROR: Memory allocated 0 Memory used by process 17517510656
+[9]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[9]PETSC ERROR: Memory requested 18446744059328550912
+[9]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[9]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[9]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[9]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[9]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+o=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MA[9]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[9]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[9]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[9]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[9]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[9]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya3 by cladellash Fri Jan 16 14:45:55 2026
+KEFLAGS=w
+[2]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[2]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[9]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flt[7]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[7]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[7]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[7]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[7]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[7]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya3 by cladellash Fri Jan 16 14:45:55 2026
+[7]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[7]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[7]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[4]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[4]PETSC ERROR: Out of memory. This could be due to allocating
+[4]PETSC ERROR: too large an object or bleeding by not properly
+o=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[9]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[9]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[4]PETSC ERROR: destroying unneeded objects.
+[4]PETSC ERROR: Memory allocated 0 Memory used by process 17452498944
+[4]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[4]PETSC ERROR: Memory requested 18446744063537997824
+[4]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[4]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[4]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[4]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[4]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[4]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[4]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[4]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[4]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[6]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[6]PETSC ERROR: Out of memory. This could be due to allocating
+[6]PETSC ERROR: too large an object or bleeding by not properly
+[6]PETSC ERROR: destroying unneeded objects.
+[6]PETSC ERROR: Memory allocated 0 Memory used by process 17421041664
+[6]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[6]PETSC ERROR: Memory requested 18446744060253343744
+[6]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[6]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[6]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[6]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[6]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[6]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[6]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[6]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[6]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[6]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[6]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya3 by cladellash Fri Jan 16 14:45:55 2026
+[12]PETSC ERROR: Memory allocated 0 Memory used by process 17372807168
+[12]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[12]PETSC ERROR: Memory requested 18446744060989394944
+[12]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[12]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[12]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[12]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[6]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[6]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[6]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[12]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[12]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[12]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[14]PETSC ERROR: Memory allocated 0 Memory used by process 17590910976
+[14]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[14]PETSC ERROR: Memory requested 18446744061498544128
+[14]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[14]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[14]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[14]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[14]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[14]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[14]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[14]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[14]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[14]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[14]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya4 by cladellash Fri Jan 16 14:45:55 2026
+[14]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -fl[11]PETSC ERROR: Memory allocated 0 Memory used by process 17288921088
+[11]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[11]PETSC ERROR: Memory requested 18446744062838259712
+[11]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[11]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[11]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[11]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[11]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[11]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[11]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[11]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[11]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[11]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[11]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya4 by cladellash Fri Jan 16 14:45:55 2026
+[11]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -fl[12]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[12]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[12]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[12]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya4 by cladellash Fri Jan 16 14:45:55 2026
+[12]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[12]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[12]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+to=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[14]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[14]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+to=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[11]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[11]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[4]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[4]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+[4]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[4]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[4]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[11]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[11]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[12]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[12]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[14]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[14]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[0]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[0]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[3]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[3]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[4]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[6]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[6]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[2]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[2]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[4]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[7]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[7]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[8]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[8]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[9]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[9]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[11]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[11]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[11]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[6]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[6]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[6]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[7]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[7]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[7]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[12]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[12]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[12]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[9]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[9]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[9]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[14]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[14]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[14]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[13]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[13]PETSC ERROR: Out of memory. This could be due to allocating
+[13]PETSC ERROR: too large an object or bleeding by not properly
+[13]PETSC ERROR: destroying unneeded objects.
+[0]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[0]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[4]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[4]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[4]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[13]PETSC ERROR: Memory allocated 0 Memory used by process 17395875840
+[13]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[13]PETSC ERROR: Memory requested 18446744063150116864
+[0]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[2]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[2]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[2]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[13]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[3]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[3]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[3]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[13]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[13]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[13]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[13]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[13]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[13]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[13]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[13]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[13]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[13]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya4 by cladellash Fri Jan 16 14:45:55 2026
+[8]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[8]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[8]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[13]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[13]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[13]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[13]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[13]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[13]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[13]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[13]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[11]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[11]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[11]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[2]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[2]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[0]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[0]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[3]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[3]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[12]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[12]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[12]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[4]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[4]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[14]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[14]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[14]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[13]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[13]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[13]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[0]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[2]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[6]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[6]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[6]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[3]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[4]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[7]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[7]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[7]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[8]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[8]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[8]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[9]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[9]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[9]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[15]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[15]PETSC ERROR: Out of memory. This could be due to allocating
+[15]PETSC ERROR: too large an object or bleeding by not properly
+[15]PETSC ERROR: destroying unneeded objects.
+[15]PETSC ERROR: Memory allocated 0 Memory used by process 17284726784
+[15]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[15]PETSC ERROR: Memory requested 18446744060819247104
+[15]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[15]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[15]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[15]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[15]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[15]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[15]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[15]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[15]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[15]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[15]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya4 by cladellash Fri Jan 16 14:45:55 2026
+[15]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[15]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[15]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[15]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[15]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[15]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[15]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[15]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[15]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[15]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[15]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[6]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[6]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[7]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[7]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[9]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[9]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[11]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[11]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[12]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[12]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[13]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[13]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[14]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[14]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[15]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[15]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[0]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[0]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[2]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[2]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[3]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[3]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[4]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[4]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[10]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[10]PETSC ERROR: Out of memory. This could be due to allocating
+[10]PETSC ERROR: too large an object or bleeding by not properly
+[10]PETSC ERROR: destroying unneeded objects.
+[10]PETSC ERROR: Memory allocated 0 Memory used by process 17387487232
+[10]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[10]PETSC ERROR: Memory requested 18446744061288243200
+[10]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[10]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[10]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[10]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[10]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[10]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[10]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[10]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[10]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[10]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[10]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya3 by cladellash Fri Jan 16 14:45:55 2026
+[10]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[10]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[10]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[10]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[10]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[10]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[10]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[10]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[10]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[10]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[10]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[10]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[10]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[8]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[8]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[13]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[15]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[11]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[11]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[12]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[13]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[15]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[12]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[14]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[14]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[0]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[0]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[2]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[2]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[3]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[3]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[4]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[4]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[6]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[6]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[7]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[7]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[9]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[9]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[10]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[10]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[8]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[8]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+[5]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[5]PETSC ERROR: Out of memory. This could be due to allocating
+[5]PETSC ERROR: too large an object or bleeding by not properly
+[5]PETSC ERROR: destroying unneeded objects.
+[5]PETSC ERROR: Memory allocated 0 Memory used by process 17366515712
+[5]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[5]PETSC ERROR: Memory requested 18446744060886525952
+[5]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[5]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[5]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[5]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[5]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[5]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[5]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[5]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[5]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[5]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 11 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[5]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+[5]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 13 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[5]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[5]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[5]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[5]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[5]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[5]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[5]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[5]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[5]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[5]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[5]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[5]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 15 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[5]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[5]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 12 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 14 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 2 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 3 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 5 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 4 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 6 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 7 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 9 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 10 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 8 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[1]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[1]PETSC ERROR: Out of memory. This could be due to allocating
+[1]PETSC ERROR: too large an object or bleeding by not properly
+[1]PETSC ERROR: destroying unneeded objects.
+[1]PETSC ERROR: Memory allocated 0 Memory used by process 17437818880
+[1]PETSC ERROR: Try running with -malloc_dump or -malloc_view for info.
+[1]PETSC ERROR: Memory requested 18446744063064031232
+[1]PETSC ERROR: WARNING! There are option(s) set that were not used! Could be the program crashed before they were used or a spelling mistake, etc!
+[1]PETSC ERROR:   Option left: name:--case.discretization value: P3 source: command line
+[1]PETSC ERROR:   Option left: name:--config-files value: /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg source: command line
+[1]PETSC ERROR:   Option left: name:--directory value: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b source: command line
+[1]PETSC ERROR:   Option left: name:--heat.json.patch={"op": "replace","path": "/Meshes/heat/Import/filename","value": "/input_data/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json" } (no value) source: command line
+[1]PETSC ERROR:   Option left: name:--heat.scalability-save=1 (no value) source: command line
+[1]PETSC ERROR:   Option left: name:--repository.append.np value: 0 source: command line
+[1]PETSC ERROR:   Option left: name:--repository.case value: ThermalBridgesENISO10211 source: command line
+[1]PETSC ERROR: See https://petsc.org/release/faq/ for trouble shooting.
+[1]PETSC ERROR: Petsc Release Version 3.19.6, Sep 28, 2023
+[1]PETSC ERROR: /usr/bin/feelpp_toolbox_heat on a  named gaya1 by cladellash Fri Jan 16 14:45:55 2026
+[1]PETSC ERROR: Configure options --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --with-option-checking=0 --with-silent-rules=0 --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --with-maintainer-mode=0 --with-dependency-tracking=0 --with-debugging=0 --shared-library-extension=_real --with-shared-libraries --with-pic=1 --with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-cxx-dialect=C++11 --with-opencl=1 --with-blas-lib=-lblas --with-lapack-lib=-llapack --with-scalapack=1 --with-scalapack-lib=-lscalapack-openmpi --with-ptscotch=1 --with-ptscotch-include=/usr/include/scotch --with-ptscotch-lib="-lptesmumps -lptscotch -lptscotcherr" --with-fftw=1 --with-fftw-include="[]" --with-fftw-lib="-lfftw3 -lfftw3_mpi" --with-yaml=1 --with-hdf5-include=/usr/include/hdf5/openmpi --with-hdf5-lib="-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi " --CXX_LINKER_FLAGS="-Wl,--no-as-needed -Wl,-z,defs" --CC_LINKER_FLAGS=-Wl,-z,defs --with-hypre=1 --with-hypre-include=/usr/include/hypre --with-hypre-lib=-lHYPRE --with-mumps=1 --with-mumps-include="[]" --with-mumps-lib="-ldmumps -lzmumps -lsmumps -lcmumps -lmumps_common -lpord" --with-suitesparse=1 --with-suitesparse-include=/usr/include/suitesparse --with-suitesparse-lib="-lspqr -lumfpack -lamd -lcholmod -lklu" --with-superlu=1 --with-superlu-include=/usr/include/superlu --with-superlu-lib=-lsuperlu --with-superlu_dist=1 --with-superlu_dist-include=/usr/include/superlu-dist --with-superlu_dist-lib=-lsuperlu_dist --with-ml=1 --with-ml-include=/usr/include/trilinos --with-ml-lib=-ltrilinos_ml --with-zoltan=1 --with-zoltan-include=/usr/include/trilinos --with-zoltan-lib=-ltrilinos_zoltan --prefix=/usr/lib/petscdir/petsc3.19/x86_64-linux-gnu-real --PETSC_ARCH=x86_64-linux-gnu-real CFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" CXXFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fPIC" FCFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" FFLAGS="-g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/petsc-Z9YQSK/petsc-3.19.6+dfsg1=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -fcf-protection -fPIC -ffree-line-length-0" CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=3" LDFLAGS="-Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -fPIC" MAKEFLAGS=w
+[1]PETSC ERROR: #1 PetscMallocAlign() at ./src/sys/memory/mal.c:53
+[1]PETSC ERROR: #2 PetscMallocA() at ./src/sys/memory/mal.c:411
+[1]PETSC ERROR: #3 MatSeqAIJSetPreallocation_SeqAIJ() at ./src/mat/impls/aij/seq/aij.c:4015
+[1]PETSC ERROR: #4 MatSeqAIJSetPreallocation() at ./src/mat/impls/aij/seq/aij.c:3949
+[1]PETSC ERROR: #5 MatMPIAIJSetPreallocation_MPIAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:2946
+[1]PETSC ERROR: #6 MatMPIAIJSetPreallocation() at ./src/mat/impls/aij/mpi/mpiaij.c:4148
+[1]PETSC ERROR: #7 MatCreateAIJ() at ./src/mat/impls/aij/mpi/mpiaij.c:4531
+[1]PETSC ERROR: #8 MatCoarsenApply_MISK_private() at ./src/mat/coarsen/impls/misk/misk.c:329
+[1]PETSC ERROR: #9 MatCoarsenApply_MISK() at ./src/mat/coarsen/impls/misk/misk.c:368
+[1]PETSC ERROR: #10 MatCoarsenApply() at ./src/mat/coarsen/coarsen.c:97
+[1]PETSC ERROR: #11 PCGAMGCoarsen_AGG() at ./src/ksp/pc/impls/gamg/agg.c:524
+[1]PETSC ERROR: #12 PCSetUp_GAMG() at ./src/ksp/pc/impls/gamg/gamg.c:631
+[1]PETSC ERROR: #13 PCSetUp() at ./src/ksp/pc/interface/precon.c:994
+[1]PETSC ERROR: #14 setPetscPreconditionerType() at /build/feelpp-0.111.0~preview.10/feelpp/feel/feelalg/preconditionerpetsc.cpp:1518
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD
+with errorcode 55.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-gaya1: error: *** STEP 41204.0 ON gaya1 CANCELLED AT 2026-01-16T14:47:53 ***
+slurmstepd-gaya1: error: *** STEP 41204.0 ON gaya1 CANCELLED AT 2026-01-16T14:47:53 ***
+srun: error: gaya3: tasks 6-10: Killed
+srun: error: gaya4: tasks 11-15: Killed
+srun: error: gaya1: tasks 0-5: Killed</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reframe_output_log"><a class="anchor" href="#_reframe_output_log"></a>3. ReFrame output log</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Reading /input_data/feelpp_toolboxes/ThermalBridgesENISO10211/gamg.cfg...
+Reading /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.cfg...
+[ Starting Feel++ ] application toolboxes_heat version 0.111.0-preview.100 date 2026-Jan-16
+[feelpp] create Feel++ root repository: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211
+
+[feelpp] create Feel++ geo repository: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/geo
+
+[feelpp] create Feel++ expressions directory: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/exprs
+
+[feelpp] create Feel++ logs directory: /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/logs
+
+ . toolboxes_heat files are stored in /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/
+ .. logfiles :/data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/logs
+[modelProperties] Loading Model Properties : "/usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.json"
+[loadMesh] Loading mesh in format json+h5: "/data/home/chabannes/datasets/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json"
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+| Toolbox::heat - Use Case Study                                                                                                                     |
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+| +--------------------------------------------------------------------------------------------------------------------------------------------+     |
+| | Environment                                                                                                                                |     |
+| +--------------------------------------------------------------------------------------------------------------------------------------------+     |
+| |  prefix              : heat                                                                                                                |     |
+| |  keyword             : heat                                                                                                                |     |
+| |  root repository     : /data/scratch/cladellash/feelppdb/toolboxes/heat/ThermalBridgesENISO10211/Case3/fd0b630b/ThermalBridgesENISO10211/  |     |
+| |  number of processus : 16                                                                                                                  |     |
+| +--------------------------------------------------------------------------------------------------------------------------------------------+     |
+| +-----------------------------------------------+                                                                                                  |
+| | Physics                                       |                                                                                                  |
+| +-----------------------------------------------+                                                                                                  |
+| | +-------------------------------------------+ |                                                                                                  |
+| | | heat                                      | |                                                                                                  |
+| | +-------------------------------------------+ |                                                                                                  |
+| | | +---------------------------------------+ | |                                                                                                  |
+| | | | default                               | | |                                                                                                  |
+| | | +---------------------------------------+ | |                                                                                                  |
+| | | |  modeling : heat                      | | |                                                                                                  |
+| | | |  type     : heat                      | | |                                                                                                  |
+| | | |  name     : default                   | | |                                                                                                  |
+| | | | +----------+------------------------+ | | |                                                                                                  |
+| | | | | Equation |  - div( k grad T ) = 0 | | | |                                                                                                  |
+| | | | +----------+------------------------+ | | |                                                                                                  |
+| | | +---------------------------------------+ | |                                                                                                  |
+| | +-------------------------------------------+ |                                                                                                  |
+| +-----------------------------------------------+                                                                                                  |
+| +----------------------------+                                                                                                                     |
+| | Physics2                   |                                                                                                                     |
+| +----------------------------+                                                                                                                     |
+| | +-----------+------------+ |                                                                                                                     |
+| | | time mode | Stationary | |                                                                                                                     |
+| | +-----------+------------+ |                                                                                                                     |
+| +----------------------------+                                                                                                                     |
+| +--------------------------------------------------------------------------------------------------------+                                         |
+| | Materials Properties                                                                                   |                                         |
+| +--------------------------------------------------------------------------------------------------------+                                         |
+| |  number of materials : 5                                                                               |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| | | Material : External_wall                                                                    |        |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | Name                   | Expression | Symbol                      | Shape  | Components | |        |                                         |
+| | | +========================+============+=============================+========+============+ |        |                                         |
+| | | | density                | 2000       | materials_External_wall_rho | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | specific-heat-capacity | 1000       | materials_External_wall_Cp  | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | thermal-conductivity   | 1          | materials_External_wall_k   | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| | +-------------------------------------------------------------------------------------+                |                                         |
+| | | Material : Floor                                                                    |                |                                         |
+| | +-------------------------------------------------------------------------------------+                |                                         |
+| | | +------------------------+------------+---------------------+--------+------------+ |                |                                         |
+| | | | Name                   | Expression | Symbol              | Shape  | Components | |                |                                         |
+| | | +========================+============+=====================+========+============+ |                |                                         |
+| | | | density                | 1000       | materials_Floor_rho | scalar |            | |                |                                         |
+| | | +------------------------+------------+---------------------+--------+------------+ |                |                                         |
+| | | | specific-heat-capacity | 800        | materials_Floor_Cp  | scalar |            | |                |                                         |
+| | | +------------------------+------------+---------------------+--------+------------+ |                |                                         |
+| | | | thermal-conductivity   | 1          | materials_Floor_k   | scalar |            | |                |                                         |
+| | | +------------------------+------------+---------------------+--------+------------+ |                |                                         |
+| | +-------------------------------------------------------------------------------------+                |                                         |
+| | +----------------------------------------------------------------------------------------------------+ |                                         |
+| | | Material : Horizontal_structure                                                                    | |                                         |
+| | +----------------------------------------------------------------------------------------------------+ |                                         |
+| | | +------------------------+------------+------------------------------------+--------+------------+ | |                                         |
+| | | | Name                   | Expression | Symbol                             | Shape  | Components | | |                                         |
+| | | +========================+============+====================================+========+============+ | |                                         |
+| | | | density                | 5000       | materials_Horizontal_structure_rho | scalar |            | | |                                         |
+| | | +------------------------+------------+------------------------------------+--------+------------+ | |                                         |
+| | | | specific-heat-capacity | 600        | materials_Horizontal_structure_Cp  | scalar |            | | |                                         |
+| | | +------------------------+------------+------------------------------------+--------+------------+ | |                                         |
+| | | | thermal-conductivity   | 2.5        | materials_Horizontal_structure_k   | scalar |            | | |                                         |
+| | | +------------------------+------------+------------------------------------+--------+------------+ | |                                         |
+| | +----------------------------------------------------------------------------------------------------+ |                                         |
+| | +------------------------------------------------------------------------------------------+           |                                         |
+| | | Material : Insulation                                                                    |           |                                         |
+| | +------------------------------------------------------------------------------------------+           |                                         |
+| | | +------------------------+------------+--------------------------+--------+------------+ |           |                                         |
+| | | | Name                   | Expression | Symbol                   | Shape  | Components | |           |                                         |
+| | | +========================+============+==========================+========+============+ |           |                                         |
+| | | | density                | 200        | materials_Insulation_rho | scalar |            | |           |                                         |
+| | | +------------------------+------------+--------------------------+--------+------------+ |           |                                         |
+| | | | specific-heat-capacity | 1000       | materials_Insulation_Cp  | scalar |            | |           |                                         |
+| | | +------------------------+------------+--------------------------+--------+------------+ |           |                                         |
+| | | | thermal-conductivity   | 0.04       | materials_Insulation_k   | scalar |            | |           |                                         |
+| | | +------------------------+------------+--------------------------+--------+------------+ |           |                                         |
+| | +------------------------------------------------------------------------------------------+           |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| | | Material : Internal_wall                                                                    |        |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | Name                   | Expression | Symbol                      | Shape  | Components | |        |                                         |
+| | | +========================+============+=============================+========+============+ |        |                                         |
+| | | | density                | 1700       | materials_Internal_wall_rho | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | specific-heat-capacity | 800        | materials_Internal_wall_Cp  | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | | | thermal-conductivity   | 0.7        | materials_Internal_wall_k   | scalar |            | |        |                                         |
+| | | +------------------------+------------+-----------------------------+--------+------------+ |        |                                         |
+| | +---------------------------------------------------------------------------------------------+        |                                         |
+| +--------------------------------------------------------------------------------------------------------+                                         |
+| +--------------------------------+                                                                                                                 |
+| | Boundary Conditions            |                                                                                                                 |
+| +--------------------------------+                                                                                                                 |
+| | +----------------------------+ |                                                                                                                 |
+| | | Convective Heat Flux       | |                                                                                                                 |
+| | +----------------------------+ |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | | | alpha                  | | |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | | |  expr_h    : h_alpha   | | |                                                                                                                 |
+| | | |  expr_Text : T0_alpha  | | |                                                                                                                 |
+| | | |  markers   :  alpha    | | |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | | +-----------------------+  | |                                                                                                                 |
+| | | | beta                  |  | |                                                                                                                 |
+| | | +-----------------------+  | |                                                                                                                 |
+| | | |  expr_h    : h_beta   |  | |                                                                                                                 |
+| | | |  expr_Text : T0_beta  |  | |                                                                                                                 |
+| | | |  markers   :  beta    |  | |                                                                                                                 |
+| | | +-----------------------+  | |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | | | gamma                  | | |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | | |  expr_h    : h_gamma   | | |                                                                                                                 |
+| | | |  expr_Text : T0_gamma  | | |                                                                                                                 |
+| | | |  markers   :  gamma    | | |                                                                                                                 |
+| | | +------------------------+ | |                                                                                                                 |
+| | +----------------------------+ |                                                                                                                 |
+| +--------------------------------+                                                                                                                 |
+| +------------------------------------------------------------------------------------------------------------------------------------------------+ |
+| | Meshes                                                                                                                                         | |
+| +------------------------------------------------------------------------------------------------------------------------------------------------+ |
+| | +--------------------------------------------------------------------------------------------------------------------------------------------+ | |
+| | | Mesh : heat                                                                                                                                | | |
+| | +--------------------------------------------------------------------------------------------------------------------------------------------+ | |
+| | |  Discretization : /Mesh/heat                                                                                                               | | |
+| | |  filename       : /data/home/chabannes/datasets/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json             | | |
+| | | +----------------------------------------------------------------------------------------------------------------------------------------+ | | |
+| | | | Import configuration                                                                                                                   | | | |
+| | | +----------------------------------------------------------------------------------------------------------------------------------------+ | | |
+| | | |  mesh-filename         : /data/home/chabannes/datasets/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json  | | | |
+| | | |  generate-partitioning : 0                                                                                                             | | | |
+| | | +----------------------------------------------------------------------------------------------------------------------------------------+ | | |
+| | | +-------------------------------+                                                                                                          | | |
+| | | | Discretization                |                                                                                                          | | |
+| | | +-------------------------------+                                                                                                          | | |
+| | | |  dim         : 3              |                                                                                                          | | |
+| | | |  h_average   : 1.631997e-02   |                                                                                                          | | |
+| | | |  h_max       : 2.264516e-02   |                                                                                                          | | |
+| | | |  h_min       : 9.809905e-03   |                                                                                                          | | |
+| | | |  n_edges     : 9778744        |                                                                                                          | | |
+| | | |  n_elements  : 8189193        |                                                                                                          | | |
+| | | |  n_faces     : 16566803       |                                                                                                          | | |
+| | | |  n_partition : 16             |                                                                                                          | | |
+| | | |  n_points    : 1401135        |                                                                                                          | | |
+| | | |  order       : 1              |                                                                                                          | | |
+| | | |  real_dim    : 3              |                                                                                                          | | |
+| | | |  shape       : Simplex_3_1_3  |                                                                                                          | | |
+| | | +-------------------------------+                                                                                                          | | |
+| | +--------------------------------------------------------------------------------------------------------------------------------------------+ | |
+| +------------------------------------------------------------------------------------------------------------------------------------------------+ |
+| +----------------------------------------+                                                                                                         |
+| | Function Spaces                        |                                                                                                         |
+| +----------------------------------------+                                                                                                         |
+| | +------------------------------------+ |                                                                                                         |
+| | | Temperature                        | |                                                                                                         |
+| | +------------------------------------+ |                                                                                                         |
+| | |  mesh   : /Mesh/heat               | |                                                                                                         |
+| | |  nSpace : 1                        | |                                                                                                         |
+| | | +----------------------------+     | |                                                                                                         |
+| | | | Basis                      |     | |                                                                                                         |
+| | | +----------------------------+     | |                                                                                                         |
+| | | |  is_continuous : 1         |     | |                                                                                                         |
+| | | |  nComponents   : 1         |     | |                                                                                                         |
+| | | |  nComponents1  : 1         |     | |                                                                                                         |
+| | | |  nComponents2  : 1         |     | |                                                                                                         |
+| | | |  nLocalDof     : 20        |     | |                                                                                                         |
+| | | |  name          : lagrange  |     | |                                                                                                         |
+| | | |  order         : 3         |     | |                                                                                                         |
+| | | |  shape         : scalar    |     | |                                                                                                         |
+| | | +----------------------------+     | |                                                                                                         |
+| | | +--------------------------------+ | |                                                                                                         |
+| | | | Dof Table                      | | |                                                                                                         |
+| | | +--------------------------------+ | |                                                                                                         |
+| | | |  extended-doftable : 0         | | |                                                                                                         |
+| | | |  nDof              : 37525426  | | |                                                                                                         |
+| | | +--------------------------------+ | |                                                                                                         |
+| | +------------------------------------+ |                                                                                                         |
+| +----------------------------------------+                                                                                                         |
+| +------------------------------------------------+                                                                                                 |
+| | Fields                                         |                                                                                                 |
+| +------------------------------------------------+                                                                                                 |
+| | +--------------------------------------------+ |                                                                                                 |
+| | | temperature                                | |                                                                                                 |
+| | +--------------------------------------------+ |                                                                                                 |
+| | |  base symbol    : T                        | |                                                                                                 |
+| | |  function space : /FunctionSpace/object-0  | |                                                                                                 |
+| | |  name           : temperature              | |                                                                                                 |
+| | |  prefix symbol  : heat                     | |                                                                                                 |
+| | +--------------------------------------------+ |                                                                                                 |
+| +------------------------------------------------+                                                                                                 |
+| +---------------------------------+                                                                                                                |
+| | Algebraic Solver                |                                                                                                                |
+| +---------------------------------+                                                                                                                |
+| | +------------------+            |                                                                                                                |
+| | | Backend          |            |                                                                                                                |
+| | +------------------+            |                                                                                                                |
+| | |  prefix : heat   |            |                                                                                                                |
+| | |  type   : petsc  |            |                                                                                                                |
+| | +------------------+            |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | | KSP                         | |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | |  atol       : 1.000000e-50  | |                                                                                                                |
+| | |  dtol       : 1.000000e+05  | |                                                                                                                |
+| | |  maxit      : 1000          | |                                                                                                                |
+| | |  reuse-prec : 0             | |                                                                                                                |
+| | |  rtol       : 1.000000e-08  | |                                                                                                                |
+| | |  type       : gmres         | |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | +----------------------------+  |                                                                                                                |
+| | | SNES                       |  |                                                                                                                |
+| | +----------------------------+  |                                                                                                                |
+| | |  atol      : 1.000000e-50  |  |                                                                                                                |
+| | |  maxit     : 50            |  |                                                                                                                |
+| | |  reuse-jac : 0             |  |                                                                                                                |
+| | |  rtol      : 1.000000e-08  |  |                                                                                                                |
+| | |  stol      : 1.000000e-08  |  |                                                                                                                |
+| | +----------------------------+  |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | | KSP in SNES                 | |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | |  maxit      : 1000          | |                                                                                                                |
+| | |  reuse-prec : 0             | |                                                                                                                |
+| | |  rtol       : 1.000000e-05  | |                                                                                                                |
+| | +-----------------------------+ |                                                                                                                |
+| | +---------------+               |                                                                                                                |
+| | | PC            |               |                                                                                                                |
+| | +---------------+               |                                                                                                                |
+| | |  type : gamg  |               |                                                                                                                |
+| | +---------------+               |                                                                                                                |
+| +---------------------------------+                                                                                                                |
++----------------------------------------------------------------------------------------------------------------------------------------------------+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_feelpp_toolbox_heat_info"><a class="anchor" href="#_feelpp_toolbox_heat_info"></a>4. feelpp_toolbox_heat.INFO</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Log file created at: 2026/01/16 14:45:55
+Running on machine: gaya1
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0116 14:45:55.934103 1374488 modelproperties.cpp:54] Loading /usr/share/feelpp/data/testcases/toolboxes/heat/cases/Building/ThermalBridgesENISO10211/case3.json
+I0116 14:45:55.938035 1374488 modelproperties.cpp:144] Model with parameters
+I0116 14:45:55.938043 1374488 modelparameters.cpp:55] reading parameter T0_alpha
+I0116 14:45:55.939769 1374488 modelparameters.cpp:55] reading parameter T0_beta
+I0116 14:45:55.939774 1374488 modelparameters.cpp:55] reading parameter T0_gamma
+I0116 14:45:55.939778 1374488 modelparameters.cpp:55] reading parameter h_alpha
+I0116 14:45:55.943787 1374488 modelparameters.cpp:55] reading parameter h_beta
+I0116 14:45:55.943809 1374488 modelparameters.cpp:55] reading parameter h_gamma
+I0116 14:45:55.945178 1374488 modelproperties.cpp:151] Model with boundary conditions
+I0116 14:45:55.945189 1374488 modelproperties.cpp:173] Model with materials
+I0116 14:45:55.945452 1374488 modelmaterials.cpp:209] Material Physical/Region :External_wall
+I0116 14:45:55.946017 1374488 modelmaterials.cpp:209] Material Physical/Region :Floor
+I0116 14:45:55.946080 1374488 modelmaterials.cpp:209] Material Physical/Region :Horizontal_structure
+I0116 14:45:55.946144 1374488 modelmaterials.cpp:209] Material Physical/Region :Insulation
+I0116 14:45:55.946205 1374488 modelmaterials.cpp:209] Material Physical/Region :Internal_wall
+I0116 14:45:55.946271 1374488 modelproperties.cpp:181] Model with PostProcess
+I0116 14:45:58.885349 1374488 environment.cpp:1736] File /data/home/chabannes/datasets/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json found
+I0116 14:45:58.886637 1374488 loadmesh.hpp:246]  Loading mesh in json+h5 format "/data/home/chabannes/datasets/feelpp_toolboxes/ThermalBridgesENISO10211/partitioning/case3/M2/case3_p16.json"
+I0116 14:45:58.926913 1374488 partitionio.hpp:1134] read stat points 1545801,94312,0
+I0116 14:45:58.926923 1374488 partitionio.hpp:1137] read stat elements 8733669,534457,0
+I0116 14:45:58.926925 1374488 partitionio.hpp:1140] read stat ghost_elements 544476,23125,0
+I0116 14:45:58.926926 1374488 partitionio.hpp:1143] read stat marked_faces 374422,26583,0
+I0116 14:45:58.926928 1374488 partitionio.hpp:1146] read stat marked_edges 0,0,0
+I0116 14:45:58.926930 1374488 partitionio.hpp:1149] read stat marked_points 0,0,0
+I0116 14:45:58.927369 1374488 partitionio.hpp:1168] loaded points_ids:1x1545801
+I0116 14:45:58.927691 1374488 partitionio.hpp:1170] loaded points_coords:1x4637403
+I0116 14:45:59.058310 1374488 partitionio.hpp:1267] loaded elements:1x43668345
+I0116 14:45:59.891265 1374488 partitionio.hpp:1373] loaded ghost_elements:1x544476
+I0116 14:46:00.022562 1374488 partitionio.hpp:1568] loaded marked_subentities:1x1497688
+I0116 14:46:00.343396 1374488 meshimpl.hpp:1078] We have 26583 faces in the database
+I0116 14:46:02.275826 1374488 meshimpl.hpp:1352] We have now 1086293 faces in the mesh
+I0116 14:46:06.987282 1374488 meshimpl.hpp:1890] update boundary points...
+I0116 14:46:07.054312 1374488 meshimpl.hpp:1910] update boundary elements...
+I0116 14:46:09.188652 1374488 meshimpl.hpp:551] h average : 0.01632
+I0116 14:46:09.188685 1374488 meshimpl.hpp:552]     h min : 0.0098099
+I0116 14:46:09.188688 1374488 meshimpl.hpp:553]     h max : 0.0226452
+I0116 14:46:09.222364 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225005 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=169359
+I0116 14:46:09.225008 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225114 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=7674
+I0116 14:46:09.225121 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225122 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=0
+I0116 14:46:09.225124 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225126 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=0
+I0116 14:46:09.225128 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225129 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=0
+I0116 14:46:09.225131 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.225132 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=0
+I0116 14:46:09.225134 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.226277 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=89053
+I0116 14:46:09.226280 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.226331 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=3907
+I0116 14:46:09.226334 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.229609 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=252920
+I0116 14:46:09.229612 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: mesh count=3
+I0116 14:46:09.229765 1374488 worldcomm.cpp:895] [rank 0] makeResultRange: res size=11544
+I0116 14:46:09.373441 1374488 worldcomm.cpp:895] [rank 0] [DofTable::build] starts, has mesh support: false
+I0116 14:46:09.454043 1374488 worldcomm.cpp:895] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0116 14:46:09.454053 1374488 worldcomm.cpp:895] [rank 0] [DofTable::buildDofMap] allocation done
+I0116 14:46:09.460448 1374488 worldcomm.cpp:895] [rank 0] [DofTable::buildDofMap]  n_elts =  511332 on processor 0
+I0116 14:46:22.988551 1374488 worldcomm.cpp:895] [rank 0] [builddofmap - 0] dof generation hasNoElt : false theFirstDF: 0 thelastDof: 2364762
+I0116 14:46:24.340003 1374488 worldcomm.cpp:895] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+I0116 14:46:28.007889 1374488 element_impl.hpp:199] creating element temperature : u
+I0116 14:46:41.308221 1374488 exporterimpl.hpp:219] [Exporter] format :  ensightgold
+I0116 14:46:41.308246 1374488 exporterimpl.hpp:220] [Exporter] N      :  1
+I0116 14:47:40.273900 1374488 preconditionerpetsc.cpp:308] PreconditionerPetsc&lt;T&gt;::clear
+I0116 14:47:40.295361 1374488 backendpetsc.cpp:86] call feel_petsc_pre_solve</code></pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer" style="border-top: 2px solid #e9e9e9; background-color: #fafafa; padding-bottom: 2em; padding-top: 2em;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.5em;">
+        <div>
+            <a href="https://www.cemosis.fr">
+                <img src="../../../../_/img/cemosis-logo.svg" alt="Cemosis logo" height="50">
+            </a>
+            <span style="display: inline-block; width: 16px;"></span>
+            <a href="https://numpex.github.io/exa-ma/exama/index.html">
+                <img src="../../../../_/img/logo-numpex-exama-web.png" alt="Exa-Ma logo" height="50">
+            </a>
+            <span style="display: inline-block; width: 16px;"></span>
+            <a href="https://www.economie.gouv.fr/france-2030">
+                <img src="../../../../_/img/Logotype-rouge-bleu.png" alt="france 2030 logo" height="50">
+            </a>
+        </div>
+        <span style="font-size: 0.8rem; color: #9e9e9e">© 2026
+            <a href="https://www.cemosis.fr" style="text-decoration: underline;">Cemosis</a>,
+            <a href="https://unistra.fr" style="text-decoration: underline;"> Université de Strasbourg</a>
+        </span>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../../../../_/js/figure-helper.js"></script>
+<script src="../../../../_/js/table-filter-sort.js"></script>
+
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+
+
+<!-- Font Awesome JS removed to use webfont icons only -->
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+
+<script src="../../../../_/js/vendor/lunr.js"></script>
+
+<script type="text/javascript">
+function toggleFullScreen() {
+   var doc = window.document;
+   var docEl = doc.documentElement;
+
+   var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+   var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+   if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+       requestFullScreen.call(docEl);
+   }
+   else {
+       cancelFullScreen.call(doc);
+   }
+}
+</script>
+  </body>
+</html>
