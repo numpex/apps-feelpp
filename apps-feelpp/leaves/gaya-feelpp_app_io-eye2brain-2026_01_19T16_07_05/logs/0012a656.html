@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ReFrame logs :: Apps-Feelpp</title>
+    <meta name="generator" content="Antora 3.1.14">
+<link rel="stylesheet" href="../../../../_/css/site.css">
+
+<!-- Font Awesome webfont CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="icon" href="../../../../_/img/favicon.ico" type="image/x-icon">
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+<script src="../../../../_/js/vendor/tabs-block-extension.js"></script>
+<script src="../../../../_/js/vendor/tabs-block-behavior.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      bold: ["{\\bf #1}",1],
+      calTh: "{\\mathcal{T}_h}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      card: ["{\\operatorname{card}(#1)}",1],
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      diam: "{\\operatorname{diam}}",
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      disp: ["{\\mathbf{#1}}",1],
+      domain: "{\\Omega}",
+      ds: "",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      F:"{\\mathcal{F}}",
+      geo: "{\\mathrm{geo}}",
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      Id: "{\\mathcal{I}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      n:"{\\mathbf{n}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Next: "{\\mathrm{n}}",
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      NN: "{\\mathbb N}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Nso: "{N_{\\mathrm{so}}}",
+      opdim: "{\\operatorname{dim}}",
+      p: "{\\mathrm{p}}",
+      P:"{\\mathcal{P}}",
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      poly: ["{\\mathbb{#1}",1],
+      poly: ["{\\mathbb{#1}}",1],
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      q:"{\\mathbf{q}}",
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      RR: "{\\mathbb R}",
+      set: ["{\\left\\{#1\\right\\}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      T:"{\\mathcal{T}}",
+      tr: "{\\operatorname{tr}}",
+      v:"{\\mathbf{v}}",
+      vertiii: ["\\left\\vert\\kern-0.25ex\\left\\vert\\kern-0.25ex\\left\\vert #1 \\right\\vert\\kern-0.25ex\\right\\vert\\kern-0.25ex\\right\\vert",1]
+  },
+  extensions: ["mhchem.js"] 
+  }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML'></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+<script>var uiRootPath = '../../../../_'</script>
+
+  </head>
+  <body class="article">
+<link rel="stylesheet" href="../../../../_/css/figures.css">
+<link rel="stylesheet" href="../../../../_/css/table.css">
+
+<header class="header">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark navbar-template-project" style="border-top: 4px solid #9E9E9E">
+        <div class="navbar-brand">
+            <div class="navbar-item feelpp-logo">
+                <a href="">Apps-Feelpp</a>
+            </div>
+            <button class="navbar-burger" data-target="topbar-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div id="topbar-nav" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable download-item">
+                    <div class="navbar-item"><a href="https://github.com/numpex/apps-feelpp/" class="download-btn"><i class="fa-brands fa-github"></i> Source code</a></div>
+                </div>
+                <div class="navbar-item">
+                    <a class="navbar-brand"  href="https://www.cemosis.fr">
+                        <img src="../../../../_/img/logo-numpex-exama-web.png" alt="Exa-Ma logo" height="50">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="body">
+<a href="#" class="menu-expand-toggle"></a>
+<div class="nav-container" data-component="apps-feelpp" data-version="">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../../index.html">Feel++ Applications</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../index.html">Apps-Feelpp</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/software-and-demonstrators.html">Software and demonstrators</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../documentation/add_a_case.html">Add a case</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Feel++ Applications</span>
+    <span class="version"></span>
+  </div>
+  <ul class="components">
+      <li class="component is-current">
+        <a class="title" href="../../../index.html">Feel++ Applications</a>
+      </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+  <button class="nav-toggle"></button>
+    <a href="../../../index.html" class="home-link"></a>
+  <nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../../index.html">Feel++ Applications</a></li>
+    <li><a href="0012a656.html">ReFrame logs</a></li>
+  </ul>
+</nav>
+
+  
+    <div class="edit-this-page"><a href="https://github.com/numpex/apps-feelpp/edit/HEAD/docs/modules/ROOT/pages/leaves/gaya-feelpp_app_io-eye2brain-2026_01_19T16_07_05/logs/0012a656.adoc">Edit this Page</a></div>
+  
+  <div class="page-downloads">
+  <span class="label">Download as</span>
+  <ul class="download-options">
+    <li>
+      <a onclick="print(this)" href="#" data-toggle="tooltip" data-placement="left" title="Print to PDF"
+         class="pdf-download">
+        <img class="pdf-file-icon icon" src="../../../../_/img/pdf.svg"/> .pdf
+      </a>
+    </li>
+  </ul>
+</div>
+</div>
+
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">ReFrame logs</h1>
+<div class="sect1">
+<h2 id="_reframe_scheduler_script"><a class="anchor" href="#_reframe_scheduler_script"></a>1. ReFrame scheduler script</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/bin/bash
+#SBATCH --job-name="rfm_RegressionTest_0012a656"
+#SBATCH --ntasks=128
+#SBATCH --ntasks-per-node=128
+#SBATCH --cpus-per-task=1
+#SBATCH --output=rfm_job.out
+#SBATCH --error=rfm_job.err
+#SBATCH --exclusive
+#SBATCH --partition=production
+#SBATCH --threads-per-core=1
+#SBATCH --time=0-00:30:00
+source /etc/profile.d/modules.sh
+export PATH=/opt/apptainer/latest/bin/:$PATH
+srun --cpus-per-task=1 apptainer exec -B"/data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/production/default/RegressionTest_0012a656:/rfm_workdir" --home /data/scratch/cladellash/feelppdb --bind /data/scratch/cladellash/feelppdb/input_data/:/input_data --env OMP_NUM_THREADS=1 --sharens --bind /opt/:/opt/ --bind /data/:/data/ /data/scratch/cladellash/images//apps-feelpp.sif feelpp_app_io --directory /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain --discretization P2 --repository.append.np 0 --gmsh.filename /input_data/feelpp_toolboxes/eye/M5/Eye_Mesh3D_p128.json --nrun 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reframe_error_log"><a class="anchor" href="#_reframe_error_log"></a>2. ReFrame error log</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reframe_output_log"><a class="anchor" href="#_reframe_output_log"></a>3. ReFrame output log</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[ Starting Feel++ ] application O version 0.111.0-preview.120 date 2026-Jan-19
+[feelpp] create Feel++ root repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain
+
+[feelpp] create Feel++ geo repository: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/geo
+
+[feelpp] create Feel++ expressions directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/exprs
+
+[feelpp] create Feel++ logs directory: /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/logs
+
+ . O files are stored in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/
+ .. logfiles :/data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/logs
+[loadMesh] Loading mesh in format json+h5: "/input_data/feelpp_toolboxes/eye/M5/Eye_Mesh3D_p128.json"
+[loadMesh] Time : 13.9655s
+ [create function space] Time : 8.17997s
+  [create vectorial function space] Time : 20.129s
+  [save field] Time : 1.95024s
+  [save vector field] Time : 5.24914s
+  [save mesh] Time : 8.90303s
+    [export time] Time : 19.8166s
+Time load mesh 13.9655
+Time load create function space 8.17997
+Time load create vectorial function space 20.129
+Time save mesh 8.90303
+Time save field 1.95024
+Time save vector field 5.24914
+Time to export 19.8166
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                           O                                                                            |
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| +-------------+--------------------------------------------------------------------------------------------------------------------------------------+ |
+| | logs        | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/logs                                                           | |
+| +-------------+--------------------------------------------------------------------------------------------------------------------------------------+ |
+| | journal     | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/journal.json                                                   | |
+| +-------------+--------------------------------------------------------------------------------------------------------------------------------------+ |
+| | directories | +----------------------------------------------------------------------------------------------------------------------------------+ | |
+| |             | | /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/                                                           | | |
+| |             | +----------------------------------------------------------------------------------------------------------------------------------+ | |
+| |             | | /data/home/cladellash/actions-runner/_work/apps-feelpp/apps-feelpp/reframe/stage/gaya/production/default/RegressionTest_0012a656 | | |
+| |             | +----------------------------------------------------------------------------------------------------------------------------------+ | |
+| +-------------+--------------------------------------------------------------------------------------------------------------------------------------+ |
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+[ Stopping Feel++ ] application O execution time 94.0792s</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_feelpp_app_io_info"><a class="anchor" href="#_feelpp_app_io_info"></a>4. feelpp_app_io.INFO</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Log file created at: 2026/01/19 17:01:52
+Running on machine: gaya4
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0119 17:01:52.865749 1145229 environment.cpp:1708] File /input_data/feelpp_toolboxes/eye/M5/Eye_Mesh3D_p128.json found
+I0119 17:01:52.875411 1145229 loadmesh.hpp:246]  Loading mesh in json+h5 format "/input_data/feelpp_toolboxes/eye/M5/Eye_Mesh3D_p128.json"
+I0119 17:01:53.049425 1145229 partitionio.hpp:1134] read stat points 9551484,76551,0
+I0119 17:01:53.049437 1145229 partitionio.hpp:1137] read stat elements 51966004,416729,0
+I0119 17:01:53.049440 1145229 partitionio.hpp:1140] read stat ghost_elements 8072645,73627,0
+I0119 17:01:53.049443 1145229 partitionio.hpp:1143] read stat marked_faces 1269782,428,0
+I0119 17:01:53.049445 1145229 partitionio.hpp:1146] read stat marked_edges 0,0,0
+I0119 17:01:53.049448 1145229 partitionio.hpp:1149] read stat marked_points 0,0,0
+I0119 17:01:53.053748 1145229 partitionio.hpp:1168] loaded points_ids:1x9551484
+I0119 17:01:53.057772 1145229 partitionio.hpp:1170] loaded points_coords:1x28654452
+I0119 17:01:53.693022 1145229 partitionio.hpp:1267] loaded elements:1x259830020
+I0119 17:01:57.762540 1145229 partitionio.hpp:1373] loaded ghost_elements:1x8072645
+I0119 17:01:57.880896 1145229 partitionio.hpp:1569] loaded marked_subentities:1x5079128
+I0119 17:01:58.299263 1145229 meshimpl.hpp:1051] We have 428 faces in the database
+I0119 17:01:59.654016 1145229 meshimpl.hpp:1325] We have now 847493 faces in the mesh
+I0119 17:02:04.917111 1145229 meshimpl.hpp:1863] update boundary points...
+I0119 17:02:04.996428 1145229 meshimpl.hpp:1883] update boundary elements...
+I0119 17:02:06.734176 1145229 meshimpl.hpp:524] h average : 0.150156
+I0119 17:02:06.734438 1145229 meshimpl.hpp:525]     h min : 0.0312012
+I0119 17:02:06.734441 1145229 meshimpl.hpp:526]     h max : 0.27721
+I0119 17:02:06.769546 1145229 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0119 17:02:06.950578 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0119 17:02:06.950594 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0119 17:02:06.956532 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  343102 on processor 0
+I0119 17:02:09.126173 1145229 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 478996
+I0119 17:02:09.126240 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0119 17:02:11.964874 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+I0119 17:02:14.955442 1145229 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0119 17:02:15.027458 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0119 17:02:15.027479 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0119 17:02:15.034371 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  343102 on processor 0
+I0119 17:02:20.377166 1145229 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 1436988
+I0119 17:02:20.377276 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0119 17:02:26.538165 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+I0119 17:02:35.085038 1145229 element_impl.hpp:199] creating element u : u
+I0119 17:02:36.653539 1145229 element_impl.hpp:199] creating element {x+y+z,x+y+z,x+y+z}:x:y:z : u
+I0119 17:02:36.653965 1145229 exporterimpl.hpp:219] [Exporter] format :  ensightgold
+I0119 17:02:36.653970 1145229 exporterimpl.hpp:220] [Exporter] N      :  1
+I0119 17:02:43.937326 1145229 partitionio.hpp:319] writing mesh in HDF5 format in /data/scratch/cladellash/feelppdb/app-feelpp-io/io/0012a656/eye2brain/mesh_0.h5
+I0119 17:02:52.780639 1145229 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0119 17:02:52.898753 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0119 17:02:52.898785 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0119 17:02:52.907198 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  343102 on processor 0
+I0119 17:02:53.626259 1145229 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 62508
+I0119 17:02:53.626313 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0119 17:02:54.924510 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+I0119 17:02:56.051687 1145229 element_impl.hpp:199] creating element u : u
+I0119 17:02:57.038945 1145229 element_impl.hpp:199] creating element uV : u
+I0119 17:02:57.040082 1145229 element_impl.hpp:199] creating element uV : u
+I0119 17:02:57.040381 1145229 element_impl.hpp:199] creating element uV : u
+I0119 17:02:57.079973 1145229 worldcomm.cpp:882] [rank 0] [DofTable::build] starts, has mesh support: false
+I0119 17:02:57.179349 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] starts, dof_indices empty: true
+I0119 17:02:57.179368 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap] allocation done
+I0119 17:02:57.191350 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildDofMap]  n_elts =  343102 on processor 0
+I0119 17:02:59.408535 1145229 worldcomm.cpp:882] [rank 0] [builddofmap - 0] dof generation nLocalDof : 478996
+I0119 17:02:59.408640 1145229 worldcomm.cpp:882] [rank 0] [DofTable::buildGhostDofMap rank=0] starts. hasMeshSupport: false
+W0119 17:03:01.905380 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+I0119 17:03:10.133816 1145229 exporterensightgold_impl.hpp:1250] writing part 1
+I0119 17:03:11.675184 1145229 exporterensightgold_impl.hpp:1250] writing part 2
+I0119 17:03:12.537546 1145229 exporterensightgold_impl.hpp:1250] writing part 3
+I0119 17:03:13.510030 1145229 exporterensightgold_impl.hpp:1250] writing part 4
+I0119 17:03:13.564234 1145229 exporterensightgold_impl.hpp:1250] writing part 5
+I0119 17:03:13.665874 1145229 exporterensightgold_impl.hpp:1250] writing part 6
+I0119 17:03:13.845234 1145229 exporterensightgold_impl.hpp:1250] writing part 7
+I0119 17:03:13.848428 1145229 exporterensightgold_impl.hpp:1250] writing part 8
+I0119 17:03:13.851393 1145229 exporterensightgold_impl.hpp:1250] writing part 9
+I0119 17:03:13.854246 1145229 exporterensightgold_impl.hpp:1250] writing part 10
+I0119 17:03:13.963349 1145229 exporterensightgold_impl.hpp:1376] ExporterEnsightGold::writeVariableFiles Nodal: 2
+I0119 17:03:13.963358 1145229 exporterensightgold_impl.hpp:1377] ExporterEnsightGold::writeVariableFiles Element: 0
+I0119 17:03:25.331808 1145229 environment.cpp:2423] Environment::clearSomeMemory before: PETSC get current memory usage (resident memory): 4.05589e+06  KBytes 4055.89  MBytes 4.05589 GBytes
+I0119 17:03:25.331833 1145229 environment.cpp:2428] Environment::clearSomeMemory before: PETSC get current PETSC Malloc usage: 0  KBytes 0 MBytes 0 GBytes
+I0119 17:03:25.331843 1145229 environment.cpp:2430] Environment::clearSomeMemory before: PETSC get maximum PETSC Malloc usage(largest memory ever used so far): 0  KBytes 0 MBytes 0 GBytes
+I0119 17:03:25.331988 1145229 environment.cpp:2423] Environment::clearSomeMemory after: PETSC get current memory usage (resident memory): 4.05589e+06  KBytes 4055.89  MBytes 4.05589 GBytes
+I0119 17:03:25.331996 1145229 environment.cpp:2428] Environment::clearSomeMemory after: PETSC get current PETSC Malloc usage: 0  KBytes 0 MBytes 0 GBytes
+I0119 17:03:25.332000 1145229 environment.cpp:2430] Environment::clearSomeMemory after: PETSC get maximum PETSC Malloc usage(largest memory ever used so far): 0  KBytes 0 MBytes 0 GBytes</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_feelpp_app_io_warning"><a class="anchor" href="#_feelpp_app_io_warning"></a>5. feelpp_app_io.WARNING</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Log file created at: 2026/01/19 17:02:11
+Running on machine: gaya4
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0119 17:02:11.964874 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+W0119 17:02:26.538165 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+W0119 17:02:54.924510 1145229 doftable.hpp:2587] TODO: finish implementation of this case below
+W0119 17:03:01.905380 1145229 doftable.hpp:2587] TODO: finish implementation of this case below</code></pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer" style="border-top: 2px solid #e9e9e9; background-color: #fafafa; padding-bottom: 2em; padding-top: 2em;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.5em;">
+        <div>
+            <a href="https://www.cemosis.fr">
+                <img src="../../../../_/img/cemosis-logo.svg" alt="Cemosis logo" height="50">
+            </a>
+            <span style="display: inline-block; width: 16px;"></span>
+            <a href="https://numpex.github.io/exa-ma/exama/index.html">
+                <img src="../../../../_/img/logo-numpex-exama-web.png" alt="Exa-Ma logo" height="50">
+            </a>
+            <span style="display: inline-block; width: 16px;"></span>
+            <a href="https://www.economie.gouv.fr/france-2030">
+                <img src="../../../../_/img/Logotype-rouge-bleu.png" alt="france 2030 logo" height="50">
+            </a>
+        </div>
+        <span style="font-size: 0.8rem; color: #9e9e9e">© 2026
+            <a href="https://www.cemosis.fr" style="text-decoration: underline;">Cemosis</a>,
+            <a href="https://unistra.fr" style="text-decoration: underline;"> Université de Strasbourg</a>
+        </span>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../../../../_/js/figure-helper.js"></script>
+<script src="../../../../_/js/table-filter-sort.js"></script>
+
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+
+
+<!-- Font Awesome JS removed to use webfont icons only -->
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+
+<script src="../../../../_/js/vendor/lunr.js"></script>
+
+<script type="text/javascript">
+function toggleFullScreen() {
+   var doc = window.document;
+   var docEl = doc.documentElement;
+
+   var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+   var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+   if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+       requestFullScreen.call(docEl);
+   }
+   else {
+       cancelFullScreen.call(doc);
+   }
+}
+</script>
+  </body>
+</html>
