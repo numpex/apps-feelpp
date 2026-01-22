@@ -154,7 +154,8 @@
                             "latex":"\\begin{equation*}\n || d_h - d_{\\text{exact}} ||_{L^\\infty}  = \\max_{i=1,...,N} |d_h(\\mathbf{x}_i) - d_{\\text{exact}}(\\mathbf{x}_i)|  \\end{equation*}"
                         },
                         {
-                            "type":"We perform a convergence study over meshes with stem:[h = h_0, h_0/2, h_0/4, ...] , verifying that FMM yields stem:[O(h)] convergence, while ray tracing achieves machine precision at vertices."
+                            "type":"text",
+                            "text":"We perform a convergence study over meshes with stem:[h = h_0, h_0/2, h_0/4, ...] , verifying that FMM yields stem:[O(h)] convergence, while ray tracing achieves machine precision at vertices."
                         }
                     ]
                 },
