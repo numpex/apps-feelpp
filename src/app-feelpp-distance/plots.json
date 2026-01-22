@@ -2,183 +2,295 @@
     "contents": [
         {
             "type":"section",
-            "title":"Benchmark Execution Summary",
-            "contents": [
-                {
-                    "type":"section",
-                    "title":"Session",
-                    "contents":[
-                        {
-                            "type":"itemize",
-                            "ref":"reframe_json",
-                            "items":[
-                                "Hostname: @{session_info.hostname}@",
-                                "User: @{session_info.hostname}@",
-                                "Time Start: @{session_info.time_start}@",
-                                "Time End: @{session_info.time_end}@"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Cases",
-                    "contents":[
-                        {
-                            "type":"itemize",
-                            "ref":"reframe_json",
-                            "items":[
-                                "Total: @{session_info.num_cases}@ ",
-                                "Failures: @{session_info.num_failures}@",
-                                "Runs: @{runs | length}@"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type":"section",
-                    "title":"Parametrization",
-                    "contents":[
-                        {
-                            "type":"table",
-                            "ref": "parameter_table",
-                            "layout":{
-                                "column_order":["result","testcases.hashcode","tasks","M", "h", "testcases.time_total", "logs_link"],
-                                "rename":{
-                                    "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
-                                    "result":"", "logs_link":""
-                                }
-                            },
-                            "style":{
-                                "column_align":{ "result":"center" },
-                                "column_width":{ "result":1,"logs_link":1},
-                                "classnames":["scrollable","sortable"]
-                            },
-                            "filter":{ "placeholder":"Filter testcases..." }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type":"section",
-            "title":"Feelpp Distance Performance results",
+            "title":"Compute distance to a range of entities",
             "contents":[
                 {
+                    "type":"text",
+                    "text":"This mini-app computes signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry. Unlike the PDE solver demonstrators in other benchmarks, it compares algorithmic approaches (Fast Marching Method vs. BVH-based ray tracing) rather than discretization methods."
+                },
+                {
+                    "type":"text",
+                    "text":"The following table describes the specefications of the application"
+                },
+                { "type":"table", "ref":"demonstrator_descr" },
+                {
                     "type":"section",
-                    "title":"L2 Error Analysis",
+                    "title":"Description of the benchmark",
                     "contents":[
                         {
-                            "type":"section",
-                            "title":"BVH",
-                            "contents":[{
-                                "type":"plot",
-                                "plot":{
-                                    "title": "Errors BVH",
-                                    "plot_types": ["scatter"],
-                                    "xaxis":{ "parameter": "h" },
-                                    "yaxis":{ "label": "Error (L2)" },
-                                    "color_axis":{ "parameter": "M" },
-                                    "secondary_axis":{ "parameter": "tasks" },
-                                    "aggregations":[
-                                        {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"}
-                                    ]
-                                }
-                            }]
+                            "type":"text",
+                            "text":"We consider the unit cube stem:[ [0, 1]^3 ] discretized by an unstructured tetrahedral mesh. Let stem:[h] denote the mesh size, controlling the total number of vertices stem:[N]. For each mesh vertex stem:[\\mathbf{x}_i] , our goal is to compute the Euclidean distance"
+                        },
+                        {
+                            "type":"latex",
+                            "latex":"\\begin{equation*}\n d(\\mathbf{x}_i) = \\min_{\\mathbf{y} \\in \\partial ([0,1]^3) }  ||\\mathbf{x}_i  - \\mathbf{y} ||_2 \\end{equation*}"
+                        },
+                        {
+                            "type":"text",
+                            "text":"The exact analytical distance on the unit cube is"
+                        },
+                        {
+                            "type":"latex",
+                            "latex":"\\begin{equation*}\n  d_{\\text{exact}}(x,y,z) = \\min{ {x, 1-x, y, 1-y,z, 1-z} }  \\end{equation*}"
+                        },
+                        {
+                            "type":"text",
+                            "text":"We compare two numerical strategies to build a continuous piecewise-linear (P1) distance field over the mesh."
+                        },
+                        {
+                            "type":"text",
+                            "text":"More details can be found in (Van Landeghem, 2025)."
                         },
                         {
                             "type":"section",
-                            "title":"FMM",
-                            "contents":[{
-                                "type":"plot",
-                                "plot":{
-                                    "title": "Errors FMM",
-                                    "plot_types": ["scatter"],
-                                    "xaxis":{ "parameter": "h" },
-                                    "yaxis":{ "label": "Error (L2)" },
-                                    "color_axis":{ "parameter": "M" },
-                                    "secondary_axis":{ "parameter": "tasks" },
-                                    "aggregations":[
-                                        {"column":"perfvalue","agg":"filter:errors_L2_error_FMM"}
+                            "title":"Fast-Marching Method (FMM)",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "*Initialization*: Tag all boundary vertices of the mesh as known with stem:[d = 0].",
+                                        "*Propagation*: Maintain a narrowband of trial vertices adjacent to known ones. Repeatedly extract the trial vertex with the minimal tentative distance, mark it known, and update neighboring trial vertices by solving local upwind discretization of the eikonal equation stem:[|| \\nabla d = 1 ||].",
+                                        "*Output*: A P1 scalar field stem:[d_h(\\mathbf{x})] approximating the true distance"
                                     ]
                                 }
-                            }]
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Ray-Tracing with BVH",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "*Preprocessing*: Build a Bounding Volume Hierarchy (BVH) over the mesh boundary faces or directly on the analytic cube faces.",
+                                        "*Directional Sampling*: Since the cube geometry is known, but the nearest boundary direction is unknown, for each vertex stem:[\\mathbf{x}_i] we uniformly sample directions on the unit sphere. Let stem:[M] be the number of rays per point, which becomes a key parameter for accuracy and cost.",
+                                        "*Ray Casting*: For each sampled direction, cast a ray from stem:[\\mathbf{x}_i] into the BVH and record the intersection distance. The estimated distance is the minimum over all sampled rays: stem:[d_h (\\mathbf{x}_i) = \\min_{1 \\le j \\le M}{t_j}], where stem:[t_j] is the distance alog ray stem:[j] to the boundary.",
+                                        "*Output*: A P1 field stem:[d_h(\\mathbf{x})] by assigning the computed distance at each vertex."
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     "type":"section",
-                    "title":"Performance analysis",
-                    "contents":[
+                    "title":"Benchmark Execution Summary",
+                    "contents": [
                         {
                             "type":"section",
-                            "title":"BVH",
+                            "title":"Session",
                             "contents":[
                                 {
-                                    "type":"plot",
-                                    "plot": {
-                                        "title": "BVH Performance ",
-                                        "plot_types": ["scatter"],
-                                        "xaxis":{ "parameter": "tasks" },
-                                        "yaxis":{ "label": "Time [s]" },
-                                        "color_axis":{ "parameter": "h", "label": "h" },
-                                        "secondary_axis":{ "parameter": "M", "label": "M" },
-                                        "aggregations":[
-                                            {"column":"perfvalue","agg":"filter:times_time_BVH"}
-                                        ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Speedup BVH",
-                                        "plot_types": ["scatter"],
-                                        "transformation": "speedup",
-                                        "xaxis":{ "parameter": "tasks" },
-                                        "yaxis":{ "label": "Time [s]" },
-                                        "color_axis":{ "parameter": "h", "label": "h" },
-                                        "secondary_axis":{ "parameter": "M", "label": "M" },
-                                        "aggregations":[
-                                            {"column":"perfvalue","agg":"filter:times_time_BVH"}
-                                        ]
-                                    }
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Hostname: @{session_info.hostname}@",
+                                        "User: @{session_info.user}@",
+                                        "Time Start: @{session_info.time_start}@",
+                                        "Time End: @{session_info.time_end}@"
+                                    ]
                                 }
                             ]
                         },
                         {
                             "type":"section",
-                            "title":"FMM",
+                            "title":"Cases",
                             "contents":[
                                 {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Performance FMM",
-                                        "plot_types": ["scatter"],
-                                        "xaxis":{ "parameter": "tasks" },
-                                        "yaxis":{ "label": "Time [s]" },
-                                        "color_axis":{ "parameter": "h", "label": "h" },
-                                        "secondary_axis":{ "parameter": "M", "label": "M" },
-                                        "aggregations":[
-                                            {"column":"perfvalue","agg":"filter:times_time_FMM"}
-                                        ]
-                                    }
-                                },
-                                {
-                                    "type":"plot",
-                                    "plot":{
-                                        "title": "Speedup FMM",
-                                        "plot_types": ["scatter"],
-                                        "transformation": "speedup",
-                                        "xaxis":{ "parameter": "tasks" },
-                                        "yaxis":{ "label": "Time [s]" },
-                                        "color_axis":{ "parameter": "h", "label": "h" },
-                                        "secondary_axis":{ "parameter": "M", "label": "M" },
-                                        "aggregations":[
-                                            {"column":"perfvalue","agg":"filter:times_time_FMM"}
-                                        ]
-                                    }
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Total: @{session_info.num_cases}@ ",
+                                        "Failures: @{session_info.num_failures}@",
+                                        "Runs: @{runs | length}@"
+                                    ]
                                 }
                             ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Parametrization",
+                            "contents":[
+                                {
+                                    "type":"table",
+                                    "ref": "parameter_table",
+                                    "layout":{
+                                        "column_order":["result","testcases.hashcode","tasks","M", "h", "testcases.time_total", "logs_link"],
+                                        "rename":{
+                                            "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
+                                            "result":"", "logs_link":""
+                                        }
+                                    },
+                                    "style":{
+                                        "column_align":{ "result":"center" },
+                                        "column_width":{ "result":1,"logs_link":1},
+                                        "classnames":["scrollable","sortable"]
+                                    },
+                                    "filter":{ "placeholder":"Filter testcases..." }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Benchmarking Tools Used",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "ref":"reframe_json",
+                            "text": "This benchmark was performed on the @{runs.0.testcases.0.system}@ supercomputer, using feelpp.benchmaring (*v.{feelpp_benchmarking_version}*)."
+                        },
+                        {
+                            "type":"text",
+                            "text":"Let stem:[d_h] be the discrete distance field computed by either method. We compute the error norms"
+                        },
+                        {
+                            "type":"latex",
+                            "latex":"\\begin{equation*}\n  || d_h - d_{\\text{exact}} ||_{L^2} = ( \\sum_{i=1}^{N}(d_h(\\mathbf{x}_i) - d_{\\text{exact}(\\mathbf{x}_i)} )^2 )^{1/2} \\end{equation*}"
+                        },
+                        {
+                            "type":"latex",
+                            "latex":"\\begin{equation*}\n || d_h - d_{\\text{exact}} ||_{L^\\infty}  = \\max_{i=1,...,N} |d_h(\\mathbf{x}_i) - d_{\\text{exact}}(\\mathbf{x}_i)|  \\end{equation*}"
+                        },
+                        {
+                            "type":"We perform a convergence study over meshes with stem:[h = h_0, h_0/2, h_0/4, ...] , verifying that FMM yields stem:[O(h)] convergence, while ray tracing achieves machine precision at vertices."
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Input/Output Dataset Description",
+                    "contents":[
+                        {
+                            "type":"section",
+                            "title":"Input Data:",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "Meshes: we use cubic meshes with various discretization sizes: stem:[h = 0.12, 0.06, 0.03, 0.015].",
+                                        "Setup: the FMM method is provided by the core library of Feel++, and the BVH implementation uses Feel++ functionality. More details can be found in (Van Landeghem, 2025)."
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Output Data:",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The output data monitored are the stem:[L^2] error committed by the two methods on the benchmark, as described in Equation in section <<Benchmarking Tools Used>>, as well as the time of execution to compute the distance for all points stem:[\\mathbf{x}_i] in the mesh."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Results summary",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "text":"We present results for the benchmark described above. In the figure (a) below, we show the exact distance between each point of the cube to the border. The cube is vertically half-sliced."
+                        },
+                        {
+                            "type":"text",
+                            "text":"Figure (b) and Figure (c) show the distribution of the pointwise error for FMM and BVH, respectively. For this specific plot, we took stem:[h = 0.06] and stem:[M = 1500]. We note that the BVH method results in a smaller global error, while it is more localized for the FMM method."
+                        },
+                        {
+                            "type":"grid",
+                            "columns":3,
+                            "align":"center",
+                            "justify":"center",
+                            "contents":[
+                                {
+                                    "type":"image",
+                                    "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-distance-exact.png",
+                                    "caption":"Exact distance stem:[d_{\\text{exact}}]"
+                                },
+                                {
+                                    "type":"image",
+                                    "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-distance-errorFMM.png",
+                                    "caption":"Error by the method FMM: stem:[ | d_{\\text{FMM}} - d_{\\text{exact}} |]"
+                                },
+                                {
+                                    "type":"image",
+                                    "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-distance-errorBVH.png",
+                                    "caption":"Error by the method BVH: stem:[ | d_{\\text{BVH}} - d_{\\text{exact}} |]"
+                                }
+                            ]
+                        },
+                        {
+                            "type":"text",
+                            "text":"We now present some results of convergence. Note that in some cases (very fine meshes or large numbers of rays), the BVH method did not finish due to memory requirements."
+                        },
+                        {
+                            "type":"text",
+                            "text":"We show in figures below the evolution of the time taken by the two methods according to the number of parallel processes used. The first result is that FMM takes less time than BVH, independently of the configuration. We also see that when more cores are used, we do not see improvement in the time of execution."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Execution time (BVH and FMM) by number of tasks",
+                                "plot_types":["marked_scatter"],
+                                "xaxis":{"parameter":"tasks","label":"Number of tasks"},
+                                "yaxis":{"label":"Time [s]"},
+                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
+                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                    {"times_time_BVH":"BVH"},
+                                    {"times_time_FMM":"FMM"}
+                                ]},
+                                "aggregations":[ {"column":"M","agg":"max"} ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Comparison of speedup for BVH and FMM",
+                                "transformation":"speedup",
+                                "plot_types":["marked_scatter"],
+                                "xaxis":{"parameter":"tasks","label":"Number of tasks"},
+                                "yaxis":{"label":"Speedup"},
+                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
+                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                    {"times_time_BVH":"BVH"},
+                                    {"times_time_FMM":"FMM"}
+                                ]},
+                                "aggregations":[ {"column":"M","agg":"max"} ]
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"Now, we focus on the impact of the number of ray cast in the BVH method. Figure below displays the evolution of the L2 error depending on the number of ray M, for various sizes of mesh. We see that the precision of the method for this specific benchmark is not impacted by this parameter. On the other hand, we see that it is impacted by the size of the mesh."
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Evolution of BVH error by number of ray casts",
+                                "plot_types":["scatter"],
+                                "xaxis":{"parameter":"M","label":"Number of rays"},
+                                "yaxis":{"label":"$\\text{Error} L^2$"},
+                                "color_axis":{ "parameter": "h" },
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
+
+                            }
+                        },
+                        {
+                            "type":"text",
+                            "text":"Precisely, the next figure shows the convergence regarding the size of the discretization, we see a convergence at the order 1.5. "
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Convergence of the error against mesh size.",
+                                "plot_types":["scatter"],
+                                "xaxis":{"parameter":"h"},
+                                "yaxis":{"label":"$\\text{Error} L^2$"},
+                                "color_axis":{ "parameter": "M" },
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
+                            }
                         }
                     ]
                 }
