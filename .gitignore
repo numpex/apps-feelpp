@@ -94,5 +94,10 @@ outputs/
 **/.spack-env/*
 spack.lock
 
-
 benchmark/*
+
+#Docs
+docs/modules/ROOT/pages/
+!docs/modules/ROOT/pages/index.adoc
+
+tmp/

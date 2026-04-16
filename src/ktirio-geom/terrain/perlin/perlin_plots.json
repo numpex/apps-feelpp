@@ -1,0 +1,207 @@
+{
+    "data": [
+        {
+            "type": "DataTable",
+            "name": "reframe_df_parsed",
+            "ref": "reframe_df",
+            "table_options":{
+                "computed_columns":{
+                    "triangles": "2*(row[\"tile_grid_size\"]*row[\"terrain_grid_size\"])**2"
+                }
+            }
+        }
+    ],
+    "contents":[
+
+        {
+            "type":"section",
+            "title":"Benchmark Execution Summary",
+            "contents": [
+                {
+                    "type":"section",
+                    "title":"Session",
+                    "contents":[
+                        {
+                            "type":"itemize",
+                            "ref":"reframe_json",
+                            "items":[
+                                "Hostname: @{session_info.hostname}@",
+                                "User: @{session_info.user}@",
+                                "Time Start: @{session_info.time_start}@",
+                                "Time End: @{session_info.time_end}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Cases",
+                    "contents": [
+                        {
+                            "type": "itemize",
+                            "ref": "reframe_json",
+                            "items": [
+                                "Total: @{session_info.num_cases}@",
+                                "Failures: @{session_info.num_failures}@",
+                                "Runs: @{runs | length}@"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Parametrization",
+                    "contents": [
+                        {
+                            "type": "table",
+                            "ref": "parameter_table",
+                            "layout": {
+                                "column_order": ["result", "testcases.hashcode", "tile_grid_size", "terrain_grid_size", "triangles", "logs_link"],
+                                "rename": { "testcases.hashcode": "Hash", "result": "", "logs_link": "" }
+                            },
+                            "style": {
+                                "column_align": { "result": "center" },
+                                "column_width": { "result": 1, "logs_link": 1 },
+                                "classnames": ["scrollable", "sortable"]
+                            },
+                            "filter": { "placeholder": "Filter testcases..." }
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "type": "section",
+            "title": "Benchmark: Ktirio-Geom - Perlin Noise Terrain Generation",
+            "contents": [
+                {
+                    "type": "section",
+                    "title": "Description",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "This benchmark evaluates the performance of Ktirio-Geom when generating synthetic terrains using Perlin noise. The pipeline produces structured terrain meshes with varying levels of detail, controlled by tile and terrain grid parameters."
+                        },
+                        {
+                            "type": "text",
+                            "text": "The workflow uses multithreaded execution and advanced geometric algorithms for mesh creation, including tile-based meshing, elevation grid computation, and feature refinement. The focus is on scalability with respect to the number of tiles, terrain resolution, and resulting mesh complexity."
+                        },
+                        {
+                            "type": "text",
+                            "text": "Two main parameters are explored: tile grid size, which controls the size and number of individual tiles, and terrain grid size, which defines the resolution of each tile. These parameters directly affect the total number of triangles in the mesh and the computational load of the pipeline."
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Benchmarking Tools Used",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "Performance measurements were collected using internal timing instrumentation integrated into Ktirio-Geom. Each stage of the pipeline reports elapsed wall-clock time, with per-tile statistics for multithreaded sections."
+                        },
+                        {
+                            "type": "text",
+                            "text": "For tile-level operations, the benchmark reports the longest-running tile thread to reflect critical-path execution and scalability limits."
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Input / Output Dataset Description",
+                    "contents": [
+                        {
+                            "type": "section",
+                            "title": "Input Data",
+                            "contents": [
+                                {
+                                    "type": "itemize",
+                                    "items": [
+                                        "Perlin noise configuration file defining terrain generation parameters.",
+                                        "Tile grid and terrain grid resolution parameters controlling the mesh granularity."
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "section",
+                            "title": "Output Data",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "The output consists of triangulated terrain meshes with per-tile breakdowns and total execution time for each major processing stage. These outputs are suitable for simulation, visualization, and further geometric processing."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "type": "section",
+            "title": "Results Summary",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "The results show a strong correlation between total execution time and both tile and terrain grid sizes. As tile grid size increases, total time grows due to the larger number of triangles per tile. Increasing terrain grid size also significantly increases computational cost, reflecting higher mesh resolution."
+                },
+                {
+                    "type": "text",
+                    "text": "Multithreaded execution reduces wall-clock time but shows diminishing returns at larger grid sizes, indicating critical-path limitations in tile-level processing."
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "title": "Results",
+            "contents": [
+                {
+                    "type": "section",
+                    "title": "Total Time",
+                    "contents": [
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for tile grid size",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"tile_grid_size", "label":"Tile size" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "secondary_axis":{ "parameter": "terrain_grid_size", "label":"Terrain Grid Size" }
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for terrain grid size",
+                                "plot_types":["scatter","grouped_bar"],
+                                "secondary_axis":{ "parameter":"tile_grid_size", "label":"Tile size" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "xaxis":{ "parameter": "terrain_grid_size", "label":"Terrain Grid Size" }
+                            }
+                        },
+
+                        {
+                            "type":"plot",
+                            "ref":"reframe_df_parsed",
+                            "plot":{
+                                "title":"Complexity for total number of initial triangles",
+                                "plot_types":["scatter","grouped_bar"],
+                                "xaxis":{ "parameter":"triangles", "label":"Initial triangles" },
+                                "yaxis":{"label":"Execution time (s) - multithreaded"},
+                                "color_axis":{"label":"Pipeline step", "filter":[ {"Terrain_elapsed":"Total"} ]},
+                                "aggregations":[{ "column":"terrain_grid_size", "agg":"max" }]
+
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

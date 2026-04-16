@@ -3,183 +3,119 @@ name: CI
 on:
   push:
     branches:
-      - '**' # Push events on all branches
-    paths-ignore:
-      - '.github/workflows/init.yml'
+      - "**"
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10 including semver
+      - "v*"
 
 jobs:
-
-  tests:
+  build:
     runs-on: self-feelpp
-    name: integration-tests
-    if: ${{ !contains(github.event.head_commit.message, 'tests skip') }}
+
+    name: Build deb packages
+    if: ${{ !contains(github.event.head_commit.message, 'build skip') }}
     steps:
-    - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-    - name: Install Python dependencies
-      run: |
-        python -m venv .venv
-        source .venv/bin/activate
-        python3 -m pip install --upgrade pip
-        python3 -m pip install pytest
-        python3 -m pip install -r requirements.txt
+      - name: Configure
+        run: cmake --preset default
 
-    - name: Unit tests
-      run: |
-        source .venv/bin/activate
-        # python3 -m pytest
-      # env:
-        # GIRDER_API_KEY: ${{secrets.GIRDER}}
+      - name: Build
+        run: cmake --build --preset default
 
-    # - name: Compile applications
-    #   run: |
-    #     cmake --preset default
-    #     cmake --build --preset default
+      - name: Test
+        if: "!contains(github.event.head_commit.message, 'skip tests')"
+        run: ctest --preset default
 
-    - name: Test benchmarks
-      run: |
-        source .venv/bin/activate
-        feelpp-benchmarking-exec -mc src/config/gaya/gaya.json -bc src/app-feelpp-discr-1/thermal_bridges_case_3.json -pc src/app-feelpp-discr-1/heat_plots.json
-        echo $?
+      - name: Package
+        run: cmake --build --preset default -t package
 
-    # - name: Dry-run reports
-      # run: |
-        # source .venv/bin/activate
-        # feelpp-benchmarking-render --config-file reports/website_config.json
+      - name: Upload
+        uses: actions/upload-artifact@v5
+        with:
+          name: deb-artifacts
+          path: build/default/assets/feelpp-app-*.deb
 
-    # - name: Check files
-    #   run: | #TODO: check if not empty (maybe)
-    #     nb_rfm_report_files=$(ls -1q reports/parallelSum/parallel_sum/default|wc -l)
-    #     nb_doc_reports=$(ls -1q docs/modules/ROOT/pages/reports/|wc -l)
-    #     if [ "$nb_rfm_report_files" -ne 1 ] || [ "$nb_doc_reports" -ne 1 ]; then
-    #       echo "Reports where not rendered."
-    #       exit 1
-    #     fi
-
-  docs:
-    runs-on: self-antora
-    name: Build Antora Site
-    needs: tests
-    if: ${{ !contains(github.event.head_commit.message, 'docs skip') }}
+  docker:
+    runs-on: self-feelpp
+    needs: build
+    name: Build and push docker image
+    if: ${{ github.ref_name == 'master' || startsWith(github.ref ,'refs/tags/v') || contains(github.event.head_commit.message, '[build container]') }}
+    outputs:
+      tag: ${{ steps.tag_extractor.outputs.tag }}
     steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v6
+      - name: Download
+        uses: actions/download-artifact@v6
+        with:
+          name: deb-artifacts
+          path: artifacts/
 
-    - name: Install credentials
-      run: echo https://$GITHUB_OAUTH:@github.com > $HOME/.git-credentials
-      env:
-        GITHUB_OAUTH: ${{ secrets.CR_PAT_WORKFLOW }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        with:
+          images: |
+            ghcr.io/numpex/apps-feelpp
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.url="https://github.com/numpex/apps-feelpp"
+            org.opencontainers.image.source="https://github.com/numpex/apps-feelpp"
+            org.opencontainers.image.authors="Cemosis <contact@cemosis.fr>"
 
-    - name: Install NPM dependencies
-      run: npm ci --verbose
+      - name: Extract tag
+        id: tag_extractor
+        run: |
+          FIRST_TAG=$(echo "${{ steps.meta.outputs.tags }}" | tr ' ' '\n' | head -n 1)
+          echo "tag=$FIRST_TAG" >> "$GITHUB_OUTPUT"
 
-    # - name: Download
-    #   uses: actions/download-artifact@v4
-    #   with:
-    #     name: wheel-artifacts
-    #     path: dist/
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-    - name: Install Python dependencies
-      run: |
-          python -m venv .venv
-          source .venv/bin/activate
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    # - name: Download website config
-    #   run: |
-    #     source .venv/bin/activate
-    #     # source ./girder_deploy_config.sh
-    #     # feelpp-girder download --girder_id=$production_website_config_id --output_dir=./tmp/ --filename=website_config.json
-    #   env:
-    #     GIRDER_API_KEY: ${{secrets.GIRDER}}
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
 
-    # - name: Render reports
-    #   run: |
-    #     source .venv/bin/activate
-    #     feelpp-benchmarking-render --config-file=./tmp/website_config.json
-      # env:
-        # GIRDER_API_KEY: ${{ secrets.GIRDER }}
+      - name: Build Image
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64
+          context: artifacts
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          file: ./Dockerfile
 
-    - name: Build Antora Site
-      run: |
-          source .venv/bin/activate
-          npm run antora || true
-          npm run antora || true
+  apptainer :
+    runs-on: self-feelpp
+    name: Build and Push apptainer image
+    needs: docker
+    env:
+      apptainer: /opt/apptainer/latest/bin/apptainer
+    steps:
+      - name: Login to GHCR
+        run: |
+          ${{ env.apptainer }} remote login  -u ${{ github.repository_owner }} -p ${{ secrets.CR_PAT }} oras://ghcr.io
 
-    - name: Deploy
-      if: ${{ github.ref_name == 'main' }}
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: public # The folder the action should deploy.
+      - name: Get docker image ${{ needs.docker.outputs.tag }}
+        run: |
+          echo "Using tag: ${{ needs.docker.outputs.tag }}"
+          ${{ env.apptainer }} pull -F apps-feelpp.sif docker://${{ needs.docker.outputs.tag }}
+          ls -lrt
 
-  # deliver:
-  #   runs-on: self-feelpp
-  #   name: Build docker, tag and push
-  #   steps:
-  #   - uses: actions/checkout@v4
-
-  #   - name: Docker meta
-  #     id: meta
-  #     uses: docker/metadata-action@v5
-  #     with:
-  #       images: |
-  #         ghcr.io/feelpp/benchmarking
-  #       tags: |
-  #         type=ref,event=branch
-  #         type=ref,event=pr
-  #         type=semver,pattern={{version}}
-  #         type=semver,pattern={{major}}.{{minor}}
-
-  #   - name: Set up QEMU
-  #     uses: docker/setup-qemu-action@v3
-
-  #   - name: Set up Docker Buildx
-  #     uses: docker/setup-buildx-action@v3
-
-  #   - name: Login to GitHub Container Registry
-  #     uses: docker/login-action@v3
-  #     with:
-  #       registry: ghcr.io
-  #       username: ${{ github.repository_owner }}
-  #       password: ${{ secrets.CR_PAT }}
-
-  #   - name: Build container image
-  #     uses: docker/build-push-action@v6
-  #     with:
-  #       push: ${{ github.event_name != 'pull_request' }}
-  #       tags: ${{ steps.meta.outputs.tags }}
-  #       labels: ${{ steps.meta.outputs.labels }}
-  #       file: ./Dockerfile
-
-  # release:
-  #   runs-on: self-feelpp
-  #   name: Release
-  #   needs: [tests]
-  #   if: startsWith(github.ref ,'refs/tags/v')
-  #   permissions:
-  #     contents: write
-  #     id-token: write
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Download Wheel Packages
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: wheel-artifacts
-  #         path: dist/
-
-  #     - name: Create Release
-  #       uses: softprops/action-gh-release@v2
-  #       with:
-  #         files: dist/*.whl
-  #         draft: false
-  #         prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') || contains(github.ref, 'preview')}}
-  #         name: Release ${{ github.ref_name }}
-  #         generate_release_notes: true
-  #         tag_name: ${{ github.ref }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-
-  #     - name: Publish package distributions to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Push apptainer image ${{ needs.docker.outputs.tag }} to ghcr.io
+        run: |
+          echo "Using tag: ${{ needs.docker.outputs.tag }}"
+          ${{ env.apptainer }} push apps-feelpp.sif oras://${{ needs.docker.outputs.tag }}-sif

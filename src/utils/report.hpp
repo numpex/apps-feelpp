@@ -42,12 +42,12 @@ public:
         }
     }
 
-    void setMeasure(const std::string name, double value)
+    void setMeasure(std::string const& name, double value)
     {
         M_data[name] = value;
     }
 
-    double getMeasure(const std::string name)
+    double getMeasure(std::string const& name)
     {
         return M_data.at(name);
     }

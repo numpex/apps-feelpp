@@ -14,11 +14,11 @@ on:
             benchmark_config:
                 description: 'Path to benchmark configuration'
                 required: True
-                default: src/app-feelpp-discr-1/thermal_bridges_case_3.json
+                default: src/app-feelpp-io/feelpp-io.json
             plots_config:
                 description: 'Path to plots related configuration'
                 required: True
-                default: src/app-feelpp-discr-1/heat_plots.json
+                default: src/app-feelpp-io/plots.json
             create_pr:
                 description: 'Create Pull Request'
                 type: boolean
@@ -42,7 +42,7 @@ jobs:
         -   name: Get machines configuration
             id: download_systems_config
             run: |
-                machine_config=$(curl https://gist.githubusercontent.com/thomas-saigre/50760ea0999fb22dbf623c962a3c7664/raw/1ebe7c248e6d50466e492480cc24928bbc60be3c/systems.json )
+                machine_config=$(curl -H "Authorization: token ${{ secrets.CR_PAT }}" https://raw.githubusercontent.com/feelpp/hpc-systems/refs/heads/main/systems.json)
                 machine_config=$(jq --compact-output '.' <<< $machine_config)
                 echo "machine_config=$machine_config" >> $GITHUB_OUTPUT
 
@@ -54,55 +54,50 @@ jobs:
 
                 filtered_systems_config=$(echo "$machine_config" | jq --arg valid_systems "$valid_systems" '
                     ($valid_systems | split(",")) as $systems |
-                    with_entries(select([.key] | inside($systems))) | [.[]]
+                    with_entries(select(.key as $k | $systems | index($k))) | [.[]]
                 ')
                 filtered_systems_config=$(jq --compact-output '.' <<< $filtered_systems_config)
                 echo "filtered_systems_config=$filtered_systems_config" >> $GITHUB_OUTPUT
 
-        # -   name: Filter Available Runners
-        #     id: filter-available-systems
-        #     run: |
-        #         all_runners=$(curl -H "Accept: application/vnd.github+json" \
-        #                             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-        #                             -H "X-GitHub-Api-Version: 2022-11-28" \
-        #                             https://api.github.com/orgs/numpex/actions/runners
-        #                     )
-        #         echo $all_runners
+        -   name: Filter Available Runners
+            id: filter-available-systems
+            run: |
+                all_runners=$(curl -H "Accept: application/vnd.github+json" \
+                                    -H "Authorization: Bearer ${{ secrets.CR_PAT }}" \
+                                    -H "X-GitHub-Api-Version: 2022-11-28" \
+                                    https://api.github.com/repos/numpex/apps-feelpp/actions/runners
+                            )
+                echo $all_runners
 
-        #         all_runners=$(echo $all_runners | jq -r '.runners')
+                all_runners=$(echo $all_runners | jq -r '.runners')
 
-        #         available_systems="[]"
+                available_systems="[]"
 
-        #         while read -r system; do
-        #             tag=$(echo "$system" | jq -r .runner_tag);
-        #             runner=$(echo "$all_runners" | jq --arg tag "$tag" '
-        #                 map(select(.labels[].name | contains($tag)))
-        #             ')
+                while read -r system; do
+                    tag=$(echo "$system" | jq -r .runner_tag);
+                    runner=$(echo "$all_runners" | jq --arg tag "$tag" '
+                        map(select(.labels[].name | contains($tag)))
+                    ')
 
-        #             if [ "$(echo "$runner" | jq 'length')" -eq 0 ]; then
-        #                 echo "No runner found for $tag ..."
-        #                 continue
-        #             fi
+                    if [ "$(echo "$runner" | jq 'length')" -eq 0 ]; then
+                        echo "No runner found for $tag ..."
+                        continue
+                    fi
 
-        #             if echo "$runner" | jq -e 'map(select(.status == "online")) | length > 0' >/dev/null; then
-        #                 available_systems=$(echo "$available_systems" | jq --argjson sys "$system" '. + [$sys]')
-        #             else
-        #                 echo "No online runners for $tag ..."
-        #             fi
-        #         done < <(echo '${{steps.filter-systems.outputs.filtered_systems_config}}' | jq -c '.[]')
+                    if echo "$runner" | jq -e 'map(select(.status == "online")) | length > 0' >/dev/null; then
+                        available_systems=$(echo "$available_systems" | jq --argjson sys "$system" '. + [$sys]')
+                    else
+                        echo "No online runners for $tag ..."
+                    fi
+                done < <(echo '${{steps.filter-systems.outputs.filtered_systems_config}}' | jq -c '.[]')
 
-        #         available_systems=$(jq --compact-output '.' <<< $available_systems)
-        #         echo "available_systems=$available_systems" >> $GITHUB_OUTPUT
-
-        # -   name: Set matrix
-        #     id: hpc-systems
-        #     run: |
-        #         echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-available-systems.outputs.available_systems}}' '{include: $config}')" >> $GITHUB_OUTPUT
+                available_systems=$(jq --compact-output '.' <<< $available_systems)
+                echo "available_systems=$available_systems" >> $GITHUB_OUTPUT
 
         -   name: Set matrix
             id: hpc-systems
             run: |
-                echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-systems.outputs.filtered_systems_config}}' '{include: $config}')" >> $GITHUB_OUTPUT
+                echo "matrix=$(jq -c --null-input --argjson config '${{steps.filter-available-systems.outputs.available_systems}}' '{include: $config}')" >> $GITHUB_OUTPUT
 
     benchmark:
         needs: [factory]
@@ -113,46 +108,56 @@ jobs:
         timeout-minutes: 7200
         name: ${{matrix.machine}}
         steps:
-        -   uses: actions/checkout@v6
+        -   uses: actions/checkout@v4
+
+        -   uses: astral-sh/setup-uv@v5
 
         -   name: Create machine config
             run: |
                 json_machine_config='${{ toJson(matrix.system_config) }}'
                 echo "$json_machine_config" > machine_config.json
 
+        -   name: Create venv
+            run: |
+                uv venv .venv
+                source .venv/bin/activate
+
+        -   name: Install feelpp-benchmarking
+            run: uv pip install feelpp-benchmarking
+
+
+        -   name: Print system Usage
+            run: bash ./system_entrypoints/${{matrix.machine}}.sh
+            env:
+                PROJECT_ID: ${{matrix.project_id || ''}}
+
         -   name: Execute benchmarks (CLI)
             if: ${{ matrix.submit == 'cli' }}
             run: |
-                ./tmp_system_entrypoints/${{matrix.machine}}.sh
                 source .venv/bin/activate
                 feelpp-benchmarking-exec \
                     -mc machine_config.json \
                     -bc ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                     -pc ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}} \
                     -v \
-                    -rfm="-v --exec-order=name --max-retries=2"
+                    -rfm="-v --exec-order=name"
             env:
-                # GIRDER_API_KEY: ${{ secrets.GIRDER }}
-                PROJECT_ID: ${{matrix.project_id || ''}}
                 GHCRIO_USER: ${{ github.actor }}
-                GHCRIO_TOKEN: ${{ secrets.CR_PAT_WORKFLOW }}
+                GHCRIO_TOKEN: ${{ secrets.CR_PAT }}
 
-        #TODO TEMPORARY TMP_SYSTEM_ENTRYPOINTS
+        #TODO TEMPORARY SYSTEM_ENTRYPOINTS
         -   name: Execute benchmarks (slurm)
             if: ${{ matrix.submit == 'slurm' }}
             run: |
-                ./tmp_system_entrypoints/${{matrix.machine}}.sh
                 srun --partition ${{matrix.submit_partition}} \
                     --time 48:00:00 \
                     --account ${{matrix.project_id}} \
                     --qos ${{matrix.qos}} \
                     --nodes 1 --ntasks 1 --cpus-per-task 1 --ntasks-per-node 1 \
-                    ./tmp_system_entrypoints/${{matrix.machine}}_launchBenchmark.sh \
+                    ./system_entrypoints/${{matrix.machine}}_launchBenchmark.sh \
                         -m machine_config.json \
                         -b ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }} \
                         -p ${{ github.event.inputs.plots_config || github.event.client_payload.plots_config}}
-            env:
-                GIRDER_API_KEY: ${{ secrets.GIRDER }}
 
         -   name: Parse reports path
             id: parse_reports_path
@@ -170,7 +175,10 @@ jobs:
         name: Stage results
         if: ${{ github.event.inputs.create_pr == 'true' || github.event.client_payload.create_pr == 'true' }}
         steps:
-        -   uses: actions/checkout@v6
+        -   uses: actions/checkout@v4
+
+        -   uses: astral-sh/setup-uv@v5
+
 
         -   name: Download results
             uses: actions/download-artifact@v6
@@ -181,9 +189,11 @@ jobs:
 
         -   name: Create Virtual Environment
             run: |
-                python3 -m venv .venv
+                uv venv .venv
                 source .venv/bin/activate
-                pip3 install -r requirements.txt
+
+        -   name: Install feelpp-benchmarking
+            run: uv pip install feelpp-benchmarking
 
         -   name: Upload to staging folder
             run: |
@@ -204,7 +214,7 @@ jobs:
                 echo "use_case=$(jq -r '.use_case_name' ${{ github.event.inputs.benchmark_config || github.event.client_payload.benchmark_config }})" >> $GITHUB_OUTPUT
 
         -   name: Create Pull Request
-            uses: peter-evans/create-pull-request@v7
+            uses: peter-evans/create-pull-request@v8
             with:
                 title: "Add benchmark on ${{ github.event.inputs.hpc-systems }} for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
                 commit-message: "Add benchmark on ${{ github.event.inputs.hpc-systems }} for ${{ steps.gather_arguments.outputs.executable_name }} - ${{ steps.gather_arguments.outputs.use_case }}"
@@ -220,9 +230,6 @@ jobs:
                     see https://github.com/peter-evans/create-pull-request for more details
                 reviewers: |
                     JavierCladellas
-                    prudhomm
-                    vincentchabannes
-                    thomas-saigre
                 labels: new-benchmark
                 branch: new-benchmark-${{ github.event.inputs.hpc-systems || github.event.client_payload.hpc-systems }}-${{ steps.gather_arguments.outputs.use_case }}
             env:
@@ -235,7 +242,9 @@ jobs:
         if: ${{ github.event.inputs.create_website == 'true' || github.event.client_payload.create_website == 'true' }}
         steps:
 
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v4
+
+            -   uses: astral-sh/setup-uv@v5
 
             -   name: Download results
                 uses: actions/download-artifact@v6
@@ -246,9 +255,12 @@ jobs:
 
             -   name: Create Virtual Environment
                 run: |
-                    python3 -m venv .venv
+                    uv venv .venv
                     source .venv/bin/activate
-                    pip3 install -r requirements.txt
+
+            -   name: Install feelpp-benchmarking
+                run: uv pip install feelpp-benchmarking
+
             -   name: Merge website configs
                 run: |
                     source .venv/bin/activate

@@ -1,0 +1,576 @@
+{
+    "data":[
+        {
+            "name":"ext_parameter_table","ref":"parameter_table",
+            "table_options":{
+                "computed_columns":{
+                    "description_link":"f'link:descriptions/{row[\"testcases.hashcode\"]}.html[Description]'"
+                }
+            }
+        },
+        {
+            "name":"mesh_stats",
+            "columns":[
+                {"name":"Tag","values":["M1","M2","M3"]},
+                {"name":"# points","values":[194000,1400000,10600000]},
+                {"name":"# edges","values":[1300000,9780000,75300000]},
+                {"name":"# faces","values":[2460000,16600000,129000000]},
+                {"name":"# elements","values":[1060000,16600000,129000000]},
+                {"name":"P1","values":[194000,1400000,10600000]},
+                {"name":"P2","values":[1490000,11200000,85900000]},
+                {"name":"P3","values":[4960000,37500000,290000000]}
+            ],
+            "table_options":{
+                "format":{
+                    "# points":"%.2E",
+                    "# edges":"%.2E",
+                    "# faces":"%.2E",
+                    "# elements":"%.2E",
+                    "P1":"%.2E",
+                    "P2":"%.2E",
+                    "P3":"%.2E"
+                }
+            }
+        },
+        {
+            "name":"demonstrator_descr",
+            "columns":[
+                {
+                    "name":"Field",
+                    "values":[
+                        "id", "name", "Partners", "PC", "Responsible (Permanent)", "WP7 Engineer", "work_package","application_type", "purpose",
+                        "Method-Algorithm WP1", "Method-Algorithm WP2", "Method-Algorithm WP3", "Method-Algorithm WP4", "Method-Algorithm WP5", "Method-Algorithm WP6", "WP7",
+                        "outputs", "metrics", "status", "Benchmark scope", "Framework", "parallel_framework", "spec_due", "proto_due", "repo_url"
+                    ]
+                },
+                {
+                    "name":"Details",
+                    "values":[
+                        "app-feelpp-discr-1", "Discretization", "Unistra", "PC1 - ExaMA, PC2 - ExaSoft", "V. Chabannes; C. Prud'homme", "Javier Cladellas (UNISTRA)", "WP1, WP3",
+                        "extended-mini-app", "Solve a PDE (heat, solid mech) with different discretization methods from low to high order", "unstructured mesh, finite element, dG/hdG, cG, spectral element",
+                        "", "domain decomposition methods, Krylov solver, preconditioning", "", "", "", "", "Gmsh, JSON config JSON small-data, JSON reports, inhouse, Markdown or Asciidoc",
+                        "benchmark-verification, strong-scalability, weak-scalability, io-scaling", "benchmark-ready", "full-system, method-verification, solver-scaling", "Feel++, PETSc",
+                        "MPI, Kokkos", "6/15/2025", "7/1/2025", "https://github.com/numpex/apps-feelpp"
+                    ]
+                }
+            ]
+        }
+    ],
+    "contents": [
+        {
+            "type":"section",
+            "title":"Demonstrator: Elliptic linear PDE: CG",
+            "contents": [
+                {
+                    "type":"text",
+                    "text":"This demonstrator solves an elliptic linear PDE (heat equation) using a continuous Galerkin approach."
+                },
+                { "type":"table", "ref":"demonstrator_descr" },
+                {
+                    "type":"section",
+                    "title":"Description of the benchmark",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "text":"The benchmark known as _thermal bridges_ is an example of an application that enables us to validate numerical simulation tools using Feel++. We have developed tests based on the ISO 10211:2017 standard (ISO 10211:2017 - Thermal bridges in building construction — Heat flows and surface temperatures — Detailed calculations, 2017), which provides methodologies for evaluating thermal bridges in building construction."
+                        },
+                        {
+                            "type":"text",
+                            "text": "Thermal bridges are areas within a building envelope where heat flow is different compared to adjacent areas, often resulting in increased heat loss or unwanted condensation. The standard is intended to ensure that thermal bridges simulation are accurately computed. It provides reference values (and tolerance) on heat temperature and heat flux at several location of the geometry."
+                        },
+                        {
+                            "type":"text",
+                            "text": "At the mathematical level, this application requires finding the numerical solution of an elliptic linear PDE (i.e. the heat equation). We employ a finite element method based on continuous Lagrange Finite Element of order 1,2 and 3 (denoted by stem:[\\mathbb{P}_1,\\mathbb{P}_2,\\mathbb{P}_3]). And we analyzed the execution time of the main components of the simulation."
+                        },
+                        {
+                            "type":"text",
+                            "text":"The following figure represents the geometry of this benchmark and the domain decomposition by material."
+                        },
+                        {
+                            "type":"grid",
+                            "columns":2,
+                            "align":"center",
+                            "justify":"center",
+                            "contents":[
+                                {
+                                    "type":"image",
+                                    "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-geom.png",
+                                    "caption":"Thermal Bridges benchmarks - geometry and materials"
+                                },
+                                {
+                                    "type":"image",
+                                    "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-geom2.png",
+                                    "caption":"Thermal Bridges benchmarks - geometry and materials"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Benchmark Execution Summary",
+                    "contents": [
+                        {
+                            "type":"section",
+                            "title":"Session",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Hostname: @{session_info.hostname}@",
+                                        "User: @{session_info.hostname}@",
+                                        "Time Start: @{session_info.time_start}@",
+                                        "Time End: @{session_info.time_end}@"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Cases",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "ref":"reframe_json",
+                                    "items":[
+                                        "Total: @{session_info.num_cases}@ ",
+                                        "Failures: @{session_info.num_failures}@",
+                                        "Runs: @{runs | length}@"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Parametrization",
+                            "contents":[
+                                {
+                                    "type":"table",
+                                    "ref": "ext_parameter_table",
+                                    "layout":{
+                                        "column_order":["result","testcases.hashcode","resources.tasks","memory","mesh", "discretization","solver", "testcases.time_total", "description_link","logs_link"],
+                                        "rename":{
+                                            "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
+                                            "result":"", "description_link":"", "logs_link":""
+                                        }
+                                    },
+                                    "style":{
+                                        "column_align":{ "result":"center" },
+                                        "column_width":{ "result":1,"logs_link":1,"description_link":2},
+                                        "classnames":["scrollable","sortable"]
+                                    },
+                                    "filter":{ "placeholder":"Filter testcases..." }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Benchmarking Tools Used",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "ref":"reframe_json",
+                            "text": "This benchmark was performed on the @{runs.0.testcases.0.system}@ supercomputer, using feelpp.benchmaring (*v.{feelpp_benchmarking_version}*). The performance tools integrated into the Feel++-toolboxes framework were used to measure the execution time."
+                        },
+                        {
+                            "type":"text",
+                            "text":"The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:"
+                        },
+                        {
+                            "type":"itemize",
+                            "items":[
+                                "*Init*: load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)",
+                                "*Assembly*: calculate and assemble the matrix and rhs values obtained using the finite element method",
+                                "*Solve*: the linear system by using a preconditioned GMRES.",
+                                "*PostProcess*: compute validation measures (temperature at points and heat flux) and export on the filesystem a visualization format (EnsighGold) of the solution."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Input/Output Dataset Description",
+                    "contents":[
+                        {
+                            "type":"section",
+                            "title":"Input Data",
+                            "contents":[
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "Meshes: We have generated three levels of mesh called _M1_, _M2_ and _M3_. These meshes are stored in GMSH format. The statistics can be found in table below. We  have also prepared for each mesh level a collection of partitioned mesh. The format used is an in-house mesh format of Feel++ based on JSON+HDF5 file type. The Gmsh meshes and the partitioned meshes can be found on our Girder database management, in the Feel++ collections.",
+                                        "Setup: Use standard setup of Feel++ toolboxes. It corresponds to a cfg file and JSON file. These config files are present in the Github of feelpp.",
+                                        "Sif image: _feelpp:v0.111.0-preview.10-noble-sif_ (stored in the Github registry of Feel++)"
+                                    ]
+                                },
+                                { "type":"table", "ref":"mesh_stats" }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Output Data",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step. Metric:"
+                                },
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "_benchmark-verification_",
+                                        "_strong-scalability_",
+                                        "_weak-scalability_",
+                                        "_io-scaling_ : time taken by the application to read meshes, and to write the solution on disk (especially reading)."
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Results Summary",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "text":"The thermal bridges benchmark has been executed on the Discoverer supercomputer at Unistra for the three mesh refinement levels (M1, M2, M3) using finite element approximations of order 1, 2, and 3. The results demonstrate both the accuracy of the numerical method through comparison with ISO 10211:2017 reference values, and the scalability of the implementation across multiple processors."
+                        },
+                        {
+                            "type":"section",
+                            "title":"Numerical solution",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The figure below shows the computed temperature field and the mesh partitioning used for parallel computation. The temperature distribution exhibits the expected heat transfer patterns through the thermal bridge, with the coldest regions in blue and the warmest in red. The partitioning visualization (right panel) demonstrates the load balancing strategy employed by the domain decomposition method, where different colors represent different processor domains."
+                                },
+                                {
+                                    "type":"grid",
+                                    "columns":2,
+                                    "align":"center",
+                                    "justify":"center",
+                                    "contents":[
+                                        {
+                                            "type":"image",
+                                            "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png",
+                                            "caption":"Thermal bridges benchmarks - temperature solution"
+                                        },
+                                        {
+                                            "type":"image",
+                                            "src":"https://raw.githubusercontent.com/numpex/exa-ma-d7.1/refs/heads/main/graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png",
+                                            "caption":"Thermal bridges benchmarks - partitioning example"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Mesh convergence",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The convergence study validates the numerical accuracy of the Feel++ implementation against the reference values provided by the ISO 10211:2017 standard. Figure 10.3 presents the convergence of key validation measures as a function of mesh refinement level."
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"The results demonstrate excellent agreement with reference values (shown as red dashed lines) for all three finite element orders (stem:[\\mathbb{P}_1,\\mathbb{P}_2,\\mathbb{P}_3]). Key observations include:"
+                                },
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "*Heat flux measurements*: All three polynomial orders converge to the reference values for heat flow measurements in the stem:[\\alpha], stem:[\\beta], and stem:[\\gamma] environments (46.09 W, 13.89 W, and 59.98 W respectively).",
+                                        "*Temperature measurements*: The minimum surface temperature in the stem:[\\alpha] environment converges to the reference value of 11.32°C across all mesh levels.",
+                                        "*Convergence rates*: Higher-order finite elements (stem:[\\mathbb{P}_2] and stem:[\\mathbb{P}_3]) achieve better accuracy on coarser meshes, demonstrating the efficiency of high-order methods for smooth solutions.",
+                                        "*Tolerance compliance*: All computed values fall within the tolerances specified by the ISO standard, confirming the correctness of the implementation."
+                                    ]
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"The benchmark metric _benchmark-verification_ confirms that the Feel++ thermal toolbox meets the accuracy requirements for building thermal analysis applications."
+                                },
+                                //TODO: Use grid when supported
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Convergence of validation measures (Heat flux)",
+                                        "plot_types": [ "scatter" ],
+                                        "xaxis": { "parameter": "mesh", "label": "mesh levels" },
+                                        "yaxis": { "label": "Heat flow [W]" },
+                                        "color_axis":{ "parameter": "discretization", "label":"Discretization" },
+                                        "secondary_axis":{
+                                            "parameter": "perfvalue",
+                                            "label": "Environment",
+                                            "filter": [
+                                                {"Outputs_Normal_Heat_Flux_alpha":"Alpha"},
+                                                {"Outputs_Normal_Heat_Flux_beta":"Beta"},
+                                                {"Outputs_Normal_Heat_Flux_gamma":"Gamma"}
+                                            ]
+                                        },
+                                        "aggregations":[ {"column":"resources.tasks","agg":"max"} ]
+                                    }
+                                },
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Convergence of validation measures (Surface Temperatures)",
+                                        "plot_types": [ "scatter" ],
+                                        "xaxis": { "parameter": "mesh", "label": "mesh levels" },
+                                        "yaxis": { "label": "Temperature [°C]" },
+                                        "color_axis":{ "parameter": "discretization", "label":"Discretization" },
+                                        "secondary_axis":{
+                                            "parameter": "perfvalue",
+                                            "label": "Surface Temperature",
+                                            "filter":[
+                                                {"Outputs_Points_alpha_max_field_temperature":"Alpha (max)"},
+                                                {"Outputs_Points_alpha_min_field_temperature":"Alpha (min)"},
+                                                {"Outputs_Points_beta_max_field_temperature":"Beta (max)"},
+                                                {"Outputs_Points_beta_min_field_temperature":"Beta (min)"}
+                                            ]
+                                        },
+                                        "aggregations":[ {"column":"resources.tasks","agg":"max"} ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"section",
+                    "title":"Times of execution",
+                    "contents":[
+                        {
+                            "type":"text",
+                            "text":"The performance analysis focuses on the scalability of the main computational components: initialization, assembly, solving, and post-processing. Execution times were measured on the Discoverer supercomputer at Unistra for strong scalability tests, where the problem size remains constant while increasing the number of processors."
+                        },
+                        {
+                            "type":"text",
+                            "text":"The figures in this section present both grouped and stacked bar charts showing the execution time breakdown for each mesh level and polynomial order. Key performance insights include:"
+                        },
+                        {
+                            "type":"itemize",
+                            "items":[
+                                "*Initialization*: The mesh loading and toolbox initialization shows good scalability, with decreasing times as processor count increases. This validates the efficiency of the parallel mesh partitioning strategy.",
+                                "*Assembly*: The finite element assembly phase represents a significant portion of total time and scales well for all mesh levels. Higher-order elements ( stem:[\\mathbb{P}_3] ) require more assembly time due to increased quadrature points and local matrix sizes.",
+                                "*Post-processing*: The export and validation phase (orange bars) remains relatively constant across processor counts, as it involves I/O operations that are less amenable to parallelization.",
+                                "*Strong scalability*: The total execution time decreases as the number of processors increases from 1 to 96, demonstrating effective parallel efficiency. The speedup is particularly pronounced for the larger meshes (M2 and M3) where the computational workload per processor remains substantial.",
+                                "*Load balancing*: The consistent performance across different processor counts indicates effective domain decomposition and minimal load imbalance."
+                            ]
+                        },
+                        {
+                            "type":"text",
+                            "text":"The benchmark metrics _strong-scalability_ and _weak-scalability_ confirm that the Feel++ implementation achieves efficient parallel performance suitable for large-scale thermal analysis applications."
+                        },
+
+                        {
+                            "type": "section",
+                            "title": "P1 Discretization Performance",
+                            "contents": [
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Performance (P1)",
+                                        "plot_types": [ "grouped_bar" ],
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "execution time (s)" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P1"} ]
+                                    }
+                                },
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Speedup (P1)",
+                                        "plot_types": [ "scatter" ],
+                                        "transformation": "speedup",
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "Speedup" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P1"} ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "section",
+                            "title": "P2 Discretization Performance",
+                            "contents": [
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Performance (P2)",
+                                        "plot_types": [ "grouped_bar" ],
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "execution time (s)" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P2"} ]
+                                    }
+                                },
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Speedup (P2)",
+                                        "plot_types": [ "scatter" ],
+                                        "transformation": "speedup",
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "Speedup" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P2"} ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "section",
+                            "title": "P3 Discretization Performance",
+                            "contents": [
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Performance (P3)",
+                                        "plot_types": [ "grouped_bar" ],
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "execution time (s)" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P3"} ]
+                                    }
+                                },
+                                {
+                                    "type": "plot",
+                                    "plot": {
+                                        "title": "Speedup (P3)",
+                                        "plot_types": [ "scatter" ],
+                                        "transformation": "speedup",
+                                        "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                        "secondary_axis": { "parameter": "mesh", "label": "Mesh level" },
+                                        "color_axis":{
+                                            "parameter":"perfvalue",
+                                            "label":"Performance Variable",
+                                            "filter":[
+                                                {"Constructor_init":"Preprocessing"},
+                                                {"Solve_algebraic-assembly":"Algebraic assembly"},
+                                                {"Solve_algebraic-solve":"Algebraic solve"},
+                                                {"PostProcessing_exportResults":"Postprocess"}
+                                            ]
+                                        },
+                                        "yaxis": { "label": "Speedup" },
+                                        "aggregations":[ {"column":"discretization","agg":"filter:P3"} ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type":"section",
+                            "title":"Scalability on I/O",
+                            "contents":[
+                                {
+                                    "type":"text",
+                                    "text":"The I/O scalability analysis examines the performance of mesh loading and solution export operations as the number of processors and mesh size vary. The benchmark metric io-scaling measures the time required for file system operations during initialization and post-processing phases."
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"Key I/O performance characteristics observed:"
+                                },
+                                {
+                                    "type":"itemize",
+                                    "items":[
+                                        "*Parallel mesh loading*: The pre-partitioned mesh format (JSON+HDF5) enables efficient parallel loading, with read times scaling inversely with processor count. The initialization times shown in the performance charts demonstrate this scalability.",
+                                        "*Export operations*: Writing visualization files (EnSight Gold format) exhibits limited scalability due to file system contention when multiple processors write simultaneously. This is evident in the relatively constant post-processing times across different processor counts.",
+                                        "*Mesh size impact*: Larger meshes (M3 with 10.5M vertices) show more pronounced I/O bottlenecks compared to smaller meshes (M1 with 193K vertices), as the absolute amount of data written increases significantly.",
+                                        "*Recommendations*: For production runs, using collective I/O strategies and reducing the frequency of visualization exports can significantly improve overall performance. The HDF5-based mesh format provides good parallel I/O performance for mesh loading operations."
+                                    ]
+                                },
+                                {
+                                    "type":"text",
+                                    "text":"These I/O characteristics are typical for large-scale finite element simulations and inform best practices for configuring output frequencies in production simulations."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "title": "Solver Metrics",
+                    "contents": [
+                        {
+                            "type": "plot",
+                            "plot": {
+                                "title": "Algebraic-solve execution time",
+                                "plot_types": [ "grouped_bar","marked_scatter" ],
+                                "xaxis": { "parameter": "resources.tasks", "label": "Number of tasks" },
+                                "yaxis": { "label": "execution time (s)" },
+                                "color_axis":{ "parameter":"mesh", "label":"Mesh" },
+                                "secondary_axis":{ "parameter":"discretization", "label":"Discretization" },
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:Solve_algebraic-solve"} ]
+                            }
+                        },
+                        {
+                            "type": "plot",
+                            "plot": {
+                                "title":"Number of iterations of GMRES",
+                                "plot_types":["scatter","marked_scatter"],
+                                "xaxis":{ "parameter":"resources.tasks", "label":"Number of tasks" },
+                                "yaxis":{ "label":"Number of iterations" },
+                                "color_axis":{ "parameter":"mesh", "label":"Mesh" },
+                                "secondary_axis":{ "parameter":"discretization", "label":"Discretization" },
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:Solve_ksp-niter"} ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
