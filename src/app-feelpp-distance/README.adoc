@@ -13,6 +13,13 @@ feelpp_app_distance [--h <h> --M <M> --gmsh.filename <path>]
 - `M` is the number of ray casted for the BVH method
 - `gmsh.filename` is the path to the geometry (or the mesh). This geometry should contain a physical marker named `boundary`.
 
+Quick local smoke check with a coarse mesh and a small number of rays:
+
+[source, bash]
+----
+feelpp_app_distance --gmsh.filename ./dist.geo --h 0.5 --M 8 --repository.append.np 0
+----
+
 
 [source, bash]
 ----

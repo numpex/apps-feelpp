@@ -38,15 +38,37 @@ endif()
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
 find_package(pybind11 CONFIG REQUIRED)
 
-find_package(Feel++  REQUIRED COMPONENTS Toolboxes PATHS ${FEELPP_DIR}/share/feelpp/feel/cmake/modules $ENV{FEELPP_DIR}/share/feelpp/feel/cmake/modules /usr/share/feelpp/feel/cmake/modules /usr/local/share/feelpp/feel/cmake/modules )
-if(NOT FEELPP_FOUND)
-  message(FATAL_ERROR "Feel++ was not found on your system. Make sure to install it and specify the FEELPP_DIR to reference the installation directory.")
-endif()
-if ( NOT FEELPP_TOOLBOXES_FOUND )
-  message(WARNING "Feel++ Toolboxes SDK is not found on your system. The toolbox application is now disabled.")
+option(FEELPP_PROJECT_REQUIRE_TOOLBOXES "Require Feel++ Toolboxes to run cfg/json configurations" ON)
+
+if ( NOT TARGET Feelpp::feelpp )
+  find_package(Feel++ CONFIG REQUIRED COMPONENTS Toolboxes
+    PATHS
+      ${FEELPP_DIR}/share/feelpp/feel/cmake/modules
+      $ENV{FEELPP_DIR}/share/feelpp/feel/cmake/modules
+      /usr/share/feelpp/feel/cmake/modules
+      /usr/local/share/feelpp/feel/cmake/modules
+  )
 endif()
 
-add_compile_options(-Wall -Werror -Wextra)
+if ( NOT TARGET Feelpp::feelpp )
+  message(FATAL_ERROR "Feel++ target Feelpp::feelpp is not available.")
+endif()
+if ( NOT COMMAND feelpp_add_application )
+  message(FATAL_ERROR "Feel++ CMake macro feelpp_add_application is not available.")
+endif()
+
+set(USE_FEELPP_TOOLBOXES OFF)
+if ( FEELPP_HAS_TOOLBOXES OR FEELPP_TOOLBOXES_FOUND )
+  set(USE_FEELPP_TOOLBOXES ON)
+endif()
+if ( FEELPP_PROJECT_REQUIRE_TOOLBOXES AND NOT USE_FEELPP_TOOLBOXES )
+  message(FATAL_ERROR "Feel++ Toolboxes SDK is required to run the cfg/json configurations. Enable FEELPP_ENABLE_TOOLBOXES in-tree or install Feel++ with Toolboxes for standalone builds.")
+endif()
+
+option(FEELPP_PROJECT_ENABLE_WERROR "Treat warnings as errors in apps-feelpp" OFF)
+if ( FEELPP_PROJECT_ENABLE_WERROR )
+  add_compile_options(-Werror)
+endif()
 
 enable_testing()
 
@@ -69,37 +91,38 @@ list(APPEND CPACK_SOURCE_IGNORE_FILES
   .appveyor.yml
   )
 
-set(CPACK_PACKAGE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}${EXTRA_VERSION}")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}${EXTRA_VERSION}")
-SET(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}${EXTRA_VERSION}-${CMAKE_SYSTEM_NAME}")
-set(CPACK_PACKAGE_DIRECTORY "${PROJECT_BINARY_DIR}/assets")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cemosis feelpp-app template application")
-set(CPACK_PACKAGE_DESCRIPTION "Cemosis provides a Feel++ template application.")
-set(CPACK_PACKAGE_VENDOR "Cemosis")
-set(CPACK_PACKAGE_CONTACT "Christophe Prud'homme <christophe.prudhomme@cemosis.fr>")
-set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+if ( PROJECT_IS_TOP_LEVEL )
+  set(CPACK_PACKAGE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}${EXTRA_VERSION}")
+  set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}${EXTRA_VERSION}")
+  SET(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}${EXTRA_VERSION}-${CMAKE_SYSTEM_NAME}")
+  set(CPACK_PACKAGE_DIRECTORY "${PROJECT_BINARY_DIR}/assets")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cemosis feelpp-app template application")
+  set(CPACK_PACKAGE_DESCRIPTION "Cemosis provides a Feel++ template application.")
+  set(CPACK_PACKAGE_VENDOR "Cemosis")
+  set(CPACK_PACKAGE_CONTACT "Christophe Prud'homme <christophe.prudhomme@cemosis.fr>")
+  set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+  set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+  set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
 
-set(CPACK_GENERATOR "TGZ;DEB")
-set(CPACK_SOURCE_GENERATOR "TGZ")
+  set(CPACK_GENERATOR "TGZ;DEB")
+  set(CPACK_SOURCE_GENERATOR "TGZ")
 
 
-set(CPACK_DEBIAN_PACKAGE_NAME "${PROJECT_NAME}")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
-if ( USE_FEELPP_TOOLBOXES )
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfeelpp1 (>= 0.109)") # add depends with relevant toolbox lib
-else()
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfeelpp1 (>= 0.109)")
+  set(CPACK_DEBIAN_PACKAGE_NAME "${PROJECT_NAME}")
+  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
+  if ( USE_FEELPP_TOOLBOXES )
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfeelpp1 (>= 0.109)") # add depends with relevant toolbox lib
+  else()
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfeelpp1 (>= 0.109)")
+  endif()
+  set(CPACK_DEBIAN_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
+  set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}")
+  set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+  set(CPACK_DEBIAN_PACKAGE_SECTION "science")
+  set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}${EXTRA_VERSION}")
+  set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
+  # set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
+
+  include(CPack)
 endif()
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}")
-set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-set(CPACK_DEBIAN_PACKAGE_SECTION "science")
-set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}${EXTRA_VERSION}")
-set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
-# set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
-
-include(CPack)
-

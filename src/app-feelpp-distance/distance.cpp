@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include <algorithm>
 #include <chrono>
+#include <limits>
+#include <stdexcept>
 #include <fmt/chrono.h>
 #include <feel/feelcore/environment.hpp>
 #include <feel/feelcore/json.hpp>
@@ -84,6 +87,8 @@ int main(int argc, char**argv )
         double h_ = doption(_name="h");
         int M = ioption(_name="M");
         std::string filename = soption(_name="gmsh.filename");
+        if ( M <= 0 )
+            throw std::invalid_argument( "M must be a positive number of rays" );
 
         // Load the mesh
         tic();
@@ -127,8 +132,8 @@ int main(int argc, char**argv )
         Eigen::Vector3d origin;
         std::unordered_set<size_type> pointIDs;
 
-        std::vector<Points_list> origins(Xh_->nLocalDof());
-        size_type next_origin = 0;
+        std::vector<Points_list> origins;
+        origins.reserve(Xh_->nLocalDof());
 
         for ( auto const& eltWrap : elements(mesh_) ) // on parcourt tous les éléments du maillage
         {
@@ -138,8 +143,9 @@ int main(int argc, char**argv )
             {
                 auto const & point = elt.point(p);
 
-                // pas sure si isGhostCell est la bonne fonction
-                if (!point.isOnBoundary() && !point.isGhostCell()) // on ne considère pas les points qui se trouvent au bord ni les dof ghosts
+                // Keep shared/ghost dofs here: local element evaluations need those
+                // values even when the dof owner is another rank.
+                if (!point.isOnBoundary())
                 {
                     size_type id_p = Xh_->dof()->localToGlobal( elt.id(), p ).index();
                     auto [it,inserted] = pointIDs.insert(id_p);
@@ -147,8 +153,7 @@ int main(int argc, char**argv )
                     if (inserted)
                     {
                         origin << point.node()[0], point.node()[1], point.node()[2];
-                        origins[next_origin] = Points_list{id_p, origin};
-                        next_origin++;
+                        origins.push_back(Points_list{id_p, origin});
                     }
                 }
             }
@@ -180,15 +185,23 @@ int main(int argc, char**argv )
         //toc("intersection");
         //tic();
         // Get distance
-        std::vector<double> dist(M, 0.0);
+        std::vector<double> dist(M, std::numeric_limits<double>::max());
 
         for (auto const& [fid,rirs] : enumerate(multiRayIntersectionResult))
         {
-            if (!rirs.empty()) // on check l'intersection
-                dist[fid % M] = rirs.front().distance();
+            int rayIndex = fid % M;
+            if ( rayIndex == 0 )
+                std::fill(dist.begin(), dist.end(), std::numeric_limits<double>::max());
 
-            if (fid % M == M - 1)
-                d_BVH[origins[static_cast<int>(fid / M)].id] = *(std::min_element(dist.begin(), dist.end()));
+            if (!rirs.empty()) // on check l'intersection
+                dist[rayIndex] = rirs.front().distance();
+
+            if ( rayIndex == M - 1 )
+            {
+                auto minDistance = *(std::min_element(dist.begin(), dist.end()));
+                if ( minDistance < std::numeric_limits<double>::max() )
+                    d_BVH[origins[static_cast<int>(fid / M)].id] = minDistance;
+            }
         }
         double time_BVH = toc("bvh");
         e_->add( "d_BVH", d_BVH );
