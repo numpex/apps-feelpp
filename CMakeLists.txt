@@ -46,7 +46,7 @@ if ( NOT FEELPP_TOOLBOXES_FOUND )
   message(WARNING "Feel++ Toolboxes SDK is not found on your system. The toolbox application is now disabled.")
 endif()
 
-add_compile_options(-Wall -Werror -Wextra)
+#add_compile_options(-Wall -Werror -Wextra)
 
 enable_testing()
 

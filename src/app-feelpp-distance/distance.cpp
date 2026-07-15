@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 #include <chrono>
 #include <fmt/chrono.h>
 #include <feel/feelcore/environment.hpp>
@@ -92,14 +93,11 @@ int main(int argc, char**argv )
 
         // Define exporter
         auto Xh_ = Pch<1>( mesh_, elements( mesh_) );
-        auto e_ = Feel::exporter(_mesh = mesh_, _name = "distance_from_boundary", _geo = "static" );
-        e_->addRegions();
 
         // FMM
         tic();
         auto d_FMM = distanceToRange(_space = Xh_, _range = markedfaces(mesh_, "boundary"));
         double time_FMM = toc("distance_FMM");
-        e_->add( "d_FMM", d_FMM );
 
         // Ray-Tracing with BVH
         tic();
@@ -137,9 +135,7 @@ int main(int argc, char**argv )
             for ( int p=0; p<elt.nVertices(); ++p )
             {
                 auto const & point = elt.point(p);
-
-                // pas sure si isGhostCell est la bonne fonction
-                if (!point.isOnBoundary() && !point.isGhostCell()) // on ne considère pas les points qui se trouvent au bord ni les dof ghosts
+                if ( !point.isOnBoundary() )
                 {
                     size_type id_p = Xh_->dof()->localToGlobal( elt.id(), p ).index();
                     auto [it,inserted] = pointIDs.insert(id_p);
@@ -155,30 +151,18 @@ int main(int argc, char**argv )
         }
         //toc("points");
         // Get rays
-        //tic();
+        tic();
         BVHRaysDistributed<FEELPP_DIM> allrays;
         for (const auto& p : origins) {
 
             for (int k = 0; k < M; k++) // on stocke tous les rayons pour cet origin
                 allrays.push_back(bvh_ray_type(p.origin,directions[k]));
-
-            //auto multiRayIntersectionResult = bvhThirdParty->intersect(_ray=allrays);
-
-            //std::vector<double> dist(M, 0.0);
-            //for (auto const& [fid,rirs] : enumerate(multiRayIntersectionResult))
-            //{
-                //if (!rirs.empty()) // on check l'intersection
-                //    dist[fid] = rirs.front().distance();
-            //}
-
-            //d_BVH[p.id] = *(std::min_element(dist.begin(), dist.end()));
-
         }
-        //toc("rays");
-        //tic();
-        auto multiRayIntersectionResult = bvhThirdParty->intersect(_ray=allrays, _parallel=true);
-        //toc("intersection");
-        //tic();
+        toc("rays");
+        tic();
+        auto multiRayIntersectionResult = bvhThirdParty->intersect( _ray=allrays );
+        toc("intersection");
+        tic();
         // Get distance
         std::vector<double> dist(M, 0.0);
 
@@ -190,23 +174,18 @@ int main(int argc, char**argv )
             if (fid % M == M - 1)
                 d_BVH[origins[static_cast<int>(fid / M)].id] = *(std::min_element(dist.begin(), dist.end()));
         }
+        toc("distance_BVH");
         double time_BVH = toc("bvh");
+
+        auto e_ = Feel::exporter(_mesh = mesh_, _name = "distance_from_boundary", _geo = "static" );
+        e_->addRegions();
+        e_->add( "d_FMM", d_FMM );
         e_->add( "d_BVH", d_BVH );
-
-        // Get min for each point
-        //for (int k = 0; k < pointIDs.size(); k++)
-        //    d_BVH[pointIDs[k]] = *(std::min_element(dist[k].begin(), dist[k].end()));
-
-
-
-
         // Compute exact solution
-        tic();
         auto d_exact = Xh_->element();
         auto d_exact_expr = expr("min(min(min(min(min(x, 1-x), y), 1-y), z), 1-z):x:y:z");
         d_exact.on(_range=elements(support(Xh_)), _expr = d_exact_expr);
         e_->add( "d_exact", d_exact );
-        toc("exact");
         e_->save();
 
         // Compute errors
