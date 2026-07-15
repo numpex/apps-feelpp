@@ -1,4 +1,32 @@
 {
+    "data":[
+        {
+            "name":"demonstrator_descr",
+            "columns":[
+                {
+                    "name":"Field",
+                    "values":[
+                        "id", "name", "Partners", "PC", "Responsible", "WP7 Engineer", "work_package", "application_type",
+                        "purpose", "Method-Algorithm WP1", "Method-Algorithm WP2", "Method-Algorithm WP3", "Method-Algorithm WP4",
+                        "Method-Algorithm WP5", "Method-Algorithm WP6", "WP7", "outputs", "metrics", "status", "Benchmark scope",
+                        "Framework", "parallel_framework", "spec_due", "proto_due", "repo_url"
+                    ]
+                },
+                {
+                    "name":"Details",
+                    "values":[
+                        "app-feelpp-distance", "Distance", "Unistra", "PC1 - ExaMA, PC2 - ExaSoft",
+                        "(Permanent) V. Chabannes, C. Prud'homme", "Thomas Saigre, Javier Cladellas (UNISTRA)",
+                        "WP1", "mini-app", "Compute distance to a range of entities using FMM and BVH",
+                        "unstructured mesh, finite element, FMM, ray-tracing-BVH", " ", " ", " ", " ", "",
+                        " ", "HDF5 data files, VTK/EnSight exports, JSON performance metrics", "strong-scalability",
+                        "benchmark-ready", "scaling-analysis", "Feel++, PETSc", "MPI", "6/15/2025", "7/1/2025",
+                        "https://github.com/numpex/apps-feelpp"
+                    ]
+                }
+            ]
+        }
+    ],
     "contents": [
         {
             "type":"section",
@@ -238,8 +266,8 @@
                                 "plot_types":["marked_scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
-                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                "color_axis":{ "parameter": "h", "label":"h" },
+                                "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
@@ -249,13 +277,13 @@
                         {
                             "type":"plot",
                             "plot":{
-                                "title":"Comparison of speedup for BVH and FMM",
+                                "title":"Execution time (BVH and FMM) by number of tasks",
                                 "transformation":"speedup",
                                 "plot_types":["marked_scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
-                                "yaxis":{"label":"Speedup"},
-                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
-                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                "yaxis":{"label":"Time [s]"},
+                                "color_axis":{ "parameter": "h" },
+                                "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
@@ -274,6 +302,7 @@
                                 "xaxis":{"parameter":"M","label":"Number of rays"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "h" },
+                                "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
 
                             }
@@ -290,6 +319,7 @@
                                 "xaxis":{"parameter":"h"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "M" },
+                                "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
                             }
                         }
