@@ -91,9 +91,10 @@ int main(int argc, char**argv )
         auto mesh_ = loadMesh( _mesh = new Mesh<Simplex<FEELPP_DIM,1>>, _filename = filename, _h = h_);
         toc("loadMesh");
 
-        int nPoints = mesh->numGlobalPoints();
-        int nEdges = mesh->numGlobalEdges();
-        int nFaces = mesh->numGlobalFaces();
+        int nPoints = mesh_->numGlobalPoints();
+        int nEdges = mesh_->numGlobalEdges();
+        int nFaces = mesh_->numGlobalFaces();
+        int nTetra = mesh_->numGlobalElements();
 
         // Define exporter
         auto Xh_ = Pch<1>( mesh_, elements( mesh_) );
@@ -217,8 +218,8 @@ int main(int argc, char**argv )
             ofs.close();
 
             std::ofstream ofsMeshSize("mesh_stats.csv");
-            ofsMeshSize << "nPoints,nEdges,nFaces\n";
-            ofsMeshSize << nPoints << ","<< nEdges << "," << nFaces;
+            ofsMeshSize << "nPoints,nEdges,nFaces,nTetra\n";
+            ofsMeshSize << nPoints << ","<< nEdges << "," << nFaces << "," << nTetra;
             ofsMeshSize.close();
         }
 
