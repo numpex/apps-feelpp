@@ -7,7 +7,7 @@
                     { "column":"perfvalue", "op":"in", "value":["meshStats_nPoints","meshStats_nEdges","meshStats_nFaces","meshStats_nTetra"] }
                 ],
                 "computed_columns":{
-                    "mesh_compound_index": "f'{row[\"mesh.name\"]}|{row[\"mesh.h\"]}'"
+                    "mesh_compound_index": "f'{row[\"mesh.name\"]} - {row[\"mesh.h\"]}'"
                 },
                 "pivot":{
                     "index":["mesh_compound_index"], "columns":["perfvalue"], "values":"value", "agg":"mean"
