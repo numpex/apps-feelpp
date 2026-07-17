@@ -1,6 +1,26 @@
 {
     "data":[
         {
+            "name":"mesh_stats", "ref":"reframe_df",
+            "table_options":{
+                "filter":[
+                    { "column":"perfvalue", "op":"in", "value":["meshStats_nPoints","meshStats_nEdges","meshStats_nFaces","meshStats_nTetra"] }
+                ],
+                "computed_columns":{
+                    "mesh_compound_index": "f'{row[\"mesh.name\"]}|{row[\"mesh.h\"]}'"
+                },
+                "pivot":{
+                    "index":["mesh_compound_index"], "columns":["perfvalue"], "values":"value", "agg":"mean"
+                },
+                "format":{
+                    "meshStats_nPoints":"%i",
+                    "meshStats_nEdges":"%i",
+                    "meshStats_nFaces":"%i",
+                    "meshStats_nTetra":"%i"
+                }
+            }
+        },
+        {
             "name":"demonstrator_descr",
             "columns":[
                 {
@@ -143,7 +163,7 @@
                                     "type":"table",
                                     "ref": "parameter_table",
                                     "layout":{
-                                        "column_order":["result","testcases.hashcode","tasks","M", "h", "testcases.time_total", "logs_link"],
+                                        "column_order":["result","testcases.hashcode","tasks","M", "mesh.name", "mesh.h","testcases.time_total", "logs_link"],
                                         "rename":{
                                             "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
                                             "result":"", "logs_link":""
@@ -201,6 +221,21 @@
                                         "Meshes: we use cubic meshes with various discretization sizes: stem:[h = 0.12, 0.06, 0.03, 0.015].",
                                         "Setup: the FMM method is provided by the core library of Feel++, and the BVH implementation uses Feel++ functionality. More details can be found in (Van Landeghem, 2025)."
                                     ]
+                                },
+                                //TODO: Explain M1, M2, ...
+                                {
+                                    "type":"table",
+                                    "ref":"mesh_stats",
+                                    "layout":{
+                                        "column_order":["mesh_compound_index","meshStats_nPoints","meshStats_nEdges","meshStats_nFaces","meshStats_nTetra"],
+                                        "rename":{
+                                            "mesh_compound_index":"Mesh", "meshStats_nPoints":"# Points", "meshStats_nEdges":"# Edges", "meshStats_nFaces":"# Faces", "meshStats_nTetra":"# Tetrahedra"
+                                        }
+                                    },
+                                    "style":{
+                                        "column_align":{ "mesh.name":"center", "mesh.h":"center", "meshStats_nPoints":"center","meshStats_nEdges":"center","meshStats_nFaces":"center", "meshStats_nTetra":"center" },
+                                        "column_width":{ "mesh.name":1, "mesh.h":1 }
+                                    }
                                 }
                             ]
                         },
@@ -266,7 +301,7 @@
                                 "plot_types":["marked_scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "h", "label":"h" },
+                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
                                 "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
@@ -282,7 +317,7 @@
                                 "plot_types":["marked_scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "h" },
+                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
                                 "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
@@ -301,7 +336,7 @@
                                 "plot_types":["scatter"],
                                 "xaxis":{"parameter":"M","label":"Number of rays"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
-                                "color_axis":{ "parameter": "h" },
+                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
                                 "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
                                 "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
 
@@ -316,7 +351,7 @@
                             "plot":{
                                 "title":"Convergence of the error against mesh size.",
                                 "plot_types":["scatter"],
-                                "xaxis":{"parameter":"h"},
+                                "xaxis":{"parameter":"mesh.h","label":"Mesh"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "M" },
                                 "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},

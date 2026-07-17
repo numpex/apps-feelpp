@@ -8,8 +8,8 @@
         "exclusive_access": true
     },
     "input_file_dependencies": {
-        "mesh_json":"app-feelpp-distance/{{use_case_name}}/{{parameters.mesh.value}}/dist_p{{parameters.tasks.value}}.json",
-        "mesh_hdf5":"app-feelpp-distance/{{use_case_name}}/{{parameters.mesh.value}}/dist_p{{parameters.tasks.value}}.h5"
+        "mesh_json":"app-feelpp-distance/{{use_case_name}}/{{parameters.mesh.name.value}}/dist_p{{parameters.tasks.value}}.json",
+        "mesh_hdf5":"app-feelpp-distance/{{use_case_name}}/{{parameters.mesh.name.value}}/dist_p{{parameters.tasks.value}}.h5"
     },
     "platforms": {
         "apptainer":{
@@ -75,7 +75,12 @@
         },
         {
             "name": "mesh",
-            "sequence": ["M1", "M2", "M3", "M4"]
+            "sequence": [
+                {"name":"M1", "h":"0.12" },
+                {"name":"M2", "h":"0.06" },
+                {"name":"M3", "h":"0.03" },
+                {"name":"M4", "h":"0.015" }
+            ]
         },
         {
             "name": "M",
