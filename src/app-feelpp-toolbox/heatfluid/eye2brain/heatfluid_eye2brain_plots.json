@@ -11,7 +11,7 @@
         {
             "name":"mesh_stats",
             "columns":[
-                {"name":"Tag","values":["Mr0","Mr1","Mr2","Mr3","Mr4","Mr5","Mr6"]},
+                {"name":"Tag","values":["M0","M1","M2","M3","M4","M5","M6"]},
                 {"name":"hmin","values":[0.000125, 0.000137, 0.0000654, 0.0000329, 0.0000255, 0.0000312, 0.0000282]},
                 {"name":"hmax","values":[  0.00400, 0.00363, 0.0016, 0.000959, 0.000529, 0.00015, 0.000000994]},
                 {"name":"hmean","values":[0.000923, 0.000772, 0.000467, 0.000417, 0.000288, 0.000277, 0.000184]},
@@ -262,13 +262,16 @@
                                         {"Solve_solve":"Solve"},
                                         {"PostProcessing_exportResults":"Post Process"}
                                     ]
-                                }
+                                },
+                                "aggregations":[
+                                    {"column":"position","agg":"filter:standing"}
+                                ]
                             }
                         },
                         {
                             "type":"plot",
                             "plot":{
-                                "title":"Computational time for the coupled heat-fluid testcase",
+                                "title":"Relative time spent in each component of the computation for the coupled heat-fluid testcase.",
                                 "plot_types":["stacked_bar"],
                                 "xaxis":{"parameter":"tasks","label":"Nproc"},
                                 "transformation":"relative_performance",
@@ -282,7 +285,32 @@
                                         {"Solve_solve":"Solve"},
                                         {"PostProcessing_exportResults":"Post Process"}
                                     ]
-                                }
+                                },
+                                "aggregations":[
+                                    {"column":"position","agg":"filter:standing"}
+                                ]
+                            }
+                        },
+                        {
+                            "type":"plot",
+                            "plot":{
+                                "title":"Computational time by postural orientation for the coupled heat-fluid testcase.",
+                                "plot_types":["stacked_bar"],
+                                "secondary_axis":{"parameter":"position","label":"Position"},
+                                "yaxis":{"label":"Computational time[s]"},
+                                "xaxis":{"parameter":"mesh","label":"Mesh"},
+                                "color_axis":{"label":"Step",
+                                    "filter":[
+                                        {"Constructor_initMesh":"initMesh"},
+                                        {"Constructor_matrixVector":"Data Structures"},
+                                        {"Solve_assembly":"Assembly"},
+                                        {"Solve_solve":"Solve"},
+                                        {"PostProcessing_exportResults":"Post Process"}
+                                    ]
+                                },
+                                "aggregations":[
+                                    {"column":"tasks","agg":"filter:256"}
+                                ]
                             }
                         }
                     ]
