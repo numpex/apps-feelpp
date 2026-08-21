@@ -93,7 +93,7 @@
 
         {
             "type":"section",
-            "title":"Benchmark: Thermo-Electric Coupling",
+            "title":"Benchmark: Heat-Fluid Coupling",
             "contents":[
                 {
                     "type":"section",
