@@ -67,7 +67,7 @@
                     "contents":[
                         {
                             "type":"text",
-                            "text":"We consider the unit cube stem:[ [0, 1]^3 ] discretized by an unstructured tetrahedral mesh. Let stem:[h] denote the mesh size, controlling the total number of vertices stem:[N]. For each mesh vertex stem:[\\mathbf{x}_i] , our goal is to compute the Euclidean distance"
+                            "text":"We consider the unit cube stem:[ [0, 1\\]^3 ] discretized by an unstructured tetrahedral mesh. Let stem:[h] denote the mesh size, controlling the total number of vertices stem:[N]. For each mesh vertex stem:[\\mathbf{x}_i] , our goal is to compute the Euclidean distance"
                         },
                         {
                             "type":"latex",
@@ -79,7 +79,7 @@
                         },
                         {
                             "type":"latex",
-                            "latex":"\\begin{equation*}\n  d_{\\text{exact}}(x,y,z) = \\min{ {x, 1-x, y, 1-y,z, 1-z} }  \\end{equation*}"
+                            "latex":"\\begin{equation*}\n  d_{\\text{exact}}(x,y,z) = \\min{ \\{ x, 1-x, y, 1-y,z, 1-z \\} }  \\end{equation*}"
                         },
                         {
                             "type":"text",
@@ -298,15 +298,27 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Execution time (BVH and FMM) by number of tasks",
-                                "plot_types":["marked_scatter"],
+                                "plot_types":["scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
-                                "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
+                                "secondary_axis":{ "parameter": "mesh.h", "label":"Mesh" },
+                                "color_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
-                                "aggregations":[ {"column":"M","agg":"max"} ]
+                                "aggregations":[ {"column":"M","agg":"max"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -314,15 +326,27 @@
                             "plot":{
                                 "title":"Execution time (BVH and FMM) by number of tasks",
                                 "transformation":"speedup",
-                                "plot_types":["marked_scatter"],
+                                "plot_types":["scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
-                                "secondary_axis":{"parameter":"perfvalue", "label":" ", "filter":[
+                                "secondary_axis":{ "parameter": "mesh.h", "label":"Mesh" },
+                                "color_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
-                                "aggregations":[ {"column":"M","agg":"max"} ]
+                                "aggregations":[ {"column":"M","agg":"max"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -338,8 +362,14 @@
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
                                 "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
-
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ],
+                                "layout_modifiers":{
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -355,7 +385,14 @@
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "M" },
                                 "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ],
+                                "layout_modifiers":{
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         }
                     ]
