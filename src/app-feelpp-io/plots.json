@@ -262,7 +262,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
 
@@ -276,7 +288,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
 
@@ -289,7 +313,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -301,7 +337,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -313,7 +361,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -325,7 +385,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -337,7 +409,19 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"discretization","label":"Discretization"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
 
@@ -360,7 +444,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:loadMesh"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
 
@@ -374,7 +465,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveMesh"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
 
@@ -387,7 +485,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpace"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -399,7 +504,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:functionSpaceV"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -411,7 +523,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveField"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -423,7 +542,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:saveFieldV"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -435,7 +561,14 @@
                                 "yaxis": { "label": "Time [s]" },
                                 "secondary_axis":{"parameter":"tasks","label":"np"},
                                 "color_axis": { "parameter": "mesh", "label": "Mesh"},
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ]
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:export"} ],
+                                "layout_modifiers": {
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         }
 

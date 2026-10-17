@@ -126,7 +126,7 @@
         },
         {
             "name": "solver",
-            "sequence": ["gamg"]
+            "sequence": ["boomeramg"]
         }
     ]
 }

@@ -1,4 +1,52 @@
 {
+    "data":[
+        {
+            "name":"mesh_stats", "ref":"reframe_df",
+            "table_options":{
+                "filter":[
+                    { "column":"perfvalue", "op":"in", "value":["meshStats_nPoints","meshStats_nEdges","meshStats_nFaces","meshStats_nTetra"] }
+                ],
+                "computed_columns":{
+                    "mesh_compound_index": "f'{row[\"mesh.name\"]} - {row[\"mesh.h\"]}'"
+                },
+                "pivot":{
+                    "index":["mesh_compound_index"], "columns":["perfvalue"], "values":"value", "agg":"mean"
+                },
+                "format":{
+                    "meshStats_nPoints":"%i",
+                    "meshStats_nEdges":"%i",
+                    "meshStats_nFaces":"%i",
+                    "meshStats_nTetra":"%i"
+                }
+            }
+        },
+        {
+            "name":"demonstrator_descr",
+            "columns":[
+                {
+                    "name":"Field",
+                    "values":[
+                        "id", "name", "Partners", "PC", "Responsible", "WP7 Engineer", "work_package", "application_type",
+                        "purpose", "Method-Algorithm WP1", "Method-Algorithm WP2", "Method-Algorithm WP3", "Method-Algorithm WP4",
+                        "Method-Algorithm WP5", "Method-Algorithm WP6", "WP7", "outputs", "metrics", "status", "Benchmark scope",
+                        "Framework", "parallel_framework", "spec_due", "proto_due", "repo_url"
+                    ]
+                },
+                {
+                    "name":"Details",
+                    "values":[
+                        "app-feelpp-distance", "Distance", "Unistra", "PC1 - ExaMA, PC2 - ExaSoft",
+                        "(Permanent) V. Chabannes, C. Prud'homme", "Thomas Saigre, Javier Cladellas (UNISTRA)",
+                        "WP1", "mini-app", "Compute distance to a range of entities using FMM and BVH",
+                        "unstructured mesh, finite element, FMM, ray-tracing-BVH", " ", " ", " ", " ", "",
+                        " ", "HDF5 data files, VTK/EnSight exports, JSON performance metrics", "strong-scalability",
+                        "benchmark-ready", "scaling-analysis", "Feel++, PETSc", "MPI", "6/15/2025", "7/1/2025",
+                        "https://github.com/numpex/apps-feelpp"
+                    ]
+                }
+            ]
+        }
+    ],
     "contents": [
         {
             "type":"section",
@@ -19,7 +67,7 @@
                     "contents":[
                         {
                             "type":"text",
-                            "text":"We consider the unit cube stem:[ [0, 1]^3 ] discretized by an unstructured tetrahedral mesh. Let stem:[h] denote the mesh size, controlling the total number of vertices stem:[N]. For each mesh vertex stem:[\\mathbf{x}_i] , our goal is to compute the Euclidean distance"
+                            "text":"We consider the unit cube stem:[ [0, 1\\]^3 ] discretized by an unstructured tetrahedral mesh. Let stem:[h] denote the mesh size, controlling the total number of vertices stem:[N]. For each mesh vertex stem:[\\mathbf{x}_i] , our goal is to compute the Euclidean distance"
                         },
                         {
                             "type":"latex",
@@ -31,7 +79,7 @@
                         },
                         {
                             "type":"latex",
-                            "latex":"\\begin{equation*}\n  d_{\\text{exact}}(x,y,z) = \\min{ {x, 1-x, y, 1-y,z, 1-z} }  \\end{equation*}"
+                            "latex":"\\begin{equation*}\n  d_{\\text{exact}}(x,y,z) = \\min{ \\{ x, 1-x, y, 1-y,z, 1-z \\} }  \\end{equation*}"
                         },
                         {
                             "type":"text",
@@ -115,7 +163,7 @@
                                     "type":"table",
                                     "ref": "parameter_table",
                                     "layout":{
-                                        "column_order":["result","testcases.hashcode","tasks","M", "h", "testcases.time_total", "logs_link"],
+                                        "column_order":["result","testcases.hashcode","tasks","M", "mesh.name", "mesh.h","testcases.time_total", "logs_link"],
                                         "rename":{
                                             "testcases.time_total":"Total Time (s)", "testcases.hashcode":"Hash",
                                             "result":"", "logs_link":""
@@ -173,6 +221,21 @@
                                         "Meshes: we use cubic meshes with various discretization sizes: stem:[h = 0.12, 0.06, 0.03, 0.015].",
                                         "Setup: the FMM method is provided by the core library of Feel++, and the BVH implementation uses Feel++ functionality. More details can be found in (Van Landeghem, 2025)."
                                     ]
+                                },
+                                //TODO: Explain M1, M2, ...
+                                {
+                                    "type":"table",
+                                    "ref":"mesh_stats",
+                                    "layout":{
+                                        "column_order":["mesh_compound_index","meshStats_nPoints","meshStats_nEdges","meshStats_nFaces","meshStats_nTetra"],
+                                        "rename":{
+                                            "mesh_compound_index":"Mesh", "meshStats_nPoints":"# Points", "meshStats_nEdges":"# Edges", "meshStats_nFaces":"# Faces", "meshStats_nTetra":"# Tetrahedra"
+                                        }
+                                    },
+                                    "style":{
+                                        "column_align":{ "mesh.name":"center", "mesh.h":"center", "meshStats_nPoints":"center","meshStats_nEdges":"center","meshStats_nFaces":"center", "meshStats_nTetra":"center" },
+                                        "column_width":{ "mesh.name":1, "mesh.h":1 }
+                                    }
                                 }
                             ]
                         },
@@ -235,31 +298,55 @@
                             "type":"plot",
                             "plot":{
                                 "title":"Execution time (BVH and FMM) by number of tasks",
-                                "plot_types":["marked_scatter"],
+                                "plot_types":["scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
                                 "yaxis":{"label":"Time [s]"},
-                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
-                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                "secondary_axis":{ "parameter": "mesh.h", "label":"Mesh" },
+                                "color_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
-                                "aggregations":[ {"column":"M","agg":"max"} ]
+                                "aggregations":[ {"column":"M","agg":"max"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
                             "type":"plot",
                             "plot":{
-                                "title":"Comparison of speedup for BVH and FMM",
+                                "title":"Execution time (BVH and FMM) by number of tasks",
                                 "transformation":"speedup",
-                                "plot_types":["marked_scatter"],
+                                "plot_types":["scatter"],
                                 "xaxis":{"parameter":"tasks","label":"Number of tasks"},
-                                "yaxis":{"label":"Speedup"},
-                                "color_axis":{ "parameter": "h", "filter":["0.12","0.06"] },
-                                "secondary_axis":{"parameter":"perfvalue", "filter":[
+                                "yaxis":{"label":"Time [s]"},
+                                "secondary_axis":{ "parameter": "mesh.h", "label":"Mesh" },
+                                "color_axis":{"parameter":"perfvalue", "label":" ", "filter":[
                                     {"times_time_BVH":"BVH"},
                                     {"times_time_FMM":"FMM"}
                                 ]},
-                                "aggregations":[ {"column":"M","agg":"max"} ]
+                                "aggregations":[ {"column":"M","agg":"max"} ],
+                                "layout_modifiers": {
+                                    "xaxis": {
+                                        "type": "log",
+                                        "dtick": 0.30102999566,
+                                        "tick0": 0
+                                    },
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -273,9 +360,16 @@
                                 "plot_types":["scatter"],
                                 "xaxis":{"parameter":"M","label":"Number of rays"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
-                                "color_axis":{ "parameter": "h" },
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
-
+                                "color_axis":{ "parameter": "mesh.h", "label":"Mesh" },
+                                "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ],
+                                "layout_modifiers":{
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         },
                         {
@@ -287,10 +381,18 @@
                             "plot":{
                                 "title":"Convergence of the error against mesh size.",
                                 "plot_types":["scatter"],
-                                "xaxis":{"parameter":"h"},
+                                "xaxis":{"parameter":"mesh.h","label":"Mesh"},
                                 "yaxis":{"label":"$\\text{Error} L^2$"},
                                 "color_axis":{ "parameter": "M" },
-                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ]
+                                "secondary_axis":{"parameter":"tasks", "label":"Number of tasks"},
+                                "aggregations":[ {"column":"perfvalue","agg":"filter:errors_L2_error_BVH"} ],
+                                "layout_modifiers":{
+                                    "yaxis": {
+                                        "type": "log",
+                                        "dtick":1,
+                                        "exponentformat": "power"
+                                    }
+                                }
                             }
                         }
                     ]

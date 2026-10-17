@@ -39,6 +39,8 @@
         "--thermo-electric.electric.scalability-save=1",
         "--repository.append.np 0",
         "--case.discretization {{parameters.discretization.value}}",
+        "--thermo-electric.electric.pc-type=boomeramg",
+        "--thermo-electric.heat.pc-type=boomeramg",
         "--thermo-electric.json.patch='{\"op\": \"replace\",\"path\": \"/Meshes/thermoelectric/Import/filename\",\"value\": \"{{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.mesh_json}}\" }'"
     ],
     "additional_files":{

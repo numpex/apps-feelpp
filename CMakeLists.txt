@@ -41,13 +41,18 @@ find_package(pybind11 CONFIG REQUIRED)
 option(FEELPP_PROJECT_REQUIRE_TOOLBOXES "Require Feel++ Toolboxes to run cfg/json configurations" ON)
 
 if ( NOT TARGET Feelpp::feelpp )
-  find_package(Feel++ CONFIG REQUIRED COMPONENTS Toolboxes
+  set(_feelpp_required_components)
+  if ( FEELPP_PROJECT_REQUIRE_TOOLBOXES )
+    list(APPEND _feelpp_required_components Toolboxes)
+  endif()
+  find_package(Feel++ CONFIG REQUIRED COMPONENTS ${_feelpp_required_components}
     PATHS
       ${FEELPP_DIR}/share/feelpp/feel/cmake/modules
       $ENV{FEELPP_DIR}/share/feelpp/feel/cmake/modules
       /usr/share/feelpp/feel/cmake/modules
       /usr/local/share/feelpp/feel/cmake/modules
   )
+  unset(_feelpp_required_components)
 endif()
 
 if ( NOT TARGET Feelpp::feelpp )

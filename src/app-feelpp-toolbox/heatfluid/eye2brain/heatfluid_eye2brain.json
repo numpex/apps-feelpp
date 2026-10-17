@@ -5,7 +5,8 @@
     "timeout":"0-00:30:00",
     "resources":{
         "tasks":"{{parameters.tasks.value}}",
-        "exclusive_access":true
+        "exclusive_access":true,
+        "memory":"{{parameters.memory.value}}"
     },
     "input_file_dependencies":{
         "case_cfg":"feelpp_toolboxes/eye/eye-{{parameters.position.value}}.cfg",
@@ -29,7 +30,8 @@
         }
     },
     "options": [
-        "--config-files {{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.case_cfg}} {{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.solve_cfg}}",
+        "--config-files {{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.case_cfg}}",
+        "{{platforms.{{machine.platform}}.input_dir}}/{{input_file_dependencies.solver_cfg}}",
         "--directory {{output_directory}}/{{instance}}",
         "--repository.case {{use_case_name}}",
         "--case.discretization=P2-P2P1",
@@ -50,7 +52,7 @@
     },
     "scalability": {
         "directory": "{{output_directory}}/{{instance}}/{{use_case_name}}",
-        "clean_directory":true,
+        "clean_directory":false,
         "stages": [
             {
                 "name": "Constructor",
@@ -93,21 +95,27 @@
         {
             "name": "tasks",
             "sequence": [128,256,384,512]
-            // "sequence": [128]
         },
         {
             "name": "mesh",
-            // "sequence": ["M0"]
-            "sequence": ["M0","M1", "M2","M2", "M4","M5","M6"]
+            "sequence": ["M0", "M1", "M2", "M3", "M4", "M5", "M6"]
         },
         {
             "name": "position",
-            // "sequence": ["prone"]
             "sequence": ["prone","standing","supine"]
         },
         {
             "name": "solver",
             "sequence": ["simple"]
+        },
+        {
+            "name":"memory",
+            "sequence": [400,700,1200],
+            "conditions":{
+                 "400": [ { "mesh": ["M0","M1","M2","M3","M4"] } ],
+                 "700": [ { "mesh": ["M5"] } ],
+                 "1200": [ { "mesh": ["M6"] } ]
+              }
         }
     ]
 }

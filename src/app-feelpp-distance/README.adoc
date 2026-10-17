@@ -13,11 +13,28 @@ feelpp_app_distance [--h <h> --M <M> --gmsh.filename <path>]
 - `M` is the number of ray casted for the BVH method
 - `gmsh.filename` is the path to the geometry (or the mesh). This geometry should contain a physical marker named `boundary`.
 
-Quick local smoke check with a coarse mesh and a small number of rays:
+Quick local smoke check from the repository root, using the fixed coarse test mesh:
 
 [source, bash]
 ----
-feelpp_app_distance --gmsh.filename ./dist.geo --h 0.5 --M 8 --repository.append.np 0
+build/default/src/app-feelpp-distance/feelpp_app_distance --gmsh.filename tests/unit_cube.geo --h 0.4 --M 8 --repository.append.np 0
+----
+
+The Toolboxes SDK is required by default for the repository's toolbox cases.
+For the C++ mini-apps with a core-only Feel++ SDK, configure with
+`-DFEELPP_PROJECT_REQUIRE_TOOLBOXES=OFF`.
+
+The regression suite runs the distance executable on a fixed coarse unit cube
+in serial and with two MPI ranks, compares their FMM/BVH errors, and verifies
+that zero and negative ray counts fail. A separate unit test covers missed
+intersections and independent ray batches.
+
+[source,bash]
+----
+python3 -m unittest discover -s tests -p test_cmake_toolboxes.py -v
+cmake --preset default
+cmake --build --preset default
+ctest --preset default -R distance-bvh --output-on-failure
 ----
 
 
