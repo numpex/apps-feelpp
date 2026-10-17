@@ -12,9 +12,9 @@ jobs:
             GIRDER_API_KEY: ${{ secrets.GIRDER }}
         name: Move to production
         steps:
-        -   uses: astral-sh/setup-uv@v5
+        -   uses: astral-sh/setup-uv@v7
 
-        -   uses: actions/checkout@v4
+        -   uses: actions/checkout@v7
 
         -   name: Create Virtual Environment
             run: |
@@ -72,9 +72,9 @@ jobs:
 
         name: Move to denied
         steps:
-        -   uses: actions/checkout@v4
+        -   uses: actions/checkout@v7
 
-        -   uses: astral-sh/setup-uv@v5
+        -   uses: astral-sh/setup-uv@v7
 
         -   name: Create Virtual Environment
             run: |
