@@ -8,6 +8,19 @@ on:
       - "v*"
 
 jobs:
+  npm-security:
+    runs-on: ubuntu-latest
+    name: Check npm dependency security
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run test:dependencies
+      - run: npm audit
+
   tooling-smoke:
     runs-on: ubuntu-latest
     name: Check artifact and Docker actions

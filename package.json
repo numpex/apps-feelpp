@@ -20,13 +20,14 @@
     ],
     "scripts": {
         "start": "http-server public/ -d -i",
-        "antora": "npx antora --stacktrace generate --cache-dir cache --clean site.yml"
+        "antora": "npx antora --stacktrace generate --cache-dir cache --clean site.yml",
+        "test:dependencies": "node --test tests/npm-security.test.cjs"
     },
     "dependencies": {
-        "@antora/cli": "~3.1.15",
+        "@antora/cli": "~3.2.1",
         "@antora/collector-extension": "^1.0.3",
-        "@antora/site-generator": "~3.1.15",
-        "@antora/site-generator-default": "~3.1.15",
+        "@antora/site-generator": "~3.2.1",
+        "@antora/site-generator-default": "~3.2.1",
         "@asciidoctor/core": "~2.2.8",
         "@feelpp/asciidoctor-extensions": "1.0.0-rc.15",
         "asciidoctor": "~2.2.8",
@@ -36,9 +37,17 @@
         "handlebars-utils": "^1.0.6"
     },
     "devDependencies": {
-        "broken-link-checker": "^0.7.8",
         "http-server": "^14.1.1",
         "write-good": "^1.0.8"
     },
-    "keywords": []
+    "keywords": [],
+    "engines": {
+        "node": ">=22"
+    },
+    "overrides": {
+        "braces": "npm:@dieub/braces-depth-guard@3.0.3-pn.3",
+        "@antora/collector-extension": {
+            "js-yaml": "^4.3.2"
+        }
+    }
 }
