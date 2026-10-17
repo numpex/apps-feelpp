@@ -108,9 +108,9 @@ jobs:
         timeout-minutes: 7200
         name: ${{matrix.machine}}
         steps:
-        -   uses: actions/checkout@v4
+        -   uses: actions/checkout@v7
 
-        -   uses: astral-sh/setup-uv@v5
+        -   uses: astral-sh/setup-uv@v7
 
         -   name: Create machine config
             run: |
@@ -175,9 +175,9 @@ jobs:
         name: Stage results
         if: ${{ github.event.inputs.create_pr == 'true' || github.event.client_payload.create_pr == 'true' }}
         steps:
-        -   uses: actions/checkout@v4
+        -   uses: actions/checkout@v7
 
-        -   uses: astral-sh/setup-uv@v5
+        -   uses: astral-sh/setup-uv@v7
 
 
         -   name: Download results
@@ -242,14 +242,14 @@ jobs:
         if: ${{ github.event.inputs.create_website == 'true' || github.event.client_payload.create_website == 'true' }}
         steps:
 
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v7
 
-            -   uses: actions/setup-node@v6
+            -   uses: actions/setup-node@v7
                 with:
                     node-version-file: .nvmrc
                     cache: npm
 
-            -   uses: astral-sh/setup-uv@v5
+            -   uses: astral-sh/setup-uv@v7
 
             -   name: Download results
                 uses: actions/download-artifact@v8

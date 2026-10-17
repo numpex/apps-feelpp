@@ -14,9 +14,9 @@ jobs:
         name: Build Antora Site
         if: "!contains(github.event.head_commit.message, 'docs skip')"
         steps:
-        -   uses: actions/checkout@v4
+        -   uses: actions/checkout@v7
 
-        -   uses: actions/setup-node@v6
+        -   uses: actions/setup-node@v7
             with:
                 node-version-file: .nvmrc
                 cache: npm
@@ -26,7 +26,7 @@ jobs:
             env:
                 GITHUB_OAUTH: ${{ secrets.CR_PAT }}
 
-        -   uses: astral-sh/setup-uv@v5
+        -   uses: astral-sh/setup-uv@v7
 
         -   name: Install NPM dependencies
             run: npm ci
