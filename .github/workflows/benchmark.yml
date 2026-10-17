@@ -164,7 +164,7 @@ jobs:
             run: echo "reports_base_dir=${{matrix.system_config.reports_base_dir}}" | sed "s|\$PWD|${{ github.workspace }}|g" >> $GITHUB_OUTPUT
 
         -   name: Upload reframe report
-            uses: actions/upload-artifact@v5
+            uses: actions/upload-artifact@v7
             with:
                 name: benchmark-results-${{matrix.machine}}
                 path: ${{steps.parse_reports_path.outputs.reports_base_dir}}
@@ -181,7 +181,7 @@ jobs:
 
 
         -   name: Download results
-            uses: actions/download-artifact@v6
+            uses: actions/download-artifact@v8
             with:
                 pattern: benchmark-results-*
                 path: ./tmp/results/
@@ -247,7 +247,7 @@ jobs:
             -   uses: astral-sh/setup-uv@v5
 
             -   name: Download results
-                uses: actions/download-artifact@v6
+                uses: actions/download-artifact@v8
                 with:
                     pattern: benchmark-results-*
                     path: ./tmp/results/
@@ -274,7 +274,7 @@ jobs:
             -   name: Compile docs
                 run: |
                     source .venv/bin/activate
-                    npm install
+                    npm ci
                     npm run antora
 
             -   name: Zip website and reports
@@ -292,7 +292,7 @@ jobs:
                     GIRDER_API_KEY: ${{secrets.GIRDER}}
 
             -   name: Upload artifact
-                uses: actions/upload-artifact@v5
+                uses: actions/upload-artifact@v7
                 with:
                     name: reports
                     path: |

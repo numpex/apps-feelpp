@@ -23,20 +23,20 @@
         "antora": "npx antora --stacktrace generate --cache-dir cache --clean site.yml"
     },
     "dependencies": {
-        "@antora/cli": "~3.1.14",
-        "@antora/collector-extension": "^1.0.2",
-        "@antora/site-generator": "~3.1.14",
-        "@antora/site-generator-default": "~3.1.14",
+        "@antora/cli": "~3.1.15",
+        "@antora/collector-extension": "^1.0.3",
+        "@antora/site-generator": "~3.1.15",
+        "@antora/site-generator-default": "~3.1.15",
         "@asciidoctor/core": "~2.2.8",
         "@feelpp/asciidoctor-extensions": "1.0.0-rc.15",
         "asciidoctor": "~2.2.8",
         "asciidoctor-jupyter": "^0.7.0",
         "asciidoctor-kroki": "^0.18.1",
-        "handlebars": "^4.7.8",
+        "handlebars": "^4.7.9",
         "handlebars-utils": "^1.0.6"
     },
     "devDependencies": {
-        "broken-link-checker": "^0.4.3",
+        "broken-link-checker": "^0.7.8",
         "http-server": "^14.1.1",
         "write-good": "^1.0.8"
     },

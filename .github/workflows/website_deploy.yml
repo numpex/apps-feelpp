@@ -24,7 +24,7 @@ jobs:
         -   uses: astral-sh/setup-uv@v5
 
         -   name: Install NPM dependencies
-            run: npm install
+            run: npm ci
 
         -   name: Create Virtual Environment
             run: |
@@ -56,7 +56,7 @@ jobs:
 
         -   name: Deploy
             uses: JamesIves/github-pages-deploy-action@v4
-            # if: ${{ github.ref_name == 'main' }}
+            if: ${{ github.ref == 'refs/heads/main' }}
             with:
                 branch: gh-pages
                 folder: public

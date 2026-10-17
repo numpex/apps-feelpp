@@ -59,6 +59,10 @@ cmake --build --preset default --target install
 
 ## Continuous Integration
 
+Self-hosted runners used by the artifact and Docker actions must run GitHub Actions Runner 2.327.1 or newer (Node.js 24 action runtime).
+Documentation dependencies are locked in `package-lock.json`; use `npm ci` before `npm run antora`.
+Dependabot groups npm and GitHub Actions tooling updates by ecosystem.
+
 Our GitHub Actions workflow (`.github/workflows/ci.yml`) includes:
 
 * build_wheel: Python wheel compilation and artifact upload.
