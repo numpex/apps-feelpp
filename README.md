@@ -32,6 +32,7 @@ A template repository to kickstart your finite-element applications with Feel++.
 * A C++ compiler (GCC or Clang) with MPI support  
 * Python 3.8+ and `pip`  
 * Docker (optional, for container builds)
+* Node.js 22+ for documentation; `.nvmrc` and CI select Node.js 24
 
 ### Clone & Rename
 
@@ -58,6 +59,15 @@ cmake --build --preset default --target install
 `build/default` will contain the build artifacts and the build directory.
 
 ## Continuous Integration
+
+Self-hosted runners used by the artifact and Docker actions must run GitHub Actions Runner 2.327.1 or newer (Node.js 24 action runtime).
+Documentation dependencies are locked in `package-lock.json`; use `npm ci` before `npm run antora`.
+Dependabot groups npm and GitHub Actions tooling updates by ecosystem.
+
+`npm run test:dependencies` checks configuration parsing, glob compatibility, and excessive-nesting rejection; CI also runs the full `npm audit`.
+Antora 3.2 and its YAML dependencies are updated. The Collector's YAML dependency is overridden to the patched 4.3 release line.
+Until upstream [braces has a fixed release](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), all consumers use the exact reviewed `@dieub/braces-depth-guard@3.0.3-pn.3` fork through an npm override. This is a third-party depth-guard backport, not an official upstream release; its actual identity and registry integrity remain recorded in the lockfile. Remove this override when upstream ships an equivalent fix.
+The unused legacy `broken-link-checker` dependency was removed rather than forcing incompatible versions into its obsolete dependency tree.
 
 Our GitHub Actions workflow (`.github/workflows/ci.yml`) includes:
 
