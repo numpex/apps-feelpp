@@ -8,6 +8,14 @@ on:
       - "v*"
 
 jobs:
+  configure-contract:
+    runs-on: ubuntu-latest
+    name: Check Toolboxes configuration contract
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test standalone and in-tree SDK configurations
+        run: python3 -m unittest discover -s tests -p test_cmake_toolboxes.py -v
+
   build:
     runs-on: self-feelpp
 

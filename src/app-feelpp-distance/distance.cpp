@@ -1,7 +1,7 @@
 #include <iostream>
 
-
 #include <chrono>
+#include "minimum_ray_distance.hpp"
 #include <fmt/chrono.h>
 #include <feel/feelcore/environment.hpp>
 #include <feel/feelcore/json.hpp>
@@ -85,6 +85,12 @@ int main(int argc, char**argv )
         double h_ = doption(_name="h");
         int M = ioption(_name="M");
         std::string filename = soption(_name="gmsh.filename");
+        if ( M <= 0 )
+        {
+            if ( Environment::isMasterRank() )
+                std::cerr << "M must be a positive number of rays" << std::endl;
+            return 1;
+        }
 
         // Load the mesh
         tic();
@@ -130,8 +136,8 @@ int main(int argc, char**argv )
         Eigen::Vector3d origin;
         std::unordered_set<size_type> pointIDs;
 
-        std::vector<Points_list> origins(Xh_->nLocalDof());
-        size_type next_origin = 0;
+        std::vector<Points_list> origins;
+        origins.reserve(Xh_->nLocalDof());
 
         for ( auto const& eltWrap : elements(mesh_) ) // on parcourt tous les éléments du maillage
         {
@@ -140,7 +146,10 @@ int main(int argc, char**argv )
             for ( int p=0; p<elt.nVertices(); ++p )
             {
                 auto const & point = elt.point(p);
-                if ( !point.isOnBoundary() )
+
+                // Keep shared/ghost dofs here: local element evaluations need those
+                // values even when the dof owner is another rank.
+                if (!point.isOnBoundary())
                 {
                     size_type id_p = Xh_->dof()->localToGlobal( elt.id(), p ).index();
                     auto [it,inserted] = pointIDs.insert(id_p);
@@ -148,8 +157,7 @@ int main(int argc, char**argv )
                     if (inserted)
                     {
                         origin << point.node()[0], point.node()[1], point.node()[2];
-                        origins[next_origin] = Points_list{id_p, origin};
-                        next_origin++;
+                        origins.push_back(Points_list{id_p, origin});
                     }
                 }
             }
@@ -169,15 +177,12 @@ int main(int argc, char**argv )
         toc("intersection");
         tic();
         // Get distance
-        std::vector<double> dist(M, 0.0);
-
-        for (auto const& [fid,rirs] : enumerate(multiRayIntersectionResult))
+        for (std::size_t point = 0; point < origins.size(); ++point)
         {
-            if (!rirs.empty()) // on check l'intersection
-                dist[fid % M] = rirs.front().distance();
-
-            if (fid % M == M - 1)
-                d_BVH[origins[static_cast<int>(fid / M)].id] = *(std::min_element(dist.begin(), dist.end()));
+            auto nearest = feelpp_apps::minimum_ray_distance(
+                multiRayIntersectionResult, point * static_cast<std::size_t>(M), M );
+            if ( nearest )
+                d_BVH[origins[point].id] = *nearest;
         }
         toc("distance_BVH");
         double time_BVH = toc("bvh");
